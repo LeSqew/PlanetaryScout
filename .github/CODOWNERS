@@ -1,1 +1,6 @@
+# Global owners
 * @LeSqew @siblun
+
+# Protect CODEOWNERS file
+/.github/ @LeSqew
+/.github/CODEOWNERS @LeSqew
