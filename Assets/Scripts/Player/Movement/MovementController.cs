@@ -19,9 +19,13 @@ namespace Player.Movement
         // Модель, отвечает за физику
         private MovementModel _model;
         // Срабатывает во время инициализации сцены
+
+        [SerializeField] private Transform cameraTransform;
+
+
         private void Awake()
         {
-            _model = new MovementModel(GetComponent<Rigidbody>(), movementSettings);
+            _model = new MovementModel(GetComponent<Rigidbody>(), movementSettings, cameraTransform);
             _view = new MovementView();
 
             jump.action.performed += _model.Jump;
