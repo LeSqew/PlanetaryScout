@@ -1003,6 +1003,7 @@ GameObject:
   - component: {fileID: 2059348928}
   - component: {fileID: 2059348927}
   - component: {fileID: 2059348929}
+  - component: {fileID: 2059348930}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1069,6 +1070,21 @@ MonoBehaviour:
   move: {fileID: -1680190386980627800, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   jump: {fileID: -2099379676528639254, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   movementSettings: {fileID: 11400000, guid: 4d598ff9d1d29459a913480381b606fb, type: 2}
+--- !u!114 &2059348930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2059348926}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e73b1e39cde2cc846afb6cc233a9dd20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hpSetttings: {fileID: 11400000, guid: f81282944878566409d5babf967e289a, type: 2}
+  takeDamage: {fileID: -2231497642720772289, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  heal: {fileID: 4380181030209168982, guid: 052faaac586de48259a63d0c4782560b, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
