@@ -7,7 +7,10 @@ public class HealthController : MonoBehaviour
     [SerializeField] private HpSetttings hpSetttings;
     public event Action<int> TakeDamage;
     public event Action<int> Heal;
+    public event Action OnDeath;
+    public event Action<int,int> CheckHeal;
     public HealthModel Model;
+    public HealthBarView healthBarView;
 
     [SerializeField] private InputActionReference takeDamage;
     [SerializeField] private InputActionReference heal;
@@ -15,8 +18,11 @@ public class HealthController : MonoBehaviour
     void Awake()
     {
         Model = new HealthModel(hpSetttings);
+        healthBarView = new HealthBarView();
         TakeDamage += Model.TakeDamage;
         Heal += Model.Heal;
+        OnDeath += Model.OnDeath;
+        CheckHeal += Model.CheckHeal;
     }
 
     // Update is called once per frame
@@ -25,16 +31,15 @@ public class HealthController : MonoBehaviour
         if (takeDamage.action.WasPressedThisFrame())
         {
             TakeDamage?.Invoke(10);
-            PrintHp();
+            OnDeath?.Invoke();
+            healthBarView.PrintHp(Model.currentHealth);
         }
         if (heal.action.WasPressedThisFrame())
         {
             Heal?.Invoke(10);
-            PrintHp();
+            CheckHeal?.Invoke(hpSetttings.MaxHP, 10);
+            healthBarView.PrintHp(Model.currentHealth);
         }
     }
-    public void PrintHp()
-    {
-        Debug.Log($"текущее hp: {Model.currentHealth}");
-    }
+
 }
