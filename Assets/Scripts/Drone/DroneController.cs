@@ -1,11 +1,12 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(Rigidbody))]
 public class DroneController : MonoBehaviour
 {
-    public float moveSpeed = 6f;
-    public float verticalSpeed = 4f;
-    public Camera droneCamera;
+    [SerializeField] private float moveSpeed = 6f;
+    [SerializeField] private float verticalSpeed = 4f;
+    [SerializeField] private Camera droneCamera;
 
     private Rigidbody rb;
     private InputSystem_Actions controls;
@@ -28,12 +29,15 @@ public class DroneController : MonoBehaviour
     void OnEnable()
     {
         if (controls == null) controls = new InputSystem_Actions();
+        controls.Player.Disable();
         controls.Drone.Enable();
     }
 
     void OnDisable()
     {
-        if (controls != null) controls.Drone.Disable();
+        if (controls == null) return;
+        controls.Drone.Disable();
+        controls.Player.Enable();
     }
 
     void FixedUpdate()
@@ -54,6 +58,8 @@ public class DroneController : MonoBehaviour
         // Если ничего не нажато — стоим!
         Vector3 velocity = new Vector3(horizontal.x, y, horizontal.z);
 
+        // Не стоит задавать напрямую велосити
+        
         rb.linearVelocity = velocity;
     }
 }
