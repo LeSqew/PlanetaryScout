@@ -1163,6 +1163,34 @@
                     "isPartOfComposite": true
                 }
             ]
+        },
+        {
+            "name": "Spectrometer",
+            "id": "1807e4ce-8586-4203-ba8c-6d5ab6784d87",
+            "actions": [
+                {
+                    "name": "Confirm",
+                    "type": "Button",
+                    "id": "e16c13f3-db52-48df-9475-0612acaac14f",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "08106f08-c845-49d1-b7e5-4558d8c7459c",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Confirm",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": [
