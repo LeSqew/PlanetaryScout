@@ -1,10 +1,11 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class InventoryView : MonoBehaviour
 {
     [SerializeField] private Image icon;
-    [SerializeField] private Text label;
+    [SerializeField] private TMP_Text label;
 
     public void UpdateSlot(InventoryItem item)
     {
