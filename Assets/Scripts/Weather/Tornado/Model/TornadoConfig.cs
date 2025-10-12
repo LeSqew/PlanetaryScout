@@ -22,4 +22,8 @@ public class TornadoConfig : ScriptableObject
     public float lightDamagePerSecond = 5f; // Урон игроку во внешней зоне
     public float heavyDamagePerSecond = 20f; // Урон игроку в ядре
     public float destructionForce = 1000f; // Сила, применяемая к объектам
+    [Tooltip("Сила притяжения, применяемая к игроку и легким Rigidbody")]
+    public float playerPullForce = 50f;
+    [Tooltip("Минимальная дистанция, на которой торнадо будет преследовать цель.")]
+    public float minChaseDistance = 50f;
 }
