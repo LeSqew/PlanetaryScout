@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// Компонент, позволяющий объекту (например, зданию) получать урон и быть разрушенным.
+/// </summary>
 public class DestructibleObject : MonoBehaviour
 {
     [Header("Параметры здоровья")]
@@ -7,14 +10,17 @@ public class DestructibleObject : MonoBehaviour
     private float currentHealth;
 
     [Header("Эффекты")]
-    public GameObject destructionPrefab; // Префаб для визуализации разрушения
+    public GameObject destructionPrefab; 
 
     void Start()
     {
         currentHealth = maxHealth;
     }
-
-    // Этот метод вызывается компонентом TornadoEffect.cs
+    
+    /// <summary>
+    /// Наносит урон объекту. Вызывается компонентом TornadoEffect.cs.
+    /// </summary>
+    /// <param name="amount">Количество урона для вычитания из текущего здоровья.</param>
     public void TakeDamage(float amount)
     {
         if (currentHealth <= 0) return;
@@ -27,16 +33,17 @@ public class DestructibleObject : MonoBehaviour
             Die();
         }
     }
-
+    
+    /// <summary>
+    /// Обрабатывает последовательность уничтожения: создает префаб обломков и уничтожает основной объект.
+    /// </summary>
     private void Die()
     {
-        // 1. Визуальный эффект
         if (destructionPrefab != null)
         {
             Instantiate(destructionPrefab, transform.position, transform.rotation);
         }
-        
-        // 2. Логика удаления
+
         Destroy(gameObject);
         Debug.Log($"Объект {gameObject.name} полностью разрушен!");
     }

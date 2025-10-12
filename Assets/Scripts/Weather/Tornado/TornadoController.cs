@@ -2,20 +2,27 @@ using System;
 using System.Collections;
 using UnityEngine;
 
+/// <summary>
+/// Центральный контроллер, управляющий полным жизненным циклом торнадо:
+/// проверка вероятности, предупреждение, спавн, активная фаза и исчезновение.
+/// </summary>
 public class TornadoController : MonoBehaviour
 {
-    public event Action<float> OnTornadoWarningStarted; // float: время до спавна
-    public event Action<Vector3, Transform> OnTornadoSpawned; // Vector3: позиция, Transform: цель (игрок)
+    public event Action<float> OnTornadoWarningStarted; 
+    public event Action<Vector3, Transform> OnTornadoSpawned; 
     public event Action OnTornadoFaded;
     
     [Header("Model Dependencies")]
     public TornadoConfig config;
-    public Transform playerTransform; // Игрок как цель спавна
+    public Transform playerTransform; 
 
     [Header("Controller State")]
     [SerializeField] private TornadoState currentState = TornadoState.Idle;
     private Coroutine tornadoSequenceCoroutine;
     
+    /// <summary>
+    /// Инициализирует контроллер и запускает основной цикл проверки появления торнадо.
+    /// </summary>
     void Start()
     {
         Debug.Log(">>> TornadoController: Метод Start() вызван."); 
@@ -28,6 +35,9 @@ public class TornadoController : MonoBehaviour
         StartTornadoLoop();
     }
     
+    /// <summary>
+    /// Останавливает любую текущую последовательность и запускает корутину TornadoCheckLoop.
+    /// </summary>
     private void StartTornadoLoop()
     {
         if (tornadoSequenceCoroutine != null) StopCoroutine(tornadoSequenceCoroutine);
@@ -35,6 +45,9 @@ public class TornadoController : MonoBehaviour
         currentState = TornadoState.Idle;
     }
 
+    /// <summary>
+    /// Основной непрерывный цикл, который ждет интервал проверки и вызывает CheckForTornadoSpawn.
+    /// </summary>
     private IEnumerator TornadoCheckLoop()
     {
         while (currentState == TornadoState.Idle)
@@ -44,6 +57,10 @@ public class TornadoController : MonoBehaviour
         }
     }
     
+    /// <summary>
+    /// Использует вероятность из конфига для случайного определения, должно ли появиться торнадо.
+    /// При успехе запускает TornadoSequence.
+    /// </summary>
     private void CheckForTornadoSpawn()
     {
         float chance = config.constantTornadoChance;
@@ -55,9 +72,11 @@ public class TornadoController : MonoBehaviour
             currentState = TornadoState.Warning;
             StartCoroutine(TornadoSequence());
         }
-        // Если проверка не удалась, цикл просто ждет следующей итерации.
     }
     
+    /// <summary>
+    /// Управляет последовательными фазами жизни торнадо (Warning -> Active -> Fading).
+    /// </summary>
     private IEnumerator TornadoSequence()
     {
         // 1. WARNING
@@ -68,7 +87,6 @@ public class TornadoController : MonoBehaviour
         currentState = TornadoState.Active;
         Vector3 spawnPosition = FindSpawnPosition();
         
-        // Передаем View не только позицию, но и цель для движения
         OnTornadoSpawned?.Invoke(spawnPosition, playerTransform); 
         
         float activeDuration = UnityEngine.Random.Range(config.minActiveDurationSeconds, config.maxActiveDurationSeconds);
@@ -78,12 +96,15 @@ public class TornadoController : MonoBehaviour
         currentState = TornadoState.Fading;
         OnTornadoFaded?.Invoke();
         
-        yield return new WaitForSeconds(5f); // Время для анимации исчезновения в View
+        yield return new WaitForSeconds(5f); 
         
         currentState = TornadoState.Idle;
-        StartTornadoLoop(); // Запуск цикла ожидания снова
+        StartTornadoLoop(); 
     }
 
+    /// <summary>
+    /// Рассчитывает случайную позицию для спавна торнадо вокруг игрока в заданном радиусе.
+    /// </summary>
     private Vector3 FindSpawnPosition()
     {
         Vector3 playerPos = playerTransform.position;

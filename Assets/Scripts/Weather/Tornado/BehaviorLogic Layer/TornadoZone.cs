@@ -1,18 +1,22 @@
 ﻿using UnityEngine;
 
-
+/// <summary>
+/// Вспомогательный скрипт, прикрепленный к дочерним коллайдерам-зонам (Ядро/Внешняя). 
+/// Фильтрует события столкновений и передает их основному скрипту TornadoEffect,
+/// указывая, в какую именно зону вошел объект.
+/// </summary>
 public class TornadoZone : MonoBehaviour
 {
-    // Enum для указания типа зоны
     public enum ZoneType { Core, Outer }
     public ZoneType type;
-
-    // Ссылка на основной скрипт эффекта на родительском объекте
+    
     private TornadoEffect parentEffect;
 
+    /// <summary>
+    /// Находит и устанавливает ссылку на родительский скрипт TornadoEffect.
+    /// </summary>
     void Start()
     {
-        // Находим родительский скрипт один раз при старте
         parentEffect = GetComponentInParent<TornadoEffect>(); 
         if (parentEffect == null)
         {
@@ -20,21 +24,23 @@ public class TornadoZone : MonoBehaviour
             enabled = false;
         }
     }
-    
-    // Этот метод вызывается, когда что-то ВХОДИТ в коллайдер зоны
+
+    /// <summary>
+    /// Срабатывает при входе другого коллайдера в эту зону. Передает событие родителю.
+    /// </summary>
     void OnTriggerEnter(Collider other)
     {
-        // Передаем обнаруженный объект в главный скрипт TornadoEffect
         if (parentEffect != null)
         {
             parentEffect.ProcessEnter(other, type);
         }
     }
-
-    // Этот метод вызывается, когда что-то ВЫХОДИТ из коллайдера зоны
+    
+    /// <summary>
+    /// Срабатывает при выходе другого коллайдера из этой зоны. Передает событие родителю.
+    /// </summary>
     void OnTriggerExit(Collider other)
     {
-        // Передаем обнаруженный объект в главный скрипт TornadoEffect
         if (parentEffect != null)
         {
             parentEffect.ProcessExit(other, type);
