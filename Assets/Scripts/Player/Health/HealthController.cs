@@ -32,13 +32,13 @@ public class HealthController : MonoBehaviour
         {
             TakeDamage?.Invoke(10);
             OnDeath?.Invoke();
-            healthBarView.PrintHp(Model.currentHealth);
+            healthBarView.UpdateHealthBar(Model.currentHealth, Model.maxHealth);
         }
         if (heal.action.WasPressedThisFrame())
         {
             Heal?.Invoke(10);
             CheckHeal?.Invoke(hpSetttings.MaxHP, 10);
-            healthBarView.PrintHp(Model.currentHealth);
+            healthBarView.UpdateHealthBar(Model.currentHealth, Model.maxHealth);
         }
     }
 
