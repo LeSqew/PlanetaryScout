@@ -772,6 +772,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1145876740}
   - component: {fileID: 1145876739}
+  - component: {fileID: 1145876741}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
@@ -859,6 +860,29 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!114 &1145876741
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1145876738}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 3
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_RenderingLayers: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_ShadowRenderingLayers: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
 --- !u!1 &1207981841
 GameObject:
   m_ObjectHideFlags: 0
@@ -1463,13 +1487,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 2064237238}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 34d6bf8c14d95174fb48828608087f92, type: 3}
+  m_Script: {fileID: 11500000, guid: ae6adb39652108c439c72c9ec23b671a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 0.7
-  driftStrength: 0.35
-  driftChangeFrequency: 0.7
-  greenZoneWidth: 300
+  moveSpeed: 0.3
+  driftStrength: 0.1
+  driftChangeFrequency: 2
+  greenZoneWidth: 200
   winTime: 10
   loseTime: 5
   movingPoint: {fileID: 451964246}
