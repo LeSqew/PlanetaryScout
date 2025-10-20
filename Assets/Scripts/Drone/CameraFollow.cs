@@ -1,50 +1,88 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class CameraFollow : MonoBehaviour
 {
     [Header("Camera Settings")]
-    public Transform droneTransform;     // Цель слежения (трансформ дрона)
-    public float height = 8f;            // Высота камеры над дроном
-    public float distance = 8f;          // Дистанция от дрона по Z-оси
-    public float angle = 45f;            // Угол наклона камеры в градусах
-    public float smoothSpeed = 8f;       // Скорость сглаживания (чем больше - тем быстрее)
+    public Transform droneTransform;
+    public float distance = 8f;
+    public float height = 8f;
+    public float smoothSpeed = 8f;
 
-    // СЛЕДОВАНИЕ КАМЕРЫ В LateUpdate:
-    // LateUpdate вызывается после всех Update, чтобы камера
-    // точно обрабатывала уже обновленную позицию дрона
+    [Header("Camera Rotation")]
+    [SerializeField] private InputActionReference cameraRotateAction;
+    [SerializeField] private float rotationSensitivity = 2f;
+    [SerializeField] private float verticalMinAngle = 10f;
+    [SerializeField] private float verticalMaxAngle = 80f;
 
-    // ДЛЯ SMOOTH DAMP:
-    // Vector3 для хранения текущей скорости - требуется для SmoothDamp
-    // Не путать с velocity Rigidbody - это скорость изменения позиции камеры
     private Vector3 currentVelocity;
+    private float currentYaw = 0f;
+    private float currentPitch = 45f; // Начальный угол 45 градусов
+
+    void Start()
+    {
+        // ИНИЦИАЛИЗАЦИЯ УГЛОВ КАМЕРЫ:
+        // Вычисляем начальные углы на основе текущего положения камеры
+        if (droneTransform != null)
+        {
+            Vector3 toCamera = transform.position - droneTransform.position;
+            currentYaw = Mathf.Atan2(toCamera.x, toCamera.z) * Mathf.Rad2Deg;
+            currentPitch = Mathf.Asin(toCamera.y / toCamera.magnitude) * Mathf.Rad2Deg;
+        }
+    }
+
+    void OnEnable()
+    {
+        // ВКЛЮЧАЕМ INPUT ACTION ДЛЯ ВРАЩЕНИЯ КАМЕРЫ:
+        cameraRotateAction?.action.Enable();
+    }
+
+    void OnDisable()
+    {
+        // ВЫКЛЮЧАЕМ INPUT ACTION ДЛЯ ВРАЩЕНИЯ КАМЕРЫ:
+        cameraRotateAction?.action.Disable();
+    }
 
     void LateUpdate()
     {
-        // ЗАЩИТА ОТ ОТСУТСТВИЯ ЦЕЛИ:
-        // Если дрон не назначен, выходим чтобы избежать ошибок
         if (droneTransform == null) return;
 
-        // ВЫЧИСЛЕНИЕ ПОЗИЦИИ КАМЕРЫ:
-        // Создаем вращение на основе угла наклона и поворота дрона по Y
-        // Quaternion.Euler преобразует углы Эйлера в кватернион
-        // angle - наклон вниз, droneTransform.eulerAngles.y - поворот камеры за дроном
-        Quaternion rotation = Quaternion.Euler(angle, droneTransform.eulerAngles.y, 0);
+        HandleCameraRotation();
+        UpdateCameraPosition();
+    }
 
-        // Создаем смещение: поворачиваем вектор (0,0,-distance) на вычисленное вращение
-        // Это дает нам позицию позади и выше дрона с учетом его поворота
+    private void HandleCameraRotation()
+    {
+        // ПОЛУЧАЕМ ВВОД ОТ МЫШИ:
+        // ReadValue<Vector2>() возвращает изменение позиции мыши за кадр
+        Vector2 mouseDelta = cameraRotateAction?.action.ReadValue<Vector2>() ?? Vector2.zero;
+
+        // ОБНОВЛЯЕМ УГЛЫ КАМЕРЫ НА ОСНОВЕ ДВИЖЕНИЯ МЫШИ:
+        // Умножаем на чувствительность и Time.deltaTime для независимости от частоты кадров
+        currentYaw += mouseDelta.x * rotationSensitivity * Time.deltaTime;
+        currentPitch -= mouseDelta.y * rotationSensitivity * Time.deltaTime;
+
+        // ОГРАНИЧИВАЕМ ВЕРТИКАЛЬНЫЙ УГОЛ:
+        // Чтобы камера не переворачивалась через верх или не уходила слишком низко
+        currentPitch = Mathf.Clamp(currentPitch, verticalMinAngle, verticalMaxAngle);
+    }
+
+    private void UpdateCameraPosition()
+    {
+        // ВЫЧИСЛЯЕМ ПОЗИЦИЮ КАМЕРЫ НА ОСНОВЕ УГЛОВ:
+        // Создаем вращение из углов Эйлера (pitch, yaw, 0)
+        Quaternion rotation = Quaternion.Euler(currentPitch, currentYaw, 0f);
+
+        // ВЫЧИСЛЯЕМ СМЕЩЕНИЕ КАМЕРЫ:
+        // Поворачиваем вектор (0,0,-distance) на вычисленное вращение
+        // Это дает нам позицию камеры на сфере вокруг дрона
         Vector3 offset = rotation * new Vector3(0, 0, -distance);
 
-        // ФИНАЛЬНАЯ ПОЗИЦИЯ КАМЕРЫ:
-        // Позиция дрона + смещение + дополнительная высота
+        // ДОБАВЛЯЕМ ВЫСОТУ:
+        // Добавляем высоту к позиции камеры
         Vector3 targetPosition = droneTransform.position + offset + Vector3.up * height;
 
         // ПЛАВНОЕ ПЕРЕМЕЩЕНИЕ КАМЕРЫ:
-        // Vector3.SmoothDamp плавно изменяет позицию камеры к целевой позиции
-        // Параметры:
-        // - transform.position: текущая позиция камеры
-        // - targetPosition: желаемая позиция камеры  
-        // - ref currentVelocity: ссылка на переменную скорости (изменяется внутри метода)
-        // - 1f / smoothSpeed: время достижения цели (обратная зависимость)
         transform.position = Vector3.SmoothDamp(
             transform.position,
             targetPosition,
@@ -53,8 +91,7 @@ public class CameraFollow : MonoBehaviour
         );
 
         // КАМЕРА СМОТРИТ НА ДРОН:
-        // Заставляем камеру всегда смотреть на точку немного выше центра дрона
-        // Vector3.up * 1f - смотрим на высоту 1 единица над дроном для лучшего обзора
+        // Всегда направляем камеру на дрон (с небольшим смещением вверх для лучшего обзора)
         transform.LookAt(droneTransform.position + Vector3.up * 1f);
     }
 }

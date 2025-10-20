@@ -5,93 +5,157 @@ using UnityEngine.InputSystem;
 public class DroneController : MonoBehaviour
 {
     [Header("Movement Settings")]
-    [SerializeField] private float moveSpeed = 6f;          // Скорость горизонтального движения
-    [SerializeField] private float verticalSpeed = 4f;      // Скорость вертикального движения (вверх/вниз)
-    [SerializeField] private Camera droneCamera;            // Камера, относительно которой происходит движение
+    [SerializeField] private float moveSpeed = 6f;
+    [SerializeField] private float verticalSpeed = 4f;
+    [SerializeField] private float rotationStep = 45f;
+    [SerializeField] private float rotationDuration = 0.5f;
+    [SerializeField] private Camera droneCamera;
 
-    // Компоненты и ссылки
-    private Rigidbody rb;                   // Физическое тело дрона
-    private InputSystem_Actions controls;   // Система ввода (новый Input System)
-    private Vector2 moveInput = Vector2.zero; // Ввод для горизонтального движения (WASD/Стик)
-    private float verticalInput = 0f;       // Ввод для вертикального движения (Вверх/Вниз)
+    [Header("Input Actions")]
+    [SerializeField] private InputActionReference moveAction;
+    [SerializeField] private InputActionReference upAction;
+    [SerializeField] private InputActionReference downAction;
+    //unite as one
+    [SerializeField] private InputActionReference rotateLeftAction;
+    [SerializeField] private InputActionReference rotateRightAction;
+
+    // Компоненты и переменные
+    private Rigidbody rb;
+    private Vector2 moveInput = Vector2.zero;
+    private float verticalInput = 0f;
+
+    // Переменные для управления поворотом
+    private bool isRotating = false;
+    private float targetYaw = 0f;
+    private float rotationStartTime = 0f;
+    private float startYaw = 0f;
+
+    // Сохраняем начальную ориентацию дрона
+    private Vector3 initialOrientation;
 
     void Awake()
     {
-        // Получаем компонент Rigidbody - он обязателен благодаря [RequireComponent]
         rb = GetComponent<Rigidbody>();
 
-        // Создаем экземпляр системы ввода
-        controls = new InputSystem_Actions();
+        // СОХРАНЯЕМ НАЧАЛЬНУЮ ОРИЕНТАЦИЮ ДРОНА:
+        // Это важно для цилиндра, который обычно имеет поворот по X = 90°
+        // Мы сохраняем начальные углы поворота по X и Z, чтобы не потерять ориентацию
+        initialOrientation = transform.eulerAngles;
 
-        // ПОДПИСКА НА СОБЫТИЯ ВВОДА:
-        // Horizontal movement (WASD/Left Stick)
-        controls.Drone.Move.performed += ctx => moveInput = ctx.ReadValue<Vector2>();
-        controls.Drone.Move.canceled += ctx => moveInput = Vector2.zero;
-
-        // Vertical movement (Space/Ctrl или кнопки вверх/вниз)
-        // Важно: используем отдельные условия для отмены, чтобы не конфликтовать 
-        // при одновременном нажатии вверх+вниз
-        controls.Drone.Up.performed += ctx => verticalInput = 1f;
-        controls.Drone.Up.canceled += ctx => { if (verticalInput > 0) verticalInput = 0f; };
-        controls.Drone.Down.performed += ctx => verticalInput = -1f;
-        controls.Drone.Down.canceled += ctx => { if (verticalInput < 0) verticalInput = 0f; };
+        // Инициализируем целевой угол текущим углом поворота дрона по Y
+        // заглушка для переменной targetYaw
+        targetYaw = transform.eulerAngles.y;
     }
 
     void OnEnable()
     {
-        // АКТИВАЦИЯ УПРАВЛЕНИЯ ДРОНОМ:
-        // Если controls не инициализирован (на всякий случай), создаем новый
-        if (controls == null) controls = new InputSystem_Actions();
+        moveAction?.action.Enable();
+        upAction?.action.Enable();
+        downAction?.action.Enable();
+        rotateLeftAction?.action.Enable();
+        rotateRightAction?.action.Enable();
 
-        // Включаем только управление дроном, отключаем другие (например, игрока)
-        controls.Drone.Enable();
+        if (rotateLeftAction != null)
+            rotateLeftAction.action.started += OnRotateLeft;
+
+        if (rotateRightAction != null)
+            rotateRightAction.action.started += OnRotateRight;
     }
 
     void OnDisable()
     {
-        // ДЕАКТИВАЦИЯ УПРАВЛЕНИЯ:
-        // Отключаем управление дроном при деактивации объекта
-        // ?. - оператор null-conditional (если controls null, не пытаться вызывать Disable)
-        controls?.Drone.Disable();
+        moveAction?.action.Disable();
+        upAction?.action.Disable();
+        downAction?.action.Disable();
+        rotateLeftAction?.action.Disable();
+        rotateRightAction?.action.Disable();
+
+        if (rotateLeftAction != null)
+            rotateLeftAction.action.started -= OnRotateLeft;
+
+        if (rotateRightAction != null)
+            rotateRightAction.action.started -= OnRotateRight;
+    }
+
+    void Update()
+    {
+        // ОБРАБОТКА ВВОДА ДЛЯ ДВИЖЕНИЯ:
+        if (moveAction != null)
+            moveInput = moveAction.action.ReadValue<Vector2>();
+
+        verticalInput = 0f;
+        if (upAction != null && upAction.action.ReadValue<float>() > 0.1f)
+            verticalInput = 1f;
+        if (downAction != null && downAction.action.ReadValue<float>() > 0.1f)
+            verticalInput = -1f;
+
+        // ОБРАБОТКА ПОВОРОТА:
+        if (isRotating)
+        {
+            float progress = (Time.time - rotationStartTime) / rotationDuration;
+
+            // поменять местами if и else
+            if (progress >= 1f)
+            {
+                // УСТАНАВЛИВАЕМ ПОВОРОТ С СОХРАНЕНИЕМ ОРИЕНТАЦИИ:
+                // Сохраняем начальные X и Z, меняем только Y
+                transform.rotation = Quaternion.Euler(initialOrientation.x, targetYaw, initialOrientation.z);
+                isRotating = false;
+            }
+            else
+            {
+                // ИНТЕРПОЛИРУЕМ ТОЛЬКО УГОЛ Y:
+                // Сохраняем начальные X и Z ориентации, плавно меняем только Y
+                float currentYaw = Mathf.LerpAngle(startYaw, targetYaw, progress);
+                transform.rotation = Quaternion.Euler(initialOrientation.x, currentYaw, initialOrientation.z);
+            }
+        }
     }
 
     void FixedUpdate()
     {
-        // ДВИЖЕНИЕ В FixedUpdate:
-        // Все физические взаимодействия, включая движение через Rigidbody,
-        // должны быть в FixedUpdate для стабильной работы физики
+        HandleMovement();
+    }
 
-        // ПОЛУЧАЕМ НАПРАВЛЯЮЩИЕ ВЕКТОРЫ КАМЕРЫ:
-        // Движение всегда происходит относительно камеры, чтобы игрок 
-        // интуитивно понимал управление (W - вперед от камеры и т.д.)
+    private void OnRotateLeft(InputAction.CallbackContext context)
+    {
+        if (!isRotating)
+        {
+            // ПОВОРАЧИВАЕМ ТОЛЬКО ПО ОСИ Y:
+            targetYaw = Mathf.Repeat(targetYaw - rotationStep, 360f);
+            startYaw = transform.eulerAngles.y;
+            rotationStartTime = Time.time;
+            isRotating = true;
+        }
+    }
+
+    private void OnRotateRight(InputAction.CallbackContext context)
+    {
+        if (!isRotating)
+        {
+            // ПОВОРАЧИВАЕМ ТОЛЬКО ПО ОСИ Y:
+            targetYaw = Mathf.Repeat(targetYaw + rotationStep, 360f);
+            startYaw = transform.eulerAngles.y;
+            rotationStartTime = Time.time;
+            isRotating = true;
+        }
+    }
+
+    private void HandleMovement()
+    {
+        // ДВИЖЕНИЕ ОТНОСИТЕЛЬНО КАМЕРЫ:
         Vector3 forward = droneCamera.transform.forward;
         Vector3 right = droneCamera.transform.right;
 
-        // ИГНОРИРУЕМ НАКЛОН КАМЕРЫ:
-        // Обнуляем Y-компоненту, чтобы дрон двигался только в горизонтальной плоскости
-        // В противном случае при наклоне камеры дрон будет пытаться лететь "вниз" или "вверх"
         forward.y = 0f;
         right.y = 0f;
-
-        // Нормализуем векторы после изменения Y-компоненты
-        // (изменение длины вектора может повлиять на скорость движения)
         forward.Normalize();
         right.Normalize();
 
-        // РАСЧЕТ ГОРИЗОНТАЛЬНОГО ДВИЖЕНИЯ:
-        // moveInput.y - вперед/назад (W/S), moveInput.x - влево/вправо (A/D)
-        // Умножаем на скорость и получаем вектор движения в мировых координатах
         Vector3 horizontalMove = (forward * moveInput.y + right * moveInput.x) * moveSpeed;
-
-        // РАСЧЕТ ВЕРТИКАЛЬНОГО ДВИЖЕНИЯ:
-        // verticalInput: 1 = вверх, -1 = вниз, 0 = остановка
-        // Умножаем на вертикальную скорость - движение по оси Y в мировых координатах
         Vector3 verticalMove = Vector3.up * verticalInput * verticalSpeed;
 
-        // ПРИМЕНЯЕМ СКОРОСТЬ К Rigidbody:
-        // Складываем горизонтальную и вертикальную составляющие
-        // linearVelocity - непосредственное задание скорости, обходит физику трения,
-        // но дает точный контроль над движением
+        // maybe change to addforce
         rb.linearVelocity = horizontalMove + verticalMove;
     }
 }

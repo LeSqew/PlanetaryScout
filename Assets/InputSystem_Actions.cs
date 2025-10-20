@@ -1157,6 +1157,33 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""RotateLeft"",
+                    ""type"": ""Button"",
+                    ""id"": ""efce233e-7180-40f2-95f3-db1a3c2825aa"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""RotateRight"",
+                    ""type"": ""Button"",
+                    ""id"": ""b16cb71b-e075-455f-962e-1dd18a000045"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""DroneCameraRotate"",
+                    ""type"": ""Value"",
+                    ""id"": ""095a43c7-a266-404c-a151-db8df5b1f25c"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -1247,6 +1274,39 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""75c2a74e-0727-4c4b-b2ee-3a949b9fa7d4"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RotateLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bc11b73c-66e0-4680-88d5-7f75502f2675"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RotateRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f16b0b01-d0fe-466a-b249-5b774aac3e7a"",
+                    ""path"": ""<Mouse>/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DroneCameraRotate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -1345,6 +1405,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Drone_Up = m_Drone.FindAction("Up", throwIfNotFound: true);
         m_Drone_Down = m_Drone.FindAction("Down", throwIfNotFound: true);
         m_Drone_Hover = m_Drone.FindAction("Hover", throwIfNotFound: true);
+        m_Drone_RotateLeft = m_Drone.FindAction("RotateLeft", throwIfNotFound: true);
+        m_Drone_RotateRight = m_Drone.FindAction("RotateRight", throwIfNotFound: true);
+        m_Drone_DroneCameraRotate = m_Drone.FindAction("DroneCameraRotate", throwIfNotFound: true);
     }
 
     ~@InputSystem_Actions()
@@ -1832,6 +1895,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Drone_Up;
     private readonly InputAction m_Drone_Down;
     private readonly InputAction m_Drone_Hover;
+    private readonly InputAction m_Drone_RotateLeft;
+    private readonly InputAction m_Drone_RotateRight;
+    private readonly InputAction m_Drone_DroneCameraRotate;
     /// <summary>
     /// Provides access to input actions defined in input action map "Drone".
     /// </summary>
@@ -1859,6 +1925,18 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Drone/Hover".
         /// </summary>
         public InputAction @Hover => m_Wrapper.m_Drone_Hover;
+        /// <summary>
+        /// Provides access to the underlying input action "Drone/RotateLeft".
+        /// </summary>
+        public InputAction @RotateLeft => m_Wrapper.m_Drone_RotateLeft;
+        /// <summary>
+        /// Provides access to the underlying input action "Drone/RotateRight".
+        /// </summary>
+        public InputAction @RotateRight => m_Wrapper.m_Drone_RotateRight;
+        /// <summary>
+        /// Provides access to the underlying input action "Drone/DroneCameraRotate".
+        /// </summary>
+        public InputAction @DroneCameraRotate => m_Wrapper.m_Drone_DroneCameraRotate;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1897,6 +1975,15 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Hover.started += instance.OnHover;
             @Hover.performed += instance.OnHover;
             @Hover.canceled += instance.OnHover;
+            @RotateLeft.started += instance.OnRotateLeft;
+            @RotateLeft.performed += instance.OnRotateLeft;
+            @RotateLeft.canceled += instance.OnRotateLeft;
+            @RotateRight.started += instance.OnRotateRight;
+            @RotateRight.performed += instance.OnRotateRight;
+            @RotateRight.canceled += instance.OnRotateRight;
+            @DroneCameraRotate.started += instance.OnDroneCameraRotate;
+            @DroneCameraRotate.performed += instance.OnDroneCameraRotate;
+            @DroneCameraRotate.canceled += instance.OnDroneCameraRotate;
         }
 
         /// <summary>
@@ -1920,6 +2007,15 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Hover.started -= instance.OnHover;
             @Hover.performed -= instance.OnHover;
             @Hover.canceled -= instance.OnHover;
+            @RotateLeft.started -= instance.OnRotateLeft;
+            @RotateLeft.performed -= instance.OnRotateLeft;
+            @RotateLeft.canceled -= instance.OnRotateLeft;
+            @RotateRight.started -= instance.OnRotateRight;
+            @RotateRight.performed -= instance.OnRotateRight;
+            @RotateRight.canceled -= instance.OnRotateRight;
+            @DroneCameraRotate.started -= instance.OnDroneCameraRotate;
+            @DroneCameraRotate.performed -= instance.OnDroneCameraRotate;
+            @DroneCameraRotate.canceled -= instance.OnDroneCameraRotate;
         }
 
         /// <summary>
@@ -2216,5 +2312,26 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnHover(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "RotateLeft" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnRotateLeft(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "RotateRight" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnRotateRight(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "DroneCameraRotate" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnDroneCameraRotate(InputAction.CallbackContext context);
     }
 }
