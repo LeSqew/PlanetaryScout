@@ -2,135 +2,140 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Структура, хранящая три ключевых параметра гравитационной волны.
+/// </summary>
 [Serializable]
-public struct WaveParameters
+public struct WaveParams
 {
-    public float Amplitude;     // Амплитуда
-    public float Frequency;     // Частота
-    public float PhaseShift;    // Сдвиг по фазе (в радианах)
+    public float Amplitude;
+    public float Frequency;
+    public float PhaseShift; // Фазовый сдвиг (в радианах, 0 до 2*PI)
+
+    public WaveParams(float amplitude, float frequency, float phaseShift)
+    {
+        Amplitude = amplitude;
+        Frequency = frequency;
+        PhaseShift = phaseShift;
+    }
 }
 
-// Класс для передачи данных о графиках в View
-public class WaveData
+/// <summary>
+/// Структура для передачи всех данных из Модели в View за один раз.
+/// </summary>
+public struct WaveData
 {
-    public WaveParameters TargetParams;
-    public WaveParameters PlayerParams;
-    public List<float> XValues;
-    public List<float> TargetYValues;
-    public List<float> PlayerYValues;
+    public WaveParams PlayerParams;
+    public WaveParams TargetParams;
+    public float RemainingTime;      // Оставшееся время (для таймера)
+    public float DataQuality;        // Качество данных (от 0.0 до 1.0)
 }
 
 public class GravimeterModel
 {
-    // Событие: Изменились данные волны игрока (View должен перерисовать графики)
-    public event Action<WaveData> OnWaveDataChanged;
-    // Событие: Игрок успешно подогнал графики (Победа)
+    public float AnomalyTimeLimit = 15.0f; 
+    private const float MATCH_TOLERANCE = 0.05f; 
+    private const float MAX_AMPLITUDE = 20.0f; // Для нормализации
+    private const float MAX_FREQUENCY = 3.0f;  // Для нормализации
+    private const float MAX_PHASE_SHIFT = 2f * Mathf.PI; // Для нормализации
+
+    // События (Action) остаются прежними
+    public event Action<WaveData> OnWaveParametersChanged;
     public event Action OnMatchSuccess;
-    
-    private WaveParameters _targetWaveParams;
-    private WaveParameters _playerWaveParams;
-    
-    private const float MatchTolerance = 0.05f; // 5% допуск
-    private const int TotalPoints = 200;        // Количество точек для построения графика
-    private const float PlotDuration = 2.0f;    // Длительность по оси X
-    
-    public bool IsMatched { get; private set; }
-    
-    public GravimeterModel()
-    {
-        // Установка целевых параметров
-        _targetWaveParams = new WaveParameters {
-            Amplitude = 10.0f,
-            Frequency = 1.5f,
-            PhaseShift = 0.8f // Радианы
-        };
+    public event Action OnAnomalyMissed;     
 
-        // Начальные параметры игрока (отличные от цели)
-        _playerWaveParams = new WaveParameters {
-            Amplitude = 5.0f,
-            Frequency = 1.0f,
-            PhaseShift = 0.0f
-        };
-    }
-    
+    // Свойства остаются прежними
+    public bool IsMatched { get; private set; } = false;
+    public WaveParams TargetParams { get; private set; }
+    public WaveParams PlayerParams { get; private set; }
+    public float RemainingTime { get; private set; }
+    public float DataQuality { get; private set; } = 0.0f;
+
+    // Приватные поля
+    private bool _isActive = false;
+
+    // --------------------------------------------------------
+    // МЕТОДЫ ЖИЗНЕННОГО ЦИКЛА И ТАЙМЕРА (Tick)
+    // --------------------------------------------------------
+
     /// <summary>
-    /// Основная математическая функция волны: Y(t) = A * sin(2*pi*f*t + phi)
+    /// НОВЫЙ МЕТОД: Вызывается Контроллером на каждом кадре для обновления таймера.
     /// </summary>
-    public float GetWavePoint(float t, WaveParameters p)
+    public void Tick(float deltaTime)
     {
-        return p.Amplitude * (float)Math.Sin(2 * Math.PI * p.Frequency * t + p.PhaseShift);
-    }
+        if (!_isActive || IsMatched)
+            return;
 
-    public void SetPlayerAmplitude(float value)
-    {
-        _playerWaveParams.Amplitude = value;
-        CheckAndNotify();
-    }
+        RemainingTime -= deltaTime;
 
-    public void SetPlayerFrequency(float value)
-    {
-        _playerWaveParams.Frequency = value;
-        CheckAndNotify();
-    }
-
-    public void SetPlayerPhaseShift(float value)
-    {
-        // Нормализация фазы в пределах [0, 2*PI]
-        _playerWaveParams.PhaseShift = value % (2.0f * (float)Math.PI);
-        if (_playerWaveParams.PhaseShift < 0)
+        if (RemainingTime <= 0f)
         {
-            _playerWaveParams.PhaseShift += 2.0f * (float)Math.PI;
-        }
-        CheckAndNotify();
-    }
-
-    private void CheckAndNotify()
-    {
-        // 1. Проверка победы
-        if (!IsMatched)
-        {
-            IsMatched = CheckMatchCondition();
-            if (IsMatched)
-            {
-                OnMatchSuccess?.Invoke();
-            }
+            RemainingTime = 0f;
+            _isActive = false;
+            
+            OnAnomalyMissed?.Invoke();
+            SendUpdateToView();
         }
 
-        // 2. Уведомление View о новых данных
-        OnWaveDataChanged?.Invoke(GenerateWaveData());
+        // Отправляем данные во View (для отображения таймера и качества)
+        SendUpdateToView();
     }
 
-    private WaveData GenerateWaveData()
+    public void StartMinigame(WaveParams target)
     {
-        var data = new WaveData {
-            TargetParams = _targetWaveParams,
-            PlayerParams = _playerWaveParams,
-            XValues = new List<float>(TotalPoints),
-            TargetYValues = new List<float>(TotalPoints),
-            PlayerYValues = new List<float>(TotalPoints)
-        };
+        TargetParams = target;
+        PlayerParams = new WaveParams(0f, 0f, 0f); 
+        RemainingTime = AnomalyTimeLimit;
+        IsMatched = false;
+        _isActive = true;
+        DataQuality = 0.0f;
+        SendUpdateToView();
+    }
 
-        for (int i = 0; i < TotalPoints; i++)
+    public void SetPlayerParams(WaveParams newParams)
+    {
+        if (!_isActive || IsMatched) return;
+
+        PlayerParams = newParams;
+        CheckMatchCondition();
+    }
+
+    private void CheckMatchCondition()
+    {
+        // --- Логика расчета качества данных (DataQuality) ---
+        float ampError = Mathf.Abs(PlayerParams.Amplitude - TargetParams.Amplitude) / MAX_AMPLITUDE;
+        float freqError = Mathf.Abs(PlayerParams.Frequency - TargetParams.Frequency) / MAX_FREQUENCY;
+        float phaseError = Mathf.Abs(PlayerParams.PhaseShift - TargetParams.PhaseShift) / MAX_PHASE_SHIFT;
+
+        float averageError = (ampError + freqError + phaseError) / 3f;
+        DataQuality = Mathf.Clamp01(1.0f - averageError);
+
+        // --- Логика проверки совпадения ---
+        bool ampMatch = Mathf.Abs(PlayerParams.Amplitude - TargetParams.Amplitude) <= MATCH_TOLERANCE;
+        bool freqMatch = Mathf.Abs(PlayerParams.Frequency - TargetParams.Frequency) <= MATCH_TOLERANCE;
+        bool phaseMatch = Mathf.Abs(PlayerParams.PhaseShift - TargetParams.PhaseShift) <= MATCH_TOLERANCE; 
+
+        bool newMatchState = ampMatch && freqMatch && phaseMatch;
+
+        if (newMatchState && !IsMatched)
         {
-            float t = i * PlotDuration / TotalPoints;
-            data.XValues.Add(t);
-            data.TargetYValues.Add(GetWavePoint(t, _targetWaveParams));
-            data.PlayerYValues.Add(GetWavePoint(t, _playerWaveParams));
+            IsMatched = true;
+            _isActive = false;
+            OnMatchSuccess?.Invoke();
         }
 
-        return data;
+        SendUpdateToView();
     }
-
-    private bool CheckMatchCondition()
+    
+    private void SendUpdateToView()
     {
-        // Сравниваем параметры с учетом допуска
-        bool ampMatch = Math.Abs(_targetWaveParams.Amplitude - _playerWaveParams.Amplitude) < _targetWaveParams.Amplitude * MatchTolerance;
-        bool freqMatch = Math.Abs(_targetWaveParams.Frequency - _playerWaveParams.Frequency) < _targetWaveParams.Frequency * MatchTolerance;
+        OnWaveParametersChanged?.Invoke(new WaveData
+        {
+            PlayerParams = PlayerParams,
+            TargetParams = TargetParams,
+            RemainingTime = RemainingTime,
+            DataQuality = DataQuality
+        });
+    }
         
-        // Проверка фазы с учетом 2*PI цикла
-        float phaseDiff = Math.Abs(_targetWaveParams.PhaseShift - _playerWaveParams.PhaseShift);
-        bool phaseMatch = phaseDiff < MatchTolerance || Math.Abs(phaseDiff - 2.0f * (float)Math.PI) < MatchTolerance;
-
-        return ampMatch && freqMatch && phaseMatch;
-    }
 }

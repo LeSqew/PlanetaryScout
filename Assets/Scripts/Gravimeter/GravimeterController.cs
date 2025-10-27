@@ -2,49 +2,55 @@ using UnityEngine;
 
 public class GravimeterController : MonoBehaviour
 {
-    private GravimeterModel _model;
-    [SerializeField] private float initialAmplitude = 5.0f;
-    [SerializeField] private float initialFrequency = 1.0f;
-    [SerializeField] private float initialPhaseShift = 0.0f;
+    private GravimeterModel _model; 
 
-    // Свойство для доступа к Модели (например, из View)
+    // Публичный доступ к Модели для View (только Get)
     public GravimeterModel Model => _model;
 
-    private void Awake()
+    void Awake()
     {
+        // НОВЫЙ КОД: Создаем экземпляр Модели
         _model = new GravimeterModel();
-            
-        // Установим начальные значения для игрока (если Модель их не устанавливает)
-        _model.SetPlayerAmplitude(initialAmplitude);
-        _model.SetPlayerFrequency(initialFrequency);
-        _model.SetPlayerPhaseShift(initialPhaseShift);
     }
 
-    // ======================= МЕТОДЫ ДЛЯ UI-КОНТРОЛЛОВ ========================
-        
-    // Эти методы должны быть привязаны к компонентам UI (например, OnValueChanged у Slider)
-        
-    /// <summary>
-    /// Вызывается при повороте "шестеренки" Амплитуды.
-    /// </summary>
-    public void SetAmplitude(float newAmplitude)
+    void Start()
     {
-        _model.SetPlayerAmplitude(newAmplitude);
+        // Запускаем тестовую аномалию, используя созданный _model
+        _model.StartMinigame(new WaveParams(
+            amplitude: 12.5f,
+            frequency: 2.1f,
+            phaseShift: 4.0f
+        ));
+    }
+    
+    void Update()
+    {
+        // Вызываем Tick на Модели, передавая дельту времени Unity
+        _model.Tick(Time.deltaTime);
     }
 
-    /// <summary>
-    /// Вызывается при повороте "шестеренки" Частоты.
-    /// </summary>
-    public void SetFrequency(float newFrequency)
+    // --------------------------------------------------------
+    // ПУБЛИЧНЫЕ МЕТОДЫ ДЛЯ ВЫЗОВА ЧЕРЕЗ UI.Slider (On Value Changed)
+    // --------------------------------------------------------
+
+    public void SetAmplitude(float value)
     {
-        _model.SetPlayerFrequency(newFrequency);
+        WaveParams currentInput = _model.PlayerParams;
+        currentInput.Amplitude = value;
+        _model.SetPlayerParams(currentInput);
     }
 
-    /// <summary>
-    /// Вызывается при повороте "шестеренки" Сдвига по фазе.
-    /// </summary>
-    public void SetPhaseShift(float newPhaseShift)
+    public void SetFrequency(float value)
     {
-        _model.SetPlayerPhaseShift(newPhaseShift);
+        WaveParams currentInput = _model.PlayerParams;
+        currentInput.Frequency = value;
+        _model.SetPlayerParams(currentInput);
+    }
+
+    public void SetPhaseShift(float value)
+    {
+        WaveParams currentInput = _model.PlayerParams;
+        currentInput.PhaseShift = value;
+        _model.SetPlayerParams(currentInput);
     }
 }
