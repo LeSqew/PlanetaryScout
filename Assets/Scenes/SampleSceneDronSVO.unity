@@ -503,13 +503,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   droneTransform: {fileID: 340224129}
-  distance: 8
   height: 8
+  distance: 8
   smoothSpeed: 8
-  cameraRotateAction: {fileID: -7239332877059164233, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  rotationSensitivity: 10
-  verticalMinAngle: 0
-  verticalMaxAngle: 90
+  cameraPitch: 60
 --- !u!1 &340224128
 GameObject:
   m_ObjectHideFlags: 0
@@ -663,14 +660,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 6
   verticalSpeed: 4
-  rotationStep: 45
-  rotationDuration: 0.5
+  rotationSensitivity: 0.5
   droneCamera: {fileID: 330585545}
   moveAction: {fileID: 3276628424540943818, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   upAction: {fileID: -1901611544605527890, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   downAction: {fileID: 6187911371357372419, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  rotateLeftAction: {fileID: -7029049519185299441, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  rotateRightAction: {fileID: 8611681546333091634, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  droneRotateAction: {fileID: -7239332877059164233, guid: 052faaac586de48259a63d0c4782560b, type: 3}
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
