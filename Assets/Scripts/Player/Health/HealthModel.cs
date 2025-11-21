@@ -4,9 +4,11 @@ using UnityEngine;
 public class HealthModel
 {
     public int currentHealth;
+    public int maxHealth;
     public HealthModel(HpSetttings setttings)
     {
         currentHealth = setttings.MaxHP;
+        maxHealth = setttings.MaxHP;
     }
     public void TakeDamage(int hit)
     {
