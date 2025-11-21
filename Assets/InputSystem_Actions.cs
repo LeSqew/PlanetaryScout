@@ -1221,6 +1221,33 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""RotateLeft"",
+                    ""type"": ""Button"",
+                    ""id"": ""efce233e-7180-40f2-95f3-db1a3c2825aa"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""RotateRight"",
+                    ""type"": ""Button"",
+                    ""id"": ""b16cb71b-e075-455f-962e-1dd18a000045"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""DroneCameraRotate"",
+                    ""type"": ""Value"",
+                    ""id"": ""095a43c7-a266-404c-a151-db8df5b1f25c"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -1311,6 +1338,67 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""75c2a74e-0727-4c4b-b2ee-3a949b9fa7d4"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RotateLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bc11b73c-66e0-4680-88d5-7f75502f2675"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RotateRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f16b0b01-d0fe-466a-b249-5b774aac3e7a"",
+                    ""path"": ""<Mouse>/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DroneCameraRotate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""Spectrometer"",
+            ""id"": ""1807e4ce-8586-4203-ba8c-6d5ab6784d87"",
+            ""actions"": [
+                {
+                    ""name"": ""Confirm"",
+                    ""type"": ""Button"",
+                    ""id"": ""e16c13f3-db52-48df-9475-0612acaac14f"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""08106f08-c845-49d1-b7e5-4558d8c7459c"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Confirm"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -1410,6 +1498,12 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Drone_Up = m_Drone.FindAction("Up", throwIfNotFound: true);
         m_Drone_Down = m_Drone.FindAction("Down", throwIfNotFound: true);
         m_Drone_Hover = m_Drone.FindAction("Hover", throwIfNotFound: true);
+        m_Drone_RotateLeft = m_Drone.FindAction("RotateLeft", throwIfNotFound: true);
+        m_Drone_RotateRight = m_Drone.FindAction("RotateRight", throwIfNotFound: true);
+        m_Drone_DroneCameraRotate = m_Drone.FindAction("DroneCameraRotate", throwIfNotFound: true);
+        // Spectrometer
+        m_Spectrometer = asset.FindActionMap("Spectrometer", throwIfNotFound: true);
+        m_Spectrometer_Confirm = m_Spectrometer.FindAction("Confirm", throwIfNotFound: true);
     }
 
     ~@InputSystem_Actions()
@@ -1417,6 +1511,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         UnityEngine.Debug.Assert(!m_Player.enabled, "This will cause a leak and performance issues, InputSystem_Actions.Player.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_UI.enabled, "This will cause a leak and performance issues, InputSystem_Actions.UI.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_Drone.enabled, "This will cause a leak and performance issues, InputSystem_Actions.Drone.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_Spectrometer.enabled, "This will cause a leak and performance issues, InputSystem_Actions.Spectrometer.Disable() has not been called.");
     }
 
     /// <summary>
@@ -1908,6 +2003,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Drone_Up;
     private readonly InputAction m_Drone_Down;
     private readonly InputAction m_Drone_Hover;
+    private readonly InputAction m_Drone_RotateLeft;
+    private readonly InputAction m_Drone_RotateRight;
+    private readonly InputAction m_Drone_DroneCameraRotate;
     /// <summary>
     /// Provides access to input actions defined in input action map "Drone".
     /// </summary>
@@ -1935,6 +2033,18 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Drone/Hover".
         /// </summary>
         public InputAction @Hover => m_Wrapper.m_Drone_Hover;
+        /// <summary>
+        /// Provides access to the underlying input action "Drone/RotateLeft".
+        /// </summary>
+        public InputAction @RotateLeft => m_Wrapper.m_Drone_RotateLeft;
+        /// <summary>
+        /// Provides access to the underlying input action "Drone/RotateRight".
+        /// </summary>
+        public InputAction @RotateRight => m_Wrapper.m_Drone_RotateRight;
+        /// <summary>
+        /// Provides access to the underlying input action "Drone/DroneCameraRotate".
+        /// </summary>
+        public InputAction @DroneCameraRotate => m_Wrapper.m_Drone_DroneCameraRotate;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1973,6 +2083,15 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Hover.started += instance.OnHover;
             @Hover.performed += instance.OnHover;
             @Hover.canceled += instance.OnHover;
+            @RotateLeft.started += instance.OnRotateLeft;
+            @RotateLeft.performed += instance.OnRotateLeft;
+            @RotateLeft.canceled += instance.OnRotateLeft;
+            @RotateRight.started += instance.OnRotateRight;
+            @RotateRight.performed += instance.OnRotateRight;
+            @RotateRight.canceled += instance.OnRotateRight;
+            @DroneCameraRotate.started += instance.OnDroneCameraRotate;
+            @DroneCameraRotate.performed += instance.OnDroneCameraRotate;
+            @DroneCameraRotate.canceled += instance.OnDroneCameraRotate;
         }
 
         /// <summary>
@@ -1996,6 +2115,15 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Hover.started -= instance.OnHover;
             @Hover.performed -= instance.OnHover;
             @Hover.canceled -= instance.OnHover;
+            @RotateLeft.started -= instance.OnRotateLeft;
+            @RotateLeft.performed -= instance.OnRotateLeft;
+            @RotateLeft.canceled -= instance.OnRotateLeft;
+            @RotateRight.started -= instance.OnRotateRight;
+            @RotateRight.performed -= instance.OnRotateRight;
+            @RotateRight.canceled -= instance.OnRotateRight;
+            @DroneCameraRotate.started -= instance.OnDroneCameraRotate;
+            @DroneCameraRotate.performed -= instance.OnDroneCameraRotate;
+            @DroneCameraRotate.canceled -= instance.OnDroneCameraRotate;
         }
 
         /// <summary>
@@ -2029,6 +2157,102 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     /// Provides a new <see cref="DroneActions" /> instance referencing this action map.
     /// </summary>
     public DroneActions @Drone => new DroneActions(this);
+
+    // Spectrometer
+    private readonly InputActionMap m_Spectrometer;
+    private List<ISpectrometerActions> m_SpectrometerActionsCallbackInterfaces = new List<ISpectrometerActions>();
+    private readonly InputAction m_Spectrometer_Confirm;
+    /// <summary>
+    /// Provides access to input actions defined in input action map "Spectrometer".
+    /// </summary>
+    public struct SpectrometerActions
+    {
+        private @InputSystem_Actions m_Wrapper;
+
+        /// <summary>
+        /// Construct a new instance of the input action map wrapper class.
+        /// </summary>
+        public SpectrometerActions(@InputSystem_Actions wrapper) { m_Wrapper = wrapper; }
+        /// <summary>
+        /// Provides access to the underlying input action "Spectrometer/Confirm".
+        /// </summary>
+        public InputAction @Confirm => m_Wrapper.m_Spectrometer_Confirm;
+        /// <summary>
+        /// Provides access to the underlying input action map instance.
+        /// </summary>
+        public InputActionMap Get() { return m_Wrapper.m_Spectrometer; }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
+        public void Enable() { Get().Enable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
+        public void Disable() { Get().Disable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
+        public bool enabled => Get().enabled;
+        /// <summary>
+        /// Implicitly converts an <see ref="SpectrometerActions" /> to an <see ref="InputActionMap" /> instance.
+        /// </summary>
+        public static implicit operator InputActionMap(SpectrometerActions set) { return set.Get(); }
+        /// <summary>
+        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <param name="instance">Callback instance.</param>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
+        /// </remarks>
+        /// <seealso cref="SpectrometerActions" />
+        public void AddCallbacks(ISpectrometerActions instance)
+        {
+            if (instance == null || m_Wrapper.m_SpectrometerActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_SpectrometerActionsCallbackInterfaces.Add(instance);
+            @Confirm.started += instance.OnConfirm;
+            @Confirm.performed += instance.OnConfirm;
+            @Confirm.canceled += instance.OnConfirm;
+        }
+
+        /// <summary>
+        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <remarks>
+        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
+        /// </remarks>
+        /// <seealso cref="SpectrometerActions" />
+        private void UnregisterCallbacks(ISpectrometerActions instance)
+        {
+            @Confirm.started -= instance.OnConfirm;
+            @Confirm.performed -= instance.OnConfirm;
+            @Confirm.canceled -= instance.OnConfirm;
+        }
+
+        /// <summary>
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="SpectrometerActions.UnregisterCallbacks(ISpectrometerActions)" />.
+        /// </summary>
+        /// <seealso cref="SpectrometerActions.UnregisterCallbacks(ISpectrometerActions)" />
+        public void RemoveCallbacks(ISpectrometerActions instance)
+        {
+            if (m_Wrapper.m_SpectrometerActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        /// <summary>
+        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
+        /// </summary>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
+        /// </remarks>
+        /// <seealso cref="SpectrometerActions.AddCallbacks(ISpectrometerActions)" />
+        /// <seealso cref="SpectrometerActions.RemoveCallbacks(ISpectrometerActions)" />
+        /// <seealso cref="SpectrometerActions.UnregisterCallbacks(ISpectrometerActions)" />
+        public void SetCallbacks(ISpectrometerActions instance)
+        {
+            foreach (var item in m_Wrapper.m_SpectrometerActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_SpectrometerActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    /// <summary>
+    /// Provides a new <see cref="SpectrometerActions" /> instance referencing this action map.
+    /// </summary>
+    public SpectrometerActions @Spectrometer => new SpectrometerActions(this);
     private int m_KeyboardMouseSchemeIndex = -1;
     /// <summary>
     /// Provides access to the input control scheme.
@@ -2299,5 +2523,41 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnHover(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "RotateLeft" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnRotateLeft(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "RotateRight" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnRotateRight(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "DroneCameraRotate" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnDroneCameraRotate(InputAction.CallbackContext context);
+    }
+    /// <summary>
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Spectrometer" which allows adding and removing callbacks.
+    /// </summary>
+    /// <seealso cref="SpectrometerActions.AddCallbacks(ISpectrometerActions)" />
+    /// <seealso cref="SpectrometerActions.RemoveCallbacks(ISpectrometerActions)" />
+    public interface ISpectrometerActions
+    {
+        /// <summary>
+        /// Method invoked when associated input action "Confirm" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnConfirm(InputAction.CallbackContext context);
     }
 }

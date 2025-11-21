@@ -4,62 +4,108 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(Rigidbody))]
 public class DroneController : MonoBehaviour
 {
+    [Header("Movement Settings")]
     [SerializeField] private float moveSpeed = 6f;
     [SerializeField] private float verticalSpeed = 4f;
+    [SerializeField] private float rotationSensitivity = 0.5f; // Чувствительность поворота мышью
     [SerializeField] private Camera droneCamera;
 
+    [Header("Input Actions")]
+    [SerializeField] private InputActionReference moveAction;
+    [SerializeField] private InputActionReference upAction;
+    [SerializeField] private InputActionReference downAction;
+    [SerializeField] private InputActionReference droneRotateAction; // Поворот дрона мышью
+
+    // Компоненты и переменные
     private Rigidbody rb;
-    private InputSystem_Actions controls;
     private Vector2 moveInput = Vector2.zero;
     private float verticalInput = 0f;
+
+    // Переменные для управления поворотом
+    private float currentYaw = 0f;
+
+    // Сохраняем начальную ориентацию дрона
+    private Vector3 initialOrientation;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        controls = new InputSystem_Actions();
 
-        controls.Drone.Move.performed += ctx => moveInput = ctx.ReadValue<Vector2>();
-        controls.Drone.Move.canceled += ctx => moveInput = Vector2.zero;
-        controls.Drone.Up.performed += ctx => verticalInput = 1f;
-        controls.Drone.Up.canceled += ctx => { if (verticalInput > 0) verticalInput = 0f; };
-        controls.Drone.Down.performed += ctx => verticalInput = -1f;
-        controls.Drone.Down.canceled += ctx => { if (verticalInput < 0) verticalInput = 0f; };
+        // СОХРАНЯЕМ НАЧАЛЬНУЮ ОРИЕНТАЦИЮ ДРОНА:
+        initialOrientation = transform.eulerAngles;
+
+        // Инициализируем текущий угол поворота
+        currentYaw = transform.eulerAngles.y;
+
+        // Настройка Rigidbody для плавности
+        rb.interpolation = RigidbodyInterpolation.Interpolate;
     }
 
     void OnEnable()
     {
-        if (controls == null) controls = new InputSystem_Actions();
-        controls.Player.Disable();
-        controls.Drone.Enable();
+        moveAction?.action.Enable();
+        upAction?.action.Enable();
+        downAction?.action.Enable();
+        droneRotateAction?.action.Enable();
     }
 
     void OnDisable()
     {
-        if (controls == null) return;
-        controls.Drone.Disable();
-        controls.Player.Enable();
+        moveAction?.action.Disable();
+        upAction?.action.Disable();
+        downAction?.action.Disable();
+        droneRotateAction?.action.Disable();
+    }
+
+    void Update()
+    {
+        // ОБРАБОТКА ВВОДА ДЛЯ ДВИЖЕНИЯ:
+        if (moveAction != null)
+            moveInput = moveAction.action.ReadValue<Vector2>();
+
+        verticalInput = 0f;
+        if (upAction != null && upAction.action.ReadValue<float>() > 0.1f)
+            verticalInput = 1f;
+        if (downAction != null && downAction.action.ReadValue<float>() > 0.1f)
+            verticalInput = -1f;
+
+        // ОБРАБОТКА ПОВОРОТА МЫШЬЮ:
+        if (droneRotateAction != null)
+        {
+            // Получаем движение мыши
+            Vector2 mouseDelta = droneRotateAction.action.ReadValue<Vector2>();
+
+            // Применяем поворот только по горизонтали (ось X мыши)
+            currentYaw += mouseDelta.x * rotationSensitivity;
+
+            // Нормализуем угол в диапазон 0-360
+            currentYaw = Mathf.Repeat(currentYaw, 360f);
+
+            // НЕМЕДЛЕННО ПРИМЕНЯЕМ ПОВОРОТ:
+            // Сохраняем начальные X и Z, меняем только Y
+            transform.rotation = Quaternion.Euler(initialOrientation.x, currentYaw, initialOrientation.z);
+        }
     }
 
     void FixedUpdate()
     {
-        // Определяем горизонтальное направление в глобальных координатах (движение всегда относительно камеры!)
+        HandleMovement();
+    }
+
+    private void HandleMovement()
+    {
+        // ДВИЖЕНИЕ ОТНОСИТЕЛЬНО КАМЕРЫ:
         Vector3 forward = droneCamera.transform.forward;
-        forward.y = 0f;
-        forward.Normalize();
         Vector3 right = droneCamera.transform.right;
+
+        forward.y = 0f;
         right.y = 0f;
+        forward.Normalize();
         right.Normalize();
 
-        Vector3 horizontal = (forward * moveInput.y + right * moveInput.x) * moveSpeed;
+        Vector3 horizontalMove = (forward * moveInput.y + right * moveInput.x) * moveSpeed;
+        Vector3 verticalMove = Vector3.up * verticalInput * verticalSpeed;
 
-        // Вертикальное движение отдельно, не зависит от камеры
-        float y = verticalInput * verticalSpeed;
-
-        // Если ничего не нажато — стоим!
-        Vector3 velocity = new Vector3(horizontal.x, y, horizontal.z);
-
-        // Не стоит задавать напрямую велосити
-        
-        rb.linearVelocity = velocity;
+        rb.linearVelocity = horizontalMove + verticalMove;
     }
 }
