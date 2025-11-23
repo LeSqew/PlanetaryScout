@@ -18,7 +18,6 @@ public class HealthController : MonoBehaviour
     void Awake()
     {
         Model = new HealthModel(hpSetttings);
-        healthBarView = new HealthBarView();
         TakeDamage += Model.TakeDamage;
         Heal += Model.Heal;
         OnDeath += Model.OnDeath;
