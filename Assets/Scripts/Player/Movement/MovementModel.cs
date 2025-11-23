@@ -6,17 +6,21 @@ namespace Player.Movement
     public class MovementModel
     {
         private Rigidbody _rb;
+        private Collider _collider; 
         private float acceleration;
         private float maxSpeed;
         private float jumpForce;
+        private float jumpRayDistance;
         private Transform cameraTransform;
 
-        public MovementModel(Rigidbody rb, MovementSettings settings, Transform cameraTransform)
+        public MovementModel(Rigidbody rb, Collider collider, MovementSettings settings, Transform cameraTransform)
         {
             _rb = rb;
+            _collider = collider;
             acceleration = settings.Acceleration;
             maxSpeed = settings.MaxSpeed;
             jumpForce = settings.JumpForce;
+            jumpRayDistance = settings.JumpRayDistance;
             this.cameraTransform = cameraTransform;
         }
 
@@ -51,7 +55,33 @@ namespace Player.Movement
 
         public void Jump(InputAction.CallbackContext context)
         {
-            _rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            if (context.performed && IsGrounded)
+            {
+                _rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            }
         }
+
+        public bool IsGrounded
+        {
+            get
+            {
+                // Вычисляем точку начала луча (нижняя часть коллайдера)
+                Vector3 origin = _collider.bounds.center - new Vector3(0, _collider.bounds.extents.y, 0);
+
+                // Дебаг-визуализация луча
+                Debug.DrawRay(origin, Vector3.down * jumpRayDistance, Color.red);
+
+                // Бросаем луч вниз
+                bool isGrounded = Physics.Raycast(
+                    origin,
+                    Vector3.down,
+                    out RaycastHit hit,
+                    jumpRayDistance
+                );
+
+                return isGrounded && !hit.collider.isTrigger;
+            }
+        }
+
     }
 }

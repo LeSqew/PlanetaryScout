@@ -8,6 +8,6 @@ namespace Player.Movement
         public float Acceleration;
         public float MaxSpeed;
         public float JumpForce;
-        
+        public float JumpRayDistance;
     }
 }
