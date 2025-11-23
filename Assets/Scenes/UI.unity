@@ -153,6 +153,7 @@ MonoBehaviour:
   jump: {fileID: -2099379676528639254, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   movementSettings: {fileID: 11400000, guid: 4d598ff9d1d29459a913480381b606fb, type: 2}
   cameraTransform: {fileID: 1950442313}
+  playerCollider: {fileID: 1577063491}
 --- !u!54 &83861635
 Rigidbody:
   m_ObjectHideFlags: 0
