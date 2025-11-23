@@ -13,50 +13,45 @@ public class SpectrometerController : MonoBehaviour
     public SpectrometerView view;
     public InputActionAsset inputActions; // ваш InputActionAsset
     private InputActionMap _playerMap;
+    private HealthController _playerHealth;
 
     private SpectrometerModel _model;
     private ScannableObject _currentTarget;
 
     public event Action<float> OnAccuracyChanged;
-    public event Action<string> OnAnalysisCompleted;
 
-    private InputAction _confirm;
+    //private InputAction _confirm;
     
     private void Awake()
     {
         _playerMap = inputActions.FindActionMap("Player", true);
-
         view.OnSliderChanged += HandleFiltersChanged;
         view.OnConfirmPressed += HandleConfirm;
-
-        if (inputActions != null)
+        _playerHealth = FindObjectOfType<HealthController>();
+        if (_playerHealth == null)
         {
-            var map = inputActions.FindActionMap("Spectrometer", true);
-            _confirm = map.FindAction("Confirm", true);
+            Debug.LogError("HealthController не найден на сцене!");
         }
-    }
-    
-    private void OnEnable()
-    {
-        _confirm.Enable();
-    }
-
-    private void OnDisable()
-    {
-        _confirm.Disable();
     }
     
     public void StartAnalysis(ScannableObject target)
     {
         if (gameObject.activeSelf) return;
+
         _currentTarget = target;
         _model = new SpectrometerModel();
-        _model.InitializeFromObject(target.category, target.rarity); // ← ключевое
-        Debug.Log("Активируем Canvas: " + gameObject.name);
+        _model.InitializeFromObject(target.category, target.rarity);
+        
+        view.ResetUI();
+        
+        view.RenderColors(
+            _model.GetMeasuredColor(), 
+            _model.GetTargetColor()
+        );
+        
         gameObject.SetActive(true);
-        _playerMap.Disable(); // ← ключевая строка
+        _playerMap.Disable(); 
 
-        // Показываем и разблокируем курсор
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
@@ -81,19 +76,13 @@ public class SpectrometerController : MonoBehaviour
         if (_model.TryGetResult(out string result))
         {
             view.ShowResult(result);
-            // OnAnalysisCompleted?.Invoke(result);
-            // _currentTarget?.OnScanCompleted();
             
-            DataCollectionEvents.RaiseDataCollected(new ScanResult {
-                category = _currentTarget.category,
-                rarity = _currentTarget.rarity,
-                success = true
-            });
-
+            _currentTarget.OnScanCompleted();
         }
         else
         {
-            view.ShowResult("Недостаточная точность. Попробуйте подобрать цвет точнее.");
+            view.ShowResult("Ошибка анализа! Спектрометр дал сбой.");
+            _playerHealth.ApplyDamage(25);
         }
         gameObject.SetActive(false);
         _playerMap.Enable();

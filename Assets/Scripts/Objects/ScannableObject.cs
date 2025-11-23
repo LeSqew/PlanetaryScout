@@ -30,5 +30,7 @@ public class ScannableObject : MonoBehaviour
         };
 
         DataCollectionEvents.RaiseDataCollected(result);
+        
+        Destroy(gameObject);
     }
 }

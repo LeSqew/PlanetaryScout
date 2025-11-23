@@ -5,6 +5,7 @@ public class PlayerInteraction : MonoBehaviour
     public float interactDistance = 3f;
     public LayerMask interactableLayer;
     public SpectrometerController spectrometer;
+    
 
     void Update()
     {
@@ -20,6 +21,10 @@ public class PlayerInteraction : MonoBehaviour
                     if (scannable.category == DataCategory.Flora)
                     {
                         spectrometer.StartAnalysis(scannable);
+                    }
+                    else if (scannable.category == DataCategory.Flora)
+                    {
+                        
                     }
                 }
                 else

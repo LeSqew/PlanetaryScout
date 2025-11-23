@@ -11,7 +11,8 @@ public class QuestModel
     public bool ProcessScanResult(ScanResult result)
     {
         bool changed = false;
-        foreach (var quest in ActiveQuests)
+        var questsCopy = new List<ActiveQuest>(ActiveQuests);
+        foreach (var quest in questsCopy)
         {
             if (quest.TryProgress(result))
             {
