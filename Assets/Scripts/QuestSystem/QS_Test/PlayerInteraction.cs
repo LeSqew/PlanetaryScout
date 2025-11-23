@@ -5,6 +5,7 @@ public class PlayerInteraction : MonoBehaviour
     public float interactDistance = 3f;
     public LayerMask interactableLayer;
     public SpectrometerController spectrometer;
+    public GravimeterController gravimeter;
     
 
     void Update()
@@ -17,14 +18,14 @@ public class PlayerInteraction : MonoBehaviour
                 var scannable = hit.collider.GetComponent<ScannableObject>();
                 if (scannable != null)
                 {
-                    Debug.Log("Найден объект: " + scannable.name);
+                    // Debug.Log("Найден объект: " + scannable.name);
                     if (scannable.category == DataCategory.Flora)
                     {
                         spectrometer.StartAnalysis(scannable);
                     }
-                    else if (scannable.category == DataCategory.Flora)
+                    else if (scannable.category == DataCategory.Mineral)
                     {
-                        
+                        gravimeter.StartAnalysis(scannable);
                     }
                 }
                 else

@@ -1,7 +1,6 @@
 using System;
 using Minigames.Spectrometer;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 
 /// <summary>
@@ -11,8 +10,6 @@ using UnityEngine.InputSystem;
 public class SpectrometerController : MonoBehaviour
 {
     public SpectrometerView view;
-    public InputActionAsset inputActions; // ваш InputActionAsset
-    private InputActionMap _playerMap;
     private HealthController _playerHealth;
 
     private SpectrometerModel _model;
@@ -24,7 +21,6 @@ public class SpectrometerController : MonoBehaviour
     
     private void Awake()
     {
-        _playerMap = inputActions.FindActionMap("Player", true);
         view.OnSliderChanged += HandleFiltersChanged;
         view.OnConfirmPressed += HandleConfirm;
         _playerHealth = FindObjectOfType<HealthController>();
@@ -49,11 +45,8 @@ public class SpectrometerController : MonoBehaviour
             _model.GetTargetColor()
         );
         
+        MinigameManager.Instance.EnterMinigame(); // ← единая точка входа
         gameObject.SetActive(true);
-        _playerMap.Disable(); 
-
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
     }
     
     /// <summary>
@@ -84,10 +77,7 @@ public class SpectrometerController : MonoBehaviour
             view.ShowResult("Ошибка анализа! Спектрометр дал сбой.");
             _playerHealth.ApplyDamage(25);
         }
+        MinigameManager.Instance.ExitMinigame();
         gameObject.SetActive(false);
-        _playerMap.Enable();
-
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
     }
 }
