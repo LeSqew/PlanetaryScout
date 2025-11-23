@@ -13,8 +13,8 @@ public class ActiveQuest
         if (isCompleted || !result.success) return false;
         if (result.category != template.goalCategory) return false;
         if (result.rarity < template.minRarity || result.rarity > template.maxRarity) return false;
-        if (result.biome != template.biome) return false;
-        if (template.requiresWeather && result.weather != template.weather) return false;
+        // if (result.biome != template.biome) return false;
+        // if (template.requiresWeather && result.weather != template.weather) return false;
 
         currentProgress++;
         if (currentProgress >= requiredCount)

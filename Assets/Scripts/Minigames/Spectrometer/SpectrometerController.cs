@@ -11,9 +11,11 @@ using UnityEngine.InputSystem;
 public class SpectrometerController : MonoBehaviour
 {
     public SpectrometerView view;
-    public InputActionAsset inputActions;
+    public InputActionAsset inputActions; // ваш InputActionAsset
+    private InputActionMap _playerMap;
 
     private SpectrometerModel _model;
+    private ScannableObject _currentTarget;
 
     public event Action<float> OnAccuracyChanged;
     public event Action<string> OnAnalysisCompleted;
@@ -22,7 +24,7 @@ public class SpectrometerController : MonoBehaviour
     
     private void Awake()
     {
-        _model = new SpectrometerModel();
+        _playerMap = inputActions.FindActionMap("Player", true);
 
         view.OnSliderChanged += HandleFiltersChanged;
         view.OnConfirmPressed += HandleConfirm;
@@ -43,7 +45,22 @@ public class SpectrometerController : MonoBehaviour
     {
         _confirm.Disable();
     }
+    
+    public void StartAnalysis(ScannableObject target)
+    {
+        if (gameObject.activeSelf) return;
+        _currentTarget = target;
+        _model = new SpectrometerModel();
+        _model.InitializeFromObject(target.category, target.rarity); // ← ключевое
+        Debug.Log("Активируем Canvas: " + gameObject.name);
+        gameObject.SetActive(true);
+        _playerMap.Disable(); // ← ключевая строка
 
+        // Показываем и разблокируем курсор
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
+    
     /// <summary>
     /// Обрабатывает событие изменения любого ползунка (R, G, B, UV).
     /// </summary>
@@ -64,11 +81,24 @@ public class SpectrometerController : MonoBehaviour
         if (_model.TryGetResult(out string result))
         {
             view.ShowResult(result);
-            OnAnalysisCompleted?.Invoke(result);
+            // OnAnalysisCompleted?.Invoke(result);
+            // _currentTarget?.OnScanCompleted();
+            
+            DataCollectionEvents.RaiseDataCollected(new ScanResult {
+                category = _currentTarget.category,
+                rarity = _currentTarget.rarity,
+                success = true
+            });
+
         }
         else
         {
             view.ShowResult("Недостаточная точность. Попробуйте подобрать цвет точнее.");
         }
+        gameObject.SetActive(false);
+        _playerMap.Enable();
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 }
