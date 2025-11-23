@@ -20,12 +20,14 @@ public class QuestController : MonoBehaviour
     void OnEnable()
     {
         DataCollectionEvents.OnDataCollected += OnDataCollected;
+        DataCollectionEvents.OnScannableObjectDestroyed += OnObjectDestroyed;
         model.OnQuestCompleted += OnQuestCompleted;
     }
 
     void OnDisable()
     {
         DataCollectionEvents.OnDataCollected -= OnDataCollected;
+        DataCollectionEvents.OnScannableObjectDestroyed -= OnObjectDestroyed;
     }
 
     // Вызывается при высадке на планету
@@ -56,22 +58,38 @@ public class QuestController : MonoBehaviour
     
     void OnQuestCompleted(ActiveQuest quest)
     {
-        // 1. Удаляем из модели
-        model.ActiveQuests.Remove(quest);
-
-        // 2. Обновляем UI
-        journalUI.Refresh(model.ActiveQuests);
-
-        // 3. (Опционально) выдаём награду
-        Debug.Log($"Задание завершено: {quest.template.displayName}");
-        // PlayerWallet.AddMoney(quest.template.rewardMoney);
-        // PlayerProgress.AddResearchPoints(quest.template.rewardResearchPoints);
+        if (quest.status == QuestStatus.Completed)
+        {
+            model.ActiveQuests.Remove(quest);
+            journalUI.Refresh(model.ActiveQuests);
+        }
     }
     void OnDataCollected(ScanResult result)
     {
         if (model.ProcessScanResult(result))
         {
             journalUI.Refresh(model.ActiveQuests); // или обновить частично
+        }
+    }
+    
+    private void OnObjectDestroyed(DataCategory category, int remainingCount)
+    {
+        // var affectedQuests = model.ActiveQuests
+        //     .Where(q => !q.isCompleted && q.template.goalCategory == category)
+        //     .ToList();
+
+        var affectedQuests = model.ActiveQuests
+            .Where(q => q.status == QuestStatus.Active && q.template.goalCategory == category)
+            .ToList();
+        
+        foreach (var quest in affectedQuests)
+        {
+            int stillNeeded = quest.requiredCount - quest.currentProgress;
+            if (remainingCount < stillNeeded)
+            {
+                quest.status = QuestStatus.Failed;
+                journalUI.Refresh(model.ActiveQuests);
+            }
         }
     }
 }

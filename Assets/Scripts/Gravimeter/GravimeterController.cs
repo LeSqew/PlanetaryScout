@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 
 public class GravimeterController : MonoBehaviour
@@ -102,26 +103,29 @@ public class GravimeterController : MonoBehaviour
     }
     void OnSuccess()
     {
-        if (_isCompleted) return;
+        if (_isCompleted || _currentTarget == null) return;
         _isCompleted = true;
-
         view?.ShowSuccess();
-        _currentTarget?.OnScanCompleted();
+        
+    
+        var category = _currentTarget.category;
+        _currentTarget.OnScanCompleted(); // ← Destroy внутри
+        _currentTarget = null;
+        int remaining = FindObjectsOfType<ScannableObject>().Count(obj => obj != null && obj.category == category) - 1;
+        DataCollectionEvents.RaiseObjectDestroyed(category, remaining);
         StartCoroutine(DeactivateAfterFrame());
     }
 
     void OnFailure(string reason)
     {
-        if (_isCompleted) return;
-        _isCompleted = true;
+        if (_currentTarget == null) return;
 
+        var category = _currentTarget.category;
+        Destroy(_currentTarget.gameObject);
+        _currentTarget = null;
         view?.ShowFailure();
-        if (_currentTarget != null)
-        {
-            Debug.Log($"Ископаемое уничтожено: {_currentTarget.name} — {reason}");
-            Destroy(_currentTarget.gameObject);
-            _currentTarget = null;
-        }
+        int remaining = FindObjectsOfType<ScannableObject>().Count(obj => obj != null && obj.category == category) - 1;
+        DataCollectionEvents.RaiseObjectDestroyed(category, remaining);
         StartCoroutine(DeactivateAfterFrame());
     }
     private IEnumerator DeactivateAfterFrame()

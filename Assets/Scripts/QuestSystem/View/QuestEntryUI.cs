@@ -7,11 +7,28 @@ public class QuestEntryUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI progressText;
     [SerializeField] private TextMeshProUGUI rewardText;
 
-    public void Initialize(QuestTemplate template, int current, int required)
+    public void Initialize(ActiveQuest quest)
     {
-        titleText.text = template.displayName;
-        progressText.text = $"Собрано: {current}/{required}";
-        rewardText.text = $"${template.rewardMoney} + {template.rewardResearchPoints} RP";
+        titleText.text = quest.template.displayName;
+    
+        if (quest.status == QuestStatus.Failed)
+        {
+            progressText.text = "ЗАДАНИЕ НЕВОЗМОЖНО";
+            progressText.color = Color.red;
+            rewardText.color = Color.gray;
+        }
+        else
+        {
+            progressText.text = $"Собрано: {quest.currentProgress}/{quest.requiredCount}";
+            progressText.color = Color.white;
+            rewardText.color = Color.white;
+        }
+
+        rewardText.text = $"${quest.template.rewardMoney} + {quest.template.rewardResearchPoints} RP";
+        if (quest.status == QuestStatus.Failed)
+        {
+            rewardText.color = Color.gray;
+        }
     }
 
     public void UpdateProgress(int current, int required)

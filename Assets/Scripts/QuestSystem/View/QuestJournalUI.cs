@@ -14,7 +14,7 @@ public class QuestJournalUI : MonoBehaviour
         foreach (var q in quests)
         {
             var entry = Instantiate(entryPrefab, container);
-            entry.Initialize(q.template, q.currentProgress, q.requiredCount);
+            entry.Initialize(q);
             entries.Add(entry);
         }
     }
