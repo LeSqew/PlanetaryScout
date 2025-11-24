@@ -1,29 +1,35 @@
 using UnityEngine;
 using UnityEngine.UI;
-using System;
 
-public class HealthBarView : MonoBehaviour 
+namespace Player.Health
 {
-    [SerializeField]
-    private Image fillImage;
-    
-    public void PrintHp(int currentHealth)
+    public class HealthBarView : MonoBehaviour 
     {
-        Debug.Log($"Текущее здоровье: {currentHealth}");
-    }
-    
-    public void UpdateHealthBar(int currentHealth, int maxHealth) 
-    {
-        if (fillImage == null)
+        [SerializeField]
+        private Image fillImage;
+        private int _maxHealth;
+
+        public void Init(int maxHealth)
         {
-            Debug.LogError("Заполнение изображения не назначено в инспекторе HealthBarView.");
-            return;
+            _maxHealth = maxHealth;
         }
+    
+        public void PrintHp(int currentHealth)
+        {
+            Debug.Log($"Текущее здоровье: {currentHealth}");
+        }
+    
+        public void UpdateHealthBar(int currentHealth) 
+        {
+            if (!fillImage)
+            {
+                Debug.LogError("Заполнение изображения не назначено в инспекторе HealthBarView.");
+                return;
+            }
 
-        float fillAmount = (float)currentHealth / maxHealth;
+            float fillAmount = (float)currentHealth / _maxHealth;
         
-        fillImage.fillAmount = fillAmount;
-
-        PrintHp(currentHealth); 
+            fillImage.fillAmount = fillAmount;
+        }
     }
 }

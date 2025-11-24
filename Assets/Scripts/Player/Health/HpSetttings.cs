@@ -1,7 +1,13 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
-[CreateAssetMenu(fileName = "HpSetttings", menuName = "Scriptable Objects/HpSetttings")]
-public class HpSetttings : ScriptableObject
+namespace Player.Health
 {
-    public int MaxHP;
+    [CreateAssetMenu(fileName = "HpSetttings", menuName = "Scriptable Objects/HpSetttings")]
+    public class HpSetttings : ScriptableObject
+    {
+        [Header("Health")]
+        [Min(0)]
+        public int maxHp = 100;
+    }
 }

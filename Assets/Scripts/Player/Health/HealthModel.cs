@@ -1,40 +1,29 @@
 using System;
 using UnityEngine;
 
-public class HealthModel
+namespace Player.Health
 {
-    public int currentHealth;
-    public int maxHealth;
-    public HealthModel(HpSetttings setttings)
+    public class HealthModel
     {
-        currentHealth = setttings.MaxHP;
-        maxHealth = setttings.MaxHP;
-    }
-    public void TakeDamage(int hit)
-    {
-        currentHealth = currentHealth - hit;
-        //This was my first idea, but idk how good it is
-        //currentHealth = Mathf.Max(0, currentHealth);
-    }
-    public void Heal(int heal)
-    {
-        currentHealth = currentHealth + heal;
-        //This was my first idea, but idk how good it is
-        //currentHealth = Mathf.Min(100, currentHealth);
-    }
-    public void OnDeath()
-    {
-        if (currentHealth <= 0)
+        public int CurrentHealth { get; private set; }
+        private readonly int _maxHealth;
+        public Action<int> OnHealthChanged;
+        public HealthModel(HpSetttings settings)
         {
-            Debug.Log("Death");
-            currentHealth = 0;
+            CurrentHealth = settings.maxHp;
+            _maxHealth = settings.maxHp;
         }
-    }
-    public void CheckHeal(int MaxHp, int currentheal) 
-    {
-        if (currentHealth >= MaxHp)
+        public void TakeDamage(int hit)
         {
-            currentHealth = MaxHp;
+            CurrentHealth -= hit;
+            CurrentHealth = Mathf.Max(0, CurrentHealth);
+            OnHealthChanged?.Invoke(CurrentHealth);
+        }
+        public void Heal(int heal)
+        {
+            CurrentHealth += heal;
+            CurrentHealth = Mathf.Min(_maxHealth, CurrentHealth);
+            OnHealthChanged?.Invoke(CurrentHealth);
         }
     }
 }

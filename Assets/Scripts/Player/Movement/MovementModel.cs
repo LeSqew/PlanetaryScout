@@ -26,7 +26,7 @@ namespace Player.Movement
 
         public void Move(Vector2 direction)
         {
-            // Получаем оси направления с камеры (с обнулением Y!)
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ (пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ Y!)
             Vector3 camForward = cameraTransform.forward;
             camForward.y = 0;
             camForward.Normalize();
@@ -38,7 +38,7 @@ namespace Player.Movement
             moveDir.Normalize();
 
             _rb.AddForce(moveDir * acceleration, ForceMode.Acceleration);
-            // После применения силы — ограничим скорость!
+            // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ!
             LimitSpeed();
         }
 
@@ -55,6 +55,7 @@ namespace Player.Movement
 
         public void Jump(InputAction.CallbackContext context)
         {
+            Debug.Log(IsGrounded);
             if (context.performed && IsGrounded)
             {
                 _rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
@@ -65,21 +66,24 @@ namespace Player.Movement
         {
             get
             {
-                // Вычисляем точку начала луча (нижняя часть коллайдера)
-                Vector3 origin = _collider.bounds.center - new Vector3(0, _collider.bounds.extents.y, 0);
+                // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ)
+                Vector3 origin = _collider.bounds.center - new Vector3(0, _collider.bounds.extents.y - 0.1f, 0);
 
-                // Дебаг-визуализация луча
+                // пїЅпїЅпїЅпїЅпїЅ-пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
                 Debug.DrawRay(origin, Vector3.down * jumpRayDistance, Color.red);
+                Debug.Log(origin);
 
-                // Бросаем луч вниз
-                bool isGrounded = Physics.Raycast(
+                // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
+                var isGrounded = Physics.Raycast(
                     origin,
                     Vector3.down,
-                    out RaycastHit hit,
+                    out var hit,
                     jumpRayDistance
                 );
+                
+                // Debug.Log(hit.collider.name);
 
-                return isGrounded && !hit.collider.isTrigger;
+                return isGrounded && !hit.collider.CompareTag("Player") && !hit.collider.isTrigger;
             }
         }
 

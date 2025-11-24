@@ -1,26 +1,70 @@
+using Player.Health;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class OxygenTime : MonoBehaviour
+namespace Player
 {
-    [SerializeField] public TextMeshProUGUI timerText;
-    [SerializeField] public float remainingTime;
-    
-
-    // Update is called once per frame
-    void Update()
+    public class OxygenTime : MonoBehaviour
     {
-        if (remainingTime > 0) { 
-            remainingTime -= Time.deltaTime;
-        }
-        else
-        {
-            remainingTime = 0;
-            Debug.Log("Game is over");
-        }
-        int minutes = Mathf.FloorToInt(remainingTime / 60);
-        int seconds = Mathf.FloorToInt(remainingTime % 60);
-        timerText.text += string.Format("{00:00}:{1:00}", minutes, seconds);
+        [Header("UI")]
+        [SerializeField] private Image fillImage;
+        [SerializeField] private TextMeshProUGUI timerText;
 
+        [Header("Timer Settings")]
+        [SerializeField] private float maxTime = 120f;     // 2 минуты
+        private float _remainingTime;
+    
+        [Header("Health Controller")]
+        private HealthController _healthController;
+
+        private void Start()
+        {
+            _remainingTime = maxTime;
+            _healthController = GetComponent<HealthController>();
+        }
+
+        private void Update()
+        {
+            UpdateTimer();
+            UpdateBar();
+            UpdateText();
+        }
+
+        private void UpdateTimer()
+        {
+            if (_remainingTime > 0)
+            {
+                _remainingTime -= Time.deltaTime;
+                _remainingTime = Mathf.Max(0, _remainingTime);
+            }
+            else
+            {
+                _healthController.death?.Invoke();;
+            }
+        }
+
+        private void UpdateBar()
+        {
+            if (!fillImage)
+            {
+                // Debug.Log("fillImage is null");
+                return;
+            }
+
+            float fillAmount = _remainingTime / maxTime;
+            fillImage.fillAmount = fillAmount;
+        }
+
+        private void UpdateText()
+        {
+            if (!timerText) return;
+
+            int minutes = Mathf.FloorToInt(_remainingTime / 60);
+            int seconds = Mathf.FloorToInt(_remainingTime % 60);
+
+            timerText.text = $"{minutes:00}:{seconds:00}";
+        }
     }
 }
+
