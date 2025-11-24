@@ -113,6 +113,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "ThrowStone",
+                    "type": "Button",
+                    "id": "c5a626dd-4b08-48ec-b33e-33e8bcaeb1a4",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -575,6 +584,17 @@
                     "processors": "Scale(factor=5)",
                     "groups": "",
                     "action": "SelectSlot",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "905ecd69-e2db-4e7f-9ed1-8e7a7456a4b1",
+                    "path": "<Keyboard>/g",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ThrowStone",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

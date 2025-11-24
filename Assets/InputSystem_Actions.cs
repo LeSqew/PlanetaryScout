@@ -199,6 +199,15 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""ThrowStone"",
+                    ""type"": ""Button"",
+                    ""id"": ""c5a626dd-4b08-48ec-b33e-33e8bcaeb1a4"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -661,6 +670,17 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": ""Scale(factor=5)"",
                     ""groups"": """",
                     ""action"": ""SelectSlot"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""905ecd69-e2db-4e7f-9ed1-8e7a7456a4b1"",
+                    ""path"": ""<Keyboard>/g"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ThrowStone"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1480,6 +1500,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Player_TakeDamage = m_Player.FindAction("TakeDamage", throwIfNotFound: true);
         m_Player_Heal = m_Player.FindAction("Heal", throwIfNotFound: true);
         m_Player_SelectSlot = m_Player.FindAction("SelectSlot", throwIfNotFound: true);
+        m_Player_ThrowStone = m_Player.FindAction("ThrowStone", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1599,6 +1620,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_TakeDamage;
     private readonly InputAction m_Player_Heal;
     private readonly InputAction m_Player_SelectSlot;
+    private readonly InputAction m_Player_ThrowStone;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -1658,6 +1680,10 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/SelectSlot".
         /// </summary>
         public InputAction @SelectSlot => m_Wrapper.m_Player_SelectSlot;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/ThrowStone".
+        /// </summary>
+        public InputAction @ThrowStone => m_Wrapper.m_Player_ThrowStone;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1720,6 +1746,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @SelectSlot.started += instance.OnSelectSlot;
             @SelectSlot.performed += instance.OnSelectSlot;
             @SelectSlot.canceled += instance.OnSelectSlot;
+            @ThrowStone.started += instance.OnThrowStone;
+            @ThrowStone.performed += instance.OnThrowStone;
+            @ThrowStone.canceled += instance.OnThrowStone;
         }
 
         /// <summary>
@@ -1767,6 +1796,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @SelectSlot.started -= instance.OnSelectSlot;
             @SelectSlot.performed -= instance.OnSelectSlot;
             @SelectSlot.canceled -= instance.OnSelectSlot;
+            @ThrowStone.started -= instance.OnThrowStone;
+            @ThrowStone.performed -= instance.OnThrowStone;
+            @ThrowStone.canceled -= instance.OnThrowStone;
         }
 
         /// <summary>
@@ -2409,6 +2441,13 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnSelectSlot(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ThrowStone" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnThrowStone(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.
