@@ -12,6 +12,7 @@ public class MinigameManager : MonoBehaviour
     [Header("Input")]
     public InputActionAsset inputActions;
     private InputActionMap _playerMap;
+    public static bool IsInMinigame { get; set; }
 
     void Awake()
     {
@@ -33,6 +34,7 @@ public class MinigameManager : MonoBehaviour
     /// </summary>
     public void EnterMinigame()
     {
+        IsInMinigame = true;
         // Скрыть журнал заданий
         questJournal.gameObject.SetActive(false);;
 
@@ -49,6 +51,7 @@ public class MinigameManager : MonoBehaviour
     /// </summary>
     public void ExitMinigame()
     {
+        IsInMinigame = false;
         // Показать журнал заданий
         questJournal.gameObject.SetActive(true);
 

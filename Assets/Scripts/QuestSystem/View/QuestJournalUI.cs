@@ -24,4 +24,9 @@ public class QuestJournalUI : MonoBehaviour
         foreach (var e in entries) Destroy(e.gameObject);
         entries.Clear();
     }
+
+    public void Toggle()
+    {
+        gameObject.SetActive(!gameObject.activeSelf);
+    }
 }
