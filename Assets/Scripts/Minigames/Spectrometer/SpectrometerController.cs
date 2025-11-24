@@ -1,7 +1,6 @@
 using System;
 using Minigames.Spectrometer;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 
 /// <summary>
@@ -11,39 +10,45 @@ using UnityEngine.InputSystem;
 public class SpectrometerController : MonoBehaviour
 {
     public SpectrometerView view;
-    public InputActionAsset inputActions;
+    private HealthController _playerHealth;
 
     private SpectrometerModel _model;
+    private ScannableObject _currentTarget;
 
     public event Action<float> OnAccuracyChanged;
-    public event Action<string> OnAnalysisCompleted;
 
-    private InputAction _confirm;
+    //private InputAction _confirm;
     
     private void Awake()
     {
-        _model = new SpectrometerModel();
-
         view.OnSliderChanged += HandleFiltersChanged;
         view.OnConfirmPressed += HandleConfirm;
-
-        if (inputActions != null)
+        _playerHealth = FindObjectOfType<HealthController>();
+        if (_playerHealth == null)
         {
-            var map = inputActions.FindActionMap("Spectrometer", true);
-            _confirm = map.FindAction("Confirm", true);
+            Debug.LogError("HealthController не найден на сцене!");
         }
     }
     
-    private void OnEnable()
+    public void StartAnalysis(ScannableObject target)
     {
-        _confirm.Enable();
-    }
+        if (gameObject.activeSelf) return;
 
-    private void OnDisable()
-    {
-        _confirm.Disable();
+        _currentTarget = target;
+        _model = new SpectrometerModel();
+        _model.InitializeFromObject(target.category, target.rarity);
+        
+        view.ResetUI();
+        
+        view.RenderColors(
+            _model.GetMeasuredColor(), 
+            _model.GetTargetColor()
+        );
+        
+        MinigameManager.Instance.EnterMinigame(); // ← единая точка входа
+        gameObject.SetActive(true);
     }
-
+    
     /// <summary>
     /// Обрабатывает событие изменения любого ползунка (R, G, B, UV).
     /// </summary>
@@ -64,11 +69,15 @@ public class SpectrometerController : MonoBehaviour
         if (_model.TryGetResult(out string result))
         {
             view.ShowResult(result);
-            OnAnalysisCompleted?.Invoke(result);
+            
+            _currentTarget.OnScanCompleted();
         }
         else
         {
-            view.ShowResult("Недостаточная точность. Попробуйте подобрать цвет точнее.");
+            view.ShowResult("Ошибка анализа! Спектрометр дал сбой.");
+            _playerHealth.ApplyDamage(25);
         }
+        MinigameManager.Instance.ExitMinigame();
+        gameObject.SetActive(false);
     }
 }

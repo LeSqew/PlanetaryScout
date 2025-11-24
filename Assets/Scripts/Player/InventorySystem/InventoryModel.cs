@@ -4,7 +4,8 @@ using System.Collections.Generic;
 [Serializable]
 public class InventoryItem {
     public int id;
-    public string itemName;
+    public string itemName; // можно удалить, если не нужен
+    public ToolData toolData;
 }
 
 
