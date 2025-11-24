@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 
 public class InventoryController : MonoBehaviour
 {
-    [SerializeField] private int slotCount = 5;
+    [SerializeField] public int slotCount = 5;
     [SerializeField] private InventoryView[] slotViews;
 
     private InventoryModel _model;
@@ -27,8 +27,14 @@ public class InventoryController : MonoBehaviour
             slotViews[index].UpdateSlot(item);
     }
 
-    public void FillSlot(int index, InventoryItem item)
+    public void FillSlot(int index, ToolData toolData)
     {
+        var item = new InventoryItem
+        {
+            id = toolData.GetInstanceID(),
+            itemName = toolData.toolName,
+            toolData = toolData
+        };
         _model.SetItem(index, item);
         OnSlotChanged?.Invoke(index, item);
         UpdateSlotView(index, item);
@@ -39,11 +45,41 @@ public class InventoryController : MonoBehaviour
         if (!ctx.performed) return;
 
         var value = ctx.ReadValue<float>();
+
         var index = Mathf.RoundToInt(value) - 1;
-        if (index < 0 || index >= _model.slotCount) return;
+        Debug.Log("Value: " + value + ", Calculated index: " + index);
+
+        if (index < 0 || index >= _model.slotCount)
+        {
+            Debug.Log("Index " + index + " выходит за границы. SlotCount: " + _model.slotCount);
+            return;
+        }
+        
+
+        // Сбрасываем подсветку старого слота
+        slotViews[_currentSlotIndex].SetSelected(false);
+
         _currentSlotIndex = index;
+
+        // Подсвечиваем новый слот
+        slotViews[_currentSlotIndex].SetSelected(true);
+
         var item = _model.GetItem(_currentSlotIndex);
         OnSlotSelected?.Invoke(_currentSlotIndex, item);
-        Debug.Log($"Выбран слот: {_currentSlotIndex + 1}, предмет: {item?.itemName ?? "пусто"}");
+    }
+
+    public ToolData GetCurrentTool() => _model.GetItem(_currentSlotIndex)?.toolData;
+
+    public bool CanInteractWith(ObjectType objType)
+    {
+        var tool = GetCurrentTool();
+        if (tool == null) return false;
+
+        // Проверяем, есть ли переданный тип в списке совместимых
+        foreach (var type in tool.compatibleTypes)
+        {
+            if (type == objType) return true;
+        }
+        return false;
     }
 }

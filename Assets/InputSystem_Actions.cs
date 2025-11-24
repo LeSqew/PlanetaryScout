@@ -195,12 +195,15 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""name"": ""SelectSlot"",
                     ""type"": ""Value"",
                     ""id"": ""4dfde154-89f6-4840-9224-82d8f8a19a26"",
-                    ""expectedControlType"": """",
+                    ""expectedControlType"": ""Axis"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
                 },
                 {
+                    ""name"": ""ToggleDrone"",
+                    ""type"": ""Button"",
+                    ""id"": ""577195c8-bc25-4097-9c8f-59763c6c104a"",
                     ""name"": ""ToggleJournal"",
                     ""type"": ""Button"",
                     ""id"": ""83bfe181-bc70-44d3-8958-2142416792bc"",
@@ -675,6 +678,12 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""5384c210-50ce-4e48-9518-dd4d47f38d75"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ToggleDrone"",
                     ""id"": ""39c7d9ee-41d1-4014-a6b7-50f78c2272c7"",
                     ""path"": ""<Keyboard>/tab"",
                     ""interactions"": """",
@@ -1500,6 +1509,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Player_TakeDamage = m_Player.FindAction("TakeDamage", throwIfNotFound: true);
         m_Player_Heal = m_Player.FindAction("Heal", throwIfNotFound: true);
         m_Player_SelectSlot = m_Player.FindAction("SelectSlot", throwIfNotFound: true);
+        m_Player_ToggleDrone = m_Player.FindAction("ToggleDrone", throwIfNotFound: true);
         m_Player_ToggleJournal = m_Player.FindAction("ToggleJournal", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
@@ -1620,6 +1630,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_TakeDamage;
     private readonly InputAction m_Player_Heal;
     private readonly InputAction m_Player_SelectSlot;
+    private readonly InputAction m_Player_ToggleDrone;
     private readonly InputAction m_Player_ToggleJournal;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
@@ -1681,6 +1692,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @SelectSlot => m_Wrapper.m_Player_SelectSlot;
         /// <summary>
+        /// Provides access to the underlying input action "Player/ToggleDrone".
+        /// </summary>
+        public InputAction @ToggleDrone => m_Wrapper.m_Player_ToggleDrone;
         /// Provides access to the underlying input action "Player/ToggleJournal".
         /// </summary>
         public InputAction @ToggleJournal => m_Wrapper.m_Player_ToggleJournal;
@@ -1746,6 +1760,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @SelectSlot.started += instance.OnSelectSlot;
             @SelectSlot.performed += instance.OnSelectSlot;
             @SelectSlot.canceled += instance.OnSelectSlot;
+            @ToggleDrone.started += instance.OnToggleDrone;
+            @ToggleDrone.performed += instance.OnToggleDrone;
+            @ToggleDrone.canceled += instance.OnToggleDrone;
             @ToggleJournal.started += instance.OnToggleJournal;
             @ToggleJournal.performed += instance.OnToggleJournal;
             @ToggleJournal.canceled += instance.OnToggleJournal;
@@ -1796,6 +1813,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @SelectSlot.started -= instance.OnSelectSlot;
             @SelectSlot.performed -= instance.OnSelectSlot;
             @SelectSlot.canceled -= instance.OnSelectSlot;
+            @ToggleDrone.started -= instance.OnToggleDrone;
+            @ToggleDrone.performed -= instance.OnToggleDrone;
+            @ToggleDrone.canceled -= instance.OnToggleDrone;
             @ToggleJournal.started -= instance.OnToggleJournal;
             @ToggleJournal.performed -= instance.OnToggleJournal;
             @ToggleJournal.canceled -= instance.OnToggleJournal;
@@ -2442,11 +2462,13 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnSelectSlot(InputAction.CallbackContext context);
         /// <summary>
+        /// Method invoked when associated input action "ToggleDrone" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// Method invoked when associated input action "ToggleJournal" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnToggleDrone(InputAction.CallbackContext context);
         void OnToggleJournal(InputAction.CallbackContext context);
     }
     /// <summary>
