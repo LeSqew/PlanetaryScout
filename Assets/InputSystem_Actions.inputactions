@@ -109,10 +109,19 @@
                     "name": "SelectSlot",
                     "type": "Value",
                     "id": "4dfde154-89f6-4840-9224-82d8f8a19a26",
-                    "expectedControlType": "",
+                    "expectedControlType": "Axis",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "ToggleDrone",
+                    "type": "Button",
+                    "id": "577195c8-bc25-4097-9c8f-59763c6c104a",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -575,6 +584,17 @@
                     "processors": "Scale(factor=5)",
                     "groups": "",
                     "action": "SelectSlot",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5384c210-50ce-4e48-9518-dd4d47f38d75",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ToggleDrone",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
