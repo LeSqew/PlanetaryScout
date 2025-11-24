@@ -45,7 +45,7 @@ public class SpectrometerController : MonoBehaviour, IMinigameController
             _model.GetTargetColor()
         );
         
-        MinigameManager.Instance.EnterMinigame(); // ← единая точка входа
+        //MinigameManager.Instance.EnterMinigame(); // ← единая точка входа
         gameObject.SetActive(true);
     }
 

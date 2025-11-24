@@ -1,8 +1,9 @@
+using System;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
 
-public class GravimeterController : MonoBehaviour
+public class GravimeterController : MonoBehaviour, IMinigameController
 {
     [SerializeField] private GravimeterView view;
     private GravimeterModel _model;
@@ -11,16 +12,7 @@ public class GravimeterController : MonoBehaviour
 
     private float _lastUIUpdateTime = 0f;
     private const float UI_UPDATE_INTERVAL = 0.05f;
-
-    // private GravimeterModel Model
-    // {
-    //     get
-    //     {
-    //         if (_model == null)
-    //             _model = new GravimeterModel();
-    //         return _model;
-    //     }
-    // }
+    private Action<bool, ScannableObject> _onFinishedCallback;
 
     void Update()
     {
@@ -43,13 +35,13 @@ public class GravimeterController : MonoBehaviour
         }
     }
 
-    public void StartAnalysis(ScannableObject target)
+    public void StartAnalysis(ScannableObject target, Action<bool, ScannableObject> onFinishedCallback)
     {
-        if (gameObject.activeSelf) return;
-        
-        _isCompleted = false;
-        gameObject.SetActive(true);
+        //if (gameObject.activeSelf) return;
+
+        _onFinishedCallback = onFinishedCallback; // <--- СОХРАНЯЕМ КОЛБЭК
         _currentTarget = target;
+        _isCompleted = false;
 
         float amplitude = 10f + _currentTarget.rarity * 2.5f;
         float frequency = Mathf.Max(0.5f, 1f + _currentTarget.rarity * 0.3f);
@@ -57,9 +49,10 @@ public class GravimeterController : MonoBehaviour
         float requiredAccuracy = GetRequiredAccuracy(_currentTarget.rarity);
 
         _model = new GravimeterModel();
+        if (_model != null) Debug.Log("Model created");
         _model.StartMinigame(new WaveParams(amplitude, frequency, phaseShift), requiredAccuracy);
-
-        MinigameManager.Instance.EnterMinigame();
+        Debug.Log("_model.StartMinigame");
+        gameObject.SetActive(true);
         UpdateView();
     }
     
@@ -103,44 +96,65 @@ public class GravimeterController : MonoBehaviour
     }
     void OnSuccess()
     {
-        if (_isCompleted || _currentTarget == null) return;
+        if (_currentTarget == null) return;
+
         _isCompleted = true;
         view?.ShowSuccess();
-        
-    
-        var category = _currentTarget.category;
-        _currentTarget.OnScanCompleted(); // ← Destroy внутри
-        _currentTarget = null;
-        int remaining = FindObjectsOfType<ScannableObject>().Count(obj => obj != null && obj.category == category) - 1;
-        DataCollectionEvents.RaiseObjectDestroyed(category, remaining);
-        StartCoroutine(DeactivateAfterFrame());
+
+        _onFinishedCallback?.Invoke(true, _currentTarget); // <--- Успешный колбэк
+        Cleanup();
+        //StartCoroutine(ShowResultAndCleanup());
     }
 
     void OnFailure(string reason)
     {
         if (_currentTarget == null) return;
 
-        var category = _currentTarget.category;
-        Destroy(_currentTarget.gameObject);
-        _currentTarget = null;
+        _isCompleted = true;
         view?.ShowFailure();
-        int remaining = FindObjectsOfType<ScannableObject>().Count(obj => obj != null && obj.category == category) - 1;
-        DataCollectionEvents.RaiseObjectDestroyed(category, remaining);
-        StartCoroutine(DeactivateAfterFrame());
+
+        _onFinishedCallback?.Invoke(false, _currentTarget); // <--- Провальный колбэк
+
+        // Удаляем объект ScannableObject, если это механика провала Гравиметра
+        Cleanup();
+
+        //StartCoroutine(ShowResultAndCleanup());
     }
-    private IEnumerator DeactivateAfterFrame()
+    private IEnumerator ShowResultAndCleanup()
     {
-        yield return null;
-
-        MinigameManager.Instance.ExitMinigame();
-        gameObject.SetActive(false);
+        // Даем время на отображение результата в UI
+        yield return new WaitForSeconds(2f);
+        Cleanup();
     }
 
+    public void Cleanup() 
+    {
+        StopAllCoroutines();
+        _model = null;
+        
+        _isCompleted = false;
+        gameObject.SetActive(false);
+        Destroy(_currentTarget.gameObject);
+        //_currentTarget = null;
+    }
 
-    public void SetAmplitude(float value) => UpdatePlayerParam(value, _model.PlayerParams.Frequency, _model.PlayerParams.PhaseShift);
-    public void SetFrequency(float value) => UpdatePlayerParam(_model.PlayerParams.Amplitude, value, _model.PlayerParams.PhaseShift);
-    public void SetPhaseShift(float value) => UpdatePlayerParam(_model.PlayerParams.Amplitude, _model.PlayerParams.Frequency, value);
+    public void SetAmplitude(float value)
+    {
+        if (_model == null) return; 
+        UpdatePlayerParam(value, _model.PlayerParams.Frequency, _model.PlayerParams.PhaseShift);
+    }
 
+    public void SetFrequency(float value)
+    {
+        if (_model == null) return; 
+        UpdatePlayerParam(_model.PlayerParams.Amplitude, value, _model.PlayerParams.PhaseShift);
+    }
+
+    public void SetPhaseShift(float value)
+    {
+        if (_model == null) return; // ← добавь это
+        UpdatePlayerParam(_model.PlayerParams.Amplitude, _model.PlayerParams.Frequency, value);
+    }
     private void UpdatePlayerParam(float a, float f, float p)
     {
         if (_model != null && !_isCompleted)

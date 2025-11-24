@@ -5,7 +5,6 @@ public class InteractionHandler : MonoBehaviour
 {
     [Header("Ссылки на Системы")]
     [SerializeField] private InventoryController inventoryController;
-    // MinigameActivator больше не нужен, его логика здесь
 
     [Header("Настройки Raycast")]
     public float interactDistance = 3f;
@@ -53,7 +52,7 @@ public class InteractionHandler : MonoBehaviour
             Destroy(gameInstance);
             return;
         }
-
+        MinigameManager.Instance.EnterMinigame();
         // 4. Запуск Мини-игры и передача Callback
         controller.StartAnalysis(targetObject, (success, completedTarget) =>
         {
