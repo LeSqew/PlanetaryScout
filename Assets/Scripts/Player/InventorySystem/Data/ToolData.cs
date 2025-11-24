@@ -8,4 +8,6 @@ public class ToolData : ScriptableObject
     public Sprite icon;              // Иконка для UI
     public GameObject modelPrefab;   // 3D-модель инструмента (например, для отображения в руке или в инвентаре)
     public DataCategory[] compatibleTypes; // Тип объекта, с которым можно взаимодействовать
+    [Header("Мини-игра")]
+    public GameObject minigamePrefab;
 }

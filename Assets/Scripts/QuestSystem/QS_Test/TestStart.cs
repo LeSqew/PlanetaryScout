@@ -5,6 +5,7 @@ public class TestStart : MonoBehaviour
     public QuestController questController;
     void Start()
     {
+
         questController.GenerateBaseQuests(Biome.Biosphere, WeatherCondition.None);
     }
 
