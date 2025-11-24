@@ -1,5 +1,6 @@
 using System;
 using Minigames.Spectrometer;
+using Player.Health;
 using UnityEngine;
 
 
@@ -75,7 +76,7 @@ public class SpectrometerController : MonoBehaviour
         else
         {
             view.ShowResult("Ошибка анализа! Спектрометр дал сбой.");
-            _playerHealth.ApplyDamage(25);
+            _playerHealth.takeDamage.Invoke(25);
         }
         MinigameManager.Instance.ExitMinigame();
         gameObject.SetActive(false);
