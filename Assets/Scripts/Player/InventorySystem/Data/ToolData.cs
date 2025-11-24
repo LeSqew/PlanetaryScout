@@ -7,13 +7,5 @@ public class ToolData : ScriptableObject
     public string toolName;
     public Sprite icon;              // Иконка для UI
     public GameObject modelPrefab;   // 3D-модель инструмента (например, для отображения в руке или в инвентаре)
-    public ObjectType[] compatibleTypes; // Тип объекта, с которым можно взаимодействовать
-}
-
-public enum ObjectType
-{
-    Flora,
-    Fauna,
-    Mineral,
-    WeatherAnomaly
+    public DataCategory[] compatibleTypes; // Тип объекта, с которым можно взаимодействовать
 }

@@ -70,7 +70,7 @@ public class InventoryController : MonoBehaviour
 
     public ToolData GetCurrentTool() => _model.GetItem(_currentSlotIndex)?.toolData;
 
-    public bool CanInteractWith(ObjectType objType)
+    public bool CanInteractWith(DataCategory objType)
     {
         var tool = GetCurrentTool();
         if (tool == null) return false;
