@@ -424,8 +424,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.38268343, y: 0, z: 0, w: 0.92387956}
-  m_LocalPosition: {x: 0, y: 15.065001, z: -10.53}
+  m_LocalRotation: {x: 0.35172665, y: 0, z: 0, w: 0.93610275}
+  m_LocalPosition: {x: 0, y: 21.35, z: -16.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -502,11 +502,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34343ea5892595c459fe4b9f76beda9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  droneRb: {fileID: 340224130}
+  droneTransform: {fileID: 340224129}
   height: 8
   distance: 8
-  angle: 45
   smoothSpeed: 8
+  cameraPitch: 60
 --- !u!1 &340224128
 GameObject:
   m_ObjectHideFlags: 0
@@ -552,8 +552,8 @@ Rigidbody:
   m_GameObject: {fileID: 340224128}
   serializedVersion: 4
   m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
+  m_Drag: 0.8
+  m_AngularDrag: 2
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -567,9 +567,9 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 0
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!136 &340224131
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -660,7 +660,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 6
   verticalSpeed: 4
+  rotationSensitivity: 0.5
   droneCamera: {fileID: 330585545}
+  moveAction: {fileID: 3276628424540943818, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  upAction: {fileID: -1901611544605527890, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  downAction: {fileID: 6187911371357372419, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  droneRotateAction: {fileID: -7239332877059164233, guid: 052faaac586de48259a63d0c4782560b, type: 3}
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0

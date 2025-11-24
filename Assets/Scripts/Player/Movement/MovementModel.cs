@@ -6,23 +6,27 @@ namespace Player.Movement
     public class MovementModel
     {
         private Rigidbody _rb;
+        private Collider _collider; 
         private float acceleration;
         private float maxSpeed;
         private float jumpForce;
+        private float jumpRayDistance;
         private Transform cameraTransform;
 
-        public MovementModel(Rigidbody rb, MovementSettings settings, Transform cameraTransform)
+        public MovementModel(Rigidbody rb, Collider collider, MovementSettings settings, Transform cameraTransform)
         {
             _rb = rb;
+            _collider = collider;
             acceleration = settings.Acceleration;
             maxSpeed = settings.MaxSpeed;
             jumpForce = settings.JumpForce;
+            jumpRayDistance = settings.JumpRayDistance;
             this.cameraTransform = cameraTransform;
         }
 
         public void Move(Vector2 direction)
         {
-            // Получаем оси направления с камеры (с обнулением Y!)
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ (пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ Y!)
             Vector3 camForward = cameraTransform.forward;
             camForward.y = 0;
             camForward.Normalize();
@@ -34,7 +38,7 @@ namespace Player.Movement
             moveDir.Normalize();
 
             _rb.AddForce(moveDir * acceleration, ForceMode.Acceleration);
-            // После применения силы — ограничим скорость!
+            // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ!
             LimitSpeed();
         }
 
@@ -51,7 +55,37 @@ namespace Player.Movement
 
         public void Jump(InputAction.CallbackContext context)
         {
-            _rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            Debug.Log(IsGrounded);
+            if (context.performed && IsGrounded)
+            {
+                _rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            }
         }
+
+        public bool IsGrounded
+        {
+            get
+            {
+                // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ)
+                Vector3 origin = _collider.bounds.center - new Vector3(0, _collider.bounds.extents.y - 0.1f, 0);
+
+                // пїЅпїЅпїЅпїЅпїЅ-пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
+                Debug.DrawRay(origin, Vector3.down * jumpRayDistance, Color.red);
+                Debug.Log(origin);
+
+                // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
+                var isGrounded = Physics.Raycast(
+                    origin,
+                    Vector3.down,
+                    out var hit,
+                    jumpRayDistance
+                );
+                
+                // Debug.Log(hit.collider.name);
+
+                return isGrounded && !hit.collider.CompareTag("Player") && !hit.collider.isTrigger;
+            }
+        }
+
     }
 }

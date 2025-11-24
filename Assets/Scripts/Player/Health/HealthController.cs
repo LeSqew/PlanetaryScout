@@ -1,45 +1,44 @@
 using System;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem;
-public class HealthController : MonoBehaviour
+using UnityEngine.Events;
+
+namespace Player.Health
 {
-    [SerializeField] private HpSetttings hpSetttings;
-    public event Action<int> TakeDamage;
-    public event Action<int> Heal;
-    public event Action OnDeath;
-    public event Action<int,int> CheckHeal;
-    public HealthModel Model;
-    public HealthBarView healthBarView;
-
-    [SerializeField] private InputActionReference takeDamage;
-    [SerializeField] private InputActionReference heal;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Awake()
+    [RequireComponent(typeof(HealthBarView))]
+    public class HealthController : MonoBehaviour
     {
-        Model = new HealthModel(hpSetttings);
-        healthBarView = new HealthBarView();
-        TakeDamage += Model.TakeDamage;
-        Heal += Model.Heal;
-        OnDeath += Model.OnDeath;
-        CheckHeal += Model.CheckHeal;
-    }
+        [SerializeField] private HpSetttings hpSettings;
+        private HealthModel _model;
+        private HealthBarView _view;
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (takeDamage.action.WasPressedThisFrame())
+        public UnityEvent<int> heal;
+        public UnityEvent<int> takeDamage;
+        public UnityEvent death;
+
+        private bool IsFullHp => _model.CurrentHealth == hpSettings.maxHp;
+
+        public UnityEvent stopRegeneration;
+        // Start is called once before the first execution of Update after the MonoBehaviour is created
+        private void Awake()
         {
-            TakeDamage?.Invoke(10);
-            OnDeath?.Invoke();
-            healthBarView.UpdateHealthBar(Model.currentHealth, Model.maxHealth);
+            _model = new HealthModel(hpSettings);
+            _view = GetComponent<HealthBarView>();
+            _view.Init(hpSettings.maxHp);
+        
+            takeDamage.AddListener(_model.TakeDamage);
+            heal.AddListener(_model.Heal);
+
+            _model.OnHealthChanged += _view.UpdateHealthBar;
+            _model.OnHealthChanged += _view.PrintHp;
         }
-        if (heal.action.WasPressedThisFrame())
+
+        private void Update()
         {
-            Heal?.Invoke(10);
-            CheckHeal?.Invoke(hpSetttings.MaxHP, 10);
-            healthBarView.UpdateHealthBar(Model.currentHealth, Model.maxHealth);
+            if (IsFullHp)
+            {
+                stopRegeneration?.Invoke();
+            }
+            if (_model.CurrentHealth <= 0) death?.Invoke();
         }
     }
-
 }

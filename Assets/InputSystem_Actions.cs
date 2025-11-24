@@ -190,6 +190,27 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SelectSlot"",
+                    ""type"": ""Value"",
+                    ""id"": ""4dfde154-89f6-4840-9224-82d8f8a19a26"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""ToggleDrone"",
+                    ""type"": ""Button"",
+                    ""id"": ""577195c8-bc25-4097-9c8f-59763c6c104a"",
+                    ""name"": ""ToggleJournal"",
+                    ""type"": ""Button"",
+                    ""id"": ""83bfe181-bc70-44d3-8958-2142416792bc"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -597,6 +618,78 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
                     ""action"": ""Heal"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""52587440-29ef-413a-96b3-a0f7f106ec4c"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale"",
+                    ""groups"": """",
+                    ""action"": ""SelectSlot"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f5988b32-4c8a-46e2-851d-6ff80845401a"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale(factor=2)"",
+                    ""groups"": """",
+                    ""action"": ""SelectSlot"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7bad9ff5-fd1a-4a01-9c57-f99d0150edfa"",
+                    ""path"": ""<Keyboard>/3"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale(factor=3)"",
+                    ""groups"": """",
+                    ""action"": ""SelectSlot"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e1ebbcd8-262e-4c35-b7c5-489b9ebc9d5c"",
+                    ""path"": ""<Keyboard>/4"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale(factor=4)"",
+                    ""groups"": """",
+                    ""action"": ""SelectSlot"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f8707681-b874-4dc3-9eb0-0bbdebfcba2c"",
+                    ""path"": ""<Keyboard>/5"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale(factor=5)"",
+                    ""groups"": """",
+                    ""action"": ""SelectSlot"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5384c210-50ce-4e48-9518-dd4d47f38d75"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ToggleDrone"",
+                    ""id"": ""39c7d9ee-41d1-4014-a6b7-50f78c2272c7"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ToggleJournal"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1157,6 +1250,33 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""RotateLeft"",
+                    ""type"": ""Button"",
+                    ""id"": ""efce233e-7180-40f2-95f3-db1a3c2825aa"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""RotateRight"",
+                    ""type"": ""Button"",
+                    ""id"": ""b16cb71b-e075-455f-962e-1dd18a000045"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""DroneCameraRotate"",
+                    ""type"": ""Value"",
+                    ""id"": ""095a43c7-a266-404c-a151-db8df5b1f25c"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -1247,6 +1367,39 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""75c2a74e-0727-4c4b-b2ee-3a949b9fa7d4"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RotateLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bc11b73c-66e0-4680-88d5-7f75502f2675"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RotateRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f16b0b01-d0fe-466a-b249-5b774aac3e7a"",
+                    ""path"": ""<Mouse>/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DroneCameraRotate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -1355,6 +1508,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Player_Sprint = m_Player.FindAction("Sprint", throwIfNotFound: true);
         m_Player_TakeDamage = m_Player.FindAction("TakeDamage", throwIfNotFound: true);
         m_Player_Heal = m_Player.FindAction("Heal", throwIfNotFound: true);
+        m_Player_SelectSlot = m_Player.FindAction("SelectSlot", throwIfNotFound: true);
+        m_Player_ToggleDrone = m_Player.FindAction("ToggleDrone", throwIfNotFound: true);
+        m_Player_ToggleJournal = m_Player.FindAction("ToggleJournal", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1373,6 +1529,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Drone_Up = m_Drone.FindAction("Up", throwIfNotFound: true);
         m_Drone_Down = m_Drone.FindAction("Down", throwIfNotFound: true);
         m_Drone_Hover = m_Drone.FindAction("Hover", throwIfNotFound: true);
+        m_Drone_RotateLeft = m_Drone.FindAction("RotateLeft", throwIfNotFound: true);
+        m_Drone_RotateRight = m_Drone.FindAction("RotateRight", throwIfNotFound: true);
+        m_Drone_DroneCameraRotate = m_Drone.FindAction("DroneCameraRotate", throwIfNotFound: true);
         // Spectrometer
         m_Spectrometer = asset.FindActionMap("Spectrometer", throwIfNotFound: true);
         m_Spectrometer_Confirm = m_Spectrometer.FindAction("Confirm", throwIfNotFound: true);
@@ -1470,6 +1629,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Sprint;
     private readonly InputAction m_Player_TakeDamage;
     private readonly InputAction m_Player_Heal;
+    private readonly InputAction m_Player_SelectSlot;
+    private readonly InputAction m_Player_ToggleDrone;
+    private readonly InputAction m_Player_ToggleJournal;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -1525,6 +1687,17 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/Heal".
         /// </summary>
         public InputAction @Heal => m_Wrapper.m_Player_Heal;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/SelectSlot".
+        /// </summary>
+        public InputAction @SelectSlot => m_Wrapper.m_Player_SelectSlot;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/ToggleDrone".
+        /// </summary>
+        public InputAction @ToggleDrone => m_Wrapper.m_Player_ToggleDrone;
+        /// Provides access to the underlying input action "Player/ToggleJournal".
+        /// </summary>
+        public InputAction @ToggleJournal => m_Wrapper.m_Player_ToggleJournal;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1584,6 +1757,15 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Heal.started += instance.OnHeal;
             @Heal.performed += instance.OnHeal;
             @Heal.canceled += instance.OnHeal;
+            @SelectSlot.started += instance.OnSelectSlot;
+            @SelectSlot.performed += instance.OnSelectSlot;
+            @SelectSlot.canceled += instance.OnSelectSlot;
+            @ToggleDrone.started += instance.OnToggleDrone;
+            @ToggleDrone.performed += instance.OnToggleDrone;
+            @ToggleDrone.canceled += instance.OnToggleDrone;
+            @ToggleJournal.started += instance.OnToggleJournal;
+            @ToggleJournal.performed += instance.OnToggleJournal;
+            @ToggleJournal.canceled += instance.OnToggleJournal;
         }
 
         /// <summary>
@@ -1628,6 +1810,15 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Heal.started -= instance.OnHeal;
             @Heal.performed -= instance.OnHeal;
             @Heal.canceled -= instance.OnHeal;
+            @SelectSlot.started -= instance.OnSelectSlot;
+            @SelectSlot.performed -= instance.OnSelectSlot;
+            @SelectSlot.canceled -= instance.OnSelectSlot;
+            @ToggleDrone.started -= instance.OnToggleDrone;
+            @ToggleDrone.performed -= instance.OnToggleDrone;
+            @ToggleDrone.canceled -= instance.OnToggleDrone;
+            @ToggleJournal.started -= instance.OnToggleJournal;
+            @ToggleJournal.performed -= instance.OnToggleJournal;
+            @ToggleJournal.canceled -= instance.OnToggleJournal;
         }
 
         /// <summary>
@@ -1864,6 +2055,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Drone_Up;
     private readonly InputAction m_Drone_Down;
     private readonly InputAction m_Drone_Hover;
+    private readonly InputAction m_Drone_RotateLeft;
+    private readonly InputAction m_Drone_RotateRight;
+    private readonly InputAction m_Drone_DroneCameraRotate;
     /// <summary>
     /// Provides access to input actions defined in input action map "Drone".
     /// </summary>
@@ -1891,6 +2085,18 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Drone/Hover".
         /// </summary>
         public InputAction @Hover => m_Wrapper.m_Drone_Hover;
+        /// <summary>
+        /// Provides access to the underlying input action "Drone/RotateLeft".
+        /// </summary>
+        public InputAction @RotateLeft => m_Wrapper.m_Drone_RotateLeft;
+        /// <summary>
+        /// Provides access to the underlying input action "Drone/RotateRight".
+        /// </summary>
+        public InputAction @RotateRight => m_Wrapper.m_Drone_RotateRight;
+        /// <summary>
+        /// Provides access to the underlying input action "Drone/DroneCameraRotate".
+        /// </summary>
+        public InputAction @DroneCameraRotate => m_Wrapper.m_Drone_DroneCameraRotate;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1929,6 +2135,15 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Hover.started += instance.OnHover;
             @Hover.performed += instance.OnHover;
             @Hover.canceled += instance.OnHover;
+            @RotateLeft.started += instance.OnRotateLeft;
+            @RotateLeft.performed += instance.OnRotateLeft;
+            @RotateLeft.canceled += instance.OnRotateLeft;
+            @RotateRight.started += instance.OnRotateRight;
+            @RotateRight.performed += instance.OnRotateRight;
+            @RotateRight.canceled += instance.OnRotateRight;
+            @DroneCameraRotate.started += instance.OnDroneCameraRotate;
+            @DroneCameraRotate.performed += instance.OnDroneCameraRotate;
+            @DroneCameraRotate.canceled += instance.OnDroneCameraRotate;
         }
 
         /// <summary>
@@ -1952,6 +2167,15 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Hover.started -= instance.OnHover;
             @Hover.performed -= instance.OnHover;
             @Hover.canceled -= instance.OnHover;
+            @RotateLeft.started -= instance.OnRotateLeft;
+            @RotateLeft.performed -= instance.OnRotateLeft;
+            @RotateLeft.canceled -= instance.OnRotateLeft;
+            @RotateRight.started -= instance.OnRotateRight;
+            @RotateRight.performed -= instance.OnRotateRight;
+            @RotateRight.canceled -= instance.OnRotateRight;
+            @DroneCameraRotate.started -= instance.OnDroneCameraRotate;
+            @DroneCameraRotate.performed -= instance.OnDroneCameraRotate;
+            @DroneCameraRotate.canceled -= instance.OnDroneCameraRotate;
         }
 
         /// <summary>
@@ -2230,6 +2454,22 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnHeal(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "SelectSlot" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSelectSlot(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ToggleDrone" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "ToggleJournal" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnToggleDrone(InputAction.CallbackContext context);
+        void OnToggleJournal(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.
@@ -2344,6 +2584,27 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnHover(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "RotateLeft" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnRotateLeft(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "RotateRight" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnRotateRight(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "DroneCameraRotate" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnDroneCameraRotate(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Spectrometer" which allows adding and removing callbacks.

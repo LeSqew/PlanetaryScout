@@ -1,44 +1,41 @@
-using System;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace Player.Movement
 {
     [RequireComponent(typeof(Rigidbody))]
-    // Класс, отвечающий
     public class MovementController : MonoBehaviour
     {
-        // События из новой системы ввода, привязываются в Inspector
         [SerializeField] private InputActionReference move;
         [SerializeField] private InputActionReference jump;
-        // Объект с настройками для передвижения
         [SerializeField] private MovementSettings movementSettings;
-        // Представление, отвечающее, за анимации
-        private MovementView _view;
-        // Модель, отвечает за физику
-        private MovementModel _model;
-        // Срабатывает во время инициализации сцены
-
         [SerializeField] private Transform cameraTransform;
+        [SerializeField] private Collider playerCollider; // Коллайдер назначается в инспекторе
 
+        private MovementView _view;
+        private MovementModel _model;
 
         private void Awake()
         {
-            _model = new MovementModel(GetComponent<Rigidbody>(), movementSettings, cameraTransform);
+            Rigidbody rb = GetComponent<Rigidbody>();
+
+            // Проверяем, назначен ли коллайдер в инспекторе
+            if (playerCollider == null)
+            {
+                Debug.LogError("Player Collider not assigned in MovementController!");
+                return;
+            }
+
+            _model = new MovementModel(rb, playerCollider, movementSettings, cameraTransform);
             _view = new MovementView();
 
             jump.action.performed += _model.Jump;
         }
-        void Start()
+
+        private void OnDestroy()
         {
-            
-        }
-        
-        // Update is called once per frame
-        void Update()
-        {
-        
+            if (jump?.action != null)
+                jump.action.performed -= _model.Jump;
         }
 
         private void FixedUpdate()
