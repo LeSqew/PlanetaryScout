@@ -16,3 +16,4 @@ MonoBehaviour:
   icon: {fileID: 560639031, guid: 98045fbc11e5ccb4b8dfe2ceb67786cf, type: 3}
   modelPrefab: {fileID: 0}
   compatibleTypes: 00000000
+  minigamePrefab: {fileID: 8112001450124118888, guid: 5b53d163ccdf19f4f8c963d5b2a52380, type: 3}

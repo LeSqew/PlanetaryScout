@@ -8,7 +8,7 @@ using UnityEngine;
 /// Контроллер для мини-игры "Спектрометр".
 /// Отвечает за связь между пользовательским вводом (View) и игровой логикой (Model).
 /// Управляет потоком данных, расчетом точности и обработкой подтверждения.
-public class SpectrometerController : MonoBehaviour
+public class SpectrometerController : MonoBehaviour, IMinigameController
 {
     public SpectrometerView view;
     private HealthController _playerHealth;
@@ -17,9 +17,8 @@ public class SpectrometerController : MonoBehaviour
     private ScannableObject _currentTarget;
 
     public event Action<float> OnAccuracyChanged;
+    private Action<bool, ScannableObject> _onAnalysisFinished;
 
-    //private InputAction _confirm;
-    
     private void Awake()
     {
         view.OnSliderChanged += HandleFiltersChanged;
@@ -30,17 +29,17 @@ public class SpectrometerController : MonoBehaviour
             Debug.LogError("HealthController не найден на сцене!");
         }
     }
-    
-    public void StartAnalysis(ScannableObject target)
-    {
-        if (gameObject.activeSelf) return;
 
+    public void StartAnalysis(ScannableObject target, Action<bool, ScannableObject> onFinishedCallback)
+    {
+        // Не нужно проверять activeSelf, так как это новый экземпляр
+        _onAnalysisFinished = onFinishedCallback;
         _currentTarget = target;
         _model = new SpectrometerModel();
         _model.InitializeFromObject(target.category, target.rarity);
-        
+
         view.ResetUI();
-        
+
         view.RenderColors(
             _model.GetMeasuredColor(), 
             _model.GetTargetColor()
@@ -49,7 +48,13 @@ public class SpectrometerController : MonoBehaviour
         MinigameManager.Instance.EnterMinigame(); // ← единая точка входа
         gameObject.SetActive(true);
     }
-    
+
+    public void Cleanup()
+    {
+        // Удаляем созданный экземпляр мини-игры
+        Destroy(gameObject);
+    }
+
     /// <summary>
     /// Обрабатывает событие изменения любого ползунка (R, G, B, UV).
     /// </summary>
@@ -70,15 +75,15 @@ public class SpectrometerController : MonoBehaviour
         if (_model.TryGetResult(out string result))
         {
             view.ShowResult(result);
-            
-            _currentTarget.OnScanCompleted();
+
+            _onAnalysisFinished?.Invoke(true, _currentTarget);
         }
         else
         {
             view.ShowResult("Ошибка анализа! Спектрометр дал сбой.");
-            _playerHealth.takeDamage?.Invoke(25);
+            _playerHealth.takeDamage.Invoke(25);
+            _onAnalysisFinished?.Invoke(true, _currentTarget);
         }
-        MinigameManager.Instance.ExitMinigame();
-        gameObject.SetActive(false);
+        
     }
 }
