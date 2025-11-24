@@ -199,6 +199,15 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""ToggleJournal"",
+                    ""type"": ""Button"",
+                    ""id"": ""83bfe181-bc70-44d3-8958-2142416792bc"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -661,6 +670,17 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": ""Scale(factor=5)"",
                     ""groups"": """",
                     ""action"": ""SelectSlot"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""39c7d9ee-41d1-4014-a6b7-50f78c2272c7"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ToggleJournal"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1480,6 +1500,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Player_TakeDamage = m_Player.FindAction("TakeDamage", throwIfNotFound: true);
         m_Player_Heal = m_Player.FindAction("Heal", throwIfNotFound: true);
         m_Player_SelectSlot = m_Player.FindAction("SelectSlot", throwIfNotFound: true);
+        m_Player_ToggleJournal = m_Player.FindAction("ToggleJournal", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1599,6 +1620,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_TakeDamage;
     private readonly InputAction m_Player_Heal;
     private readonly InputAction m_Player_SelectSlot;
+    private readonly InputAction m_Player_ToggleJournal;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -1658,6 +1680,10 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/SelectSlot".
         /// </summary>
         public InputAction @SelectSlot => m_Wrapper.m_Player_SelectSlot;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/ToggleJournal".
+        /// </summary>
+        public InputAction @ToggleJournal => m_Wrapper.m_Player_ToggleJournal;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1720,6 +1746,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @SelectSlot.started += instance.OnSelectSlot;
             @SelectSlot.performed += instance.OnSelectSlot;
             @SelectSlot.canceled += instance.OnSelectSlot;
+            @ToggleJournal.started += instance.OnToggleJournal;
+            @ToggleJournal.performed += instance.OnToggleJournal;
+            @ToggleJournal.canceled += instance.OnToggleJournal;
         }
 
         /// <summary>
@@ -1767,6 +1796,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @SelectSlot.started -= instance.OnSelectSlot;
             @SelectSlot.performed -= instance.OnSelectSlot;
             @SelectSlot.canceled -= instance.OnSelectSlot;
+            @ToggleJournal.started -= instance.OnToggleJournal;
+            @ToggleJournal.performed -= instance.OnToggleJournal;
+            @ToggleJournal.canceled -= instance.OnToggleJournal;
         }
 
         /// <summary>
@@ -2409,6 +2441,13 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnSelectSlot(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ToggleJournal" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnToggleJournal(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.

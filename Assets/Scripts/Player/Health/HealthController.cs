@@ -12,8 +12,6 @@ public class HealthController : MonoBehaviour
     public HealthModel Model;
     public HealthBarView healthBarView;
 
-    [SerializeField] private InputActionReference takeDamage;
-    [SerializeField] private InputActionReference heal;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
@@ -25,21 +23,16 @@ public class HealthController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    
+    
+    public void ApplyDamage(int amount)
     {
-        if (takeDamage.action.WasPressedThisFrame())
-        {
-            TakeDamage?.Invoke(10);
-            OnDeath?.Invoke();
-            healthBarView.UpdateHealthBar(Model.currentHealth, Model.maxHealth);
-        }
-        if (heal.action.WasPressedThisFrame())
-        {
-            Heal?.Invoke(10);
-            CheckHeal?.Invoke(hpSetttings.MaxHP, 10);
-            healthBarView.UpdateHealthBar(Model.currentHealth, Model.maxHealth);
-        }
+        Model.TakeDamage(amount);
+        Model.OnDeath(); // проверяет смерть
+        healthBarView.UpdateHealthBar(Model.currentHealth, Model.maxHealth);
     }
+    
+    
 
     public void ApplyDamage(int damage)
     {

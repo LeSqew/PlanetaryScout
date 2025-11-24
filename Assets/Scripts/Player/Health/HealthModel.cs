@@ -13,14 +13,13 @@ public class HealthModel
     public void TakeDamage(int hit)
     {
         currentHealth = currentHealth - hit;
-        //This was my first idea, but idk how good it is
-        //currentHealth = Mathf.Max(0, currentHealth);
+        if (currentHealth < 0) currentHealth = 0;
     }
     public void Heal(int heal)
     {
         currentHealth = currentHealth + heal;
         //This was my first idea, but idk how good it is
-        //currentHealth = Mathf.Min(100, currentHealth);
+        currentHealth = Mathf.Min(100, currentHealth);
     }
     public void OnDeath()
     {
