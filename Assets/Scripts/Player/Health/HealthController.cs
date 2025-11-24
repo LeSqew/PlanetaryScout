@@ -16,7 +16,6 @@ public class HealthController : MonoBehaviour
     void Awake()
     {
         Model = new HealthModel(hpSetttings);
-        healthBarView = new HealthBarView();
         TakeDamage += Model.TakeDamage;
         Heal += Model.Heal;
         OnDeath += Model.OnDeath;
@@ -34,5 +33,16 @@ public class HealthController : MonoBehaviour
     }
     
     
+
+    public void ApplyDamage(int damage)
+    {
+        TakeDamage?.Invoke(damage);
+        // ѕровер€ем смерть после получени€ урона
+        if (Model.currentHealth <= 0)
+        {
+            OnDeath?.Invoke();
+        }
+        healthBarView.PrintHp(Model.currentHealth);
+    }
 
 }
