@@ -1,11 +1,12 @@
+using System;
+using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
-using TMPro;
-using System.Collections;
 
 [RequireComponent(typeof(RectTransform))]
-public class BurController : MonoBehaviour
+public class BurController : MonoBehaviour, IMinigameController
 {
     [Header("Game Settings")]
     [Tooltip("Speed of the point (normalized units per second)")]
@@ -36,67 +37,78 @@ public class BurController : MonoBehaviour
 
     private BurModel model;
     private BurView view;
-
+    private ScannableObject _currentTarget;
     private Coroutine resetCoroutine;
+    private bool _isCompleted = false;
+    private Action<bool, ScannableObject> _onFinishedCallback;
 
-    void Awake()
+    public void StartAnalysis(ScannableObject target, Action<bool, ScannableObject> onFinishedCallback)
     {
+        if (_isCompleted) return;
+
+        _currentTarget = target;
+        _onFinishedCallback = onFinishedCallback;
+
+        // Настройка под редкость (опционально)
+        float rarityMultiplier = 1f + (target.rarity - 1) * 0.2f;
+        float adjustedWinTime = winTime / rarityMultiplier;
+        float adjustedLoseTime = loseTime / rarityMultiplier;
+
+        // Инициализация модели
+        model = new BurModel(moveSpeed, driftStrength, driftChangeFrequency,
+            adjustedWinTime, adjustedLoseTime, 0.5f);
+
+        // Инициализация View
         containerRect = GetComponent<RectTransform>();
+        view = new BurView(containerRect, movingPoint, greenZone, pointImage,
+            winScreen, loseScreen, timerText, statusText);
 
-        // Init model and view
-        model = new BurModel(moveSpeed, driftStrength, driftChangeFrequency, winTime, loseTime, 0.5f);
-        view = new BurView(containerRect, movingPoint, greenZone, pointImage, winScreen, loseScreen, timerText, statusText);
-
-        // Wire events
+        // Подписка на события
         model.OnPositionChanged += HandlePositionChanged;
         model.OnTimerUpdated += HandleTimerUpdated;
         model.OnWin += HandleWin;
         model.OnLose += HandleLose;
 
-        // Input actions
+        // Ввод
         if (leftClickAction != null) { leftClick = leftClickAction.action; leftClick.Enable(); }
         if (rightClickAction != null) { rightClick = rightClickAction.action; rightClick.Enable(); }
 
-        // Initial UI
+        // UI
         view.SetGreenZoneWidth(greenZoneWidth);
         view.SetPointNormalized(model.Position);
         view.ShowWinScreen(false);
         view.ShowLoseScreen(false);
         view.SetStatusText("Держите бур в зеленой зоне!");
+
+        gameObject.SetActive(true);
     }
 
-    void OnDestroy()
+    public void Cleanup()
     {
+        _isCompleted = true;
+
         if (leftClick != null) leftClick.Disable();
         if (rightClick != null) rightClick.Disable();
 
-        // Unsubscribe to avoid leaks
         model.OnPositionChanged -= HandlePositionChanged;
         model.OnTimerUpdated -= HandleTimerUpdated;
         model.OnWin -= HandleWin;
         model.OnLose -= HandleLose;
+
+        Destroy(gameObject);
     }
 
     void Update()
     {
-        if (!model.IsGameActive) return;
+        if (model == null || !_isCompleted == false || !model.IsGameActive) return;
 
         float dt = Time.deltaTime;
-
-        // Handle input (left moves right in your original; right moves left)
         float dir = ReadInputDirection();
         model.ApplyInput(dir, dt);
-
-        // Drift
         model.UpdateDrift(dt);
 
-        // Determine whether current point (in pixels) sits within green zone
         bool isInGreen = IsPointInGreenZone();
-
-        // Update timers and potentially trigger win/lose
         model.UpdateTimers(dt, isInGreen);
-
-        // Update point color (visual)
         view.SetPointColor(isInGreen);
     }
 
@@ -106,8 +118,8 @@ public class BurController : MonoBehaviour
         bool rightHeld = rightClick != null && rightClick.ReadValue<float>() > 0f;
 
         if (leftHeld && rightHeld) return 0f;
-        if (leftHeld) return +1f;   // original: left click moves right
-        if (rightHeld) return -1f;  // original: right click moves left
+        if (leftHeld) return +1f;
+        if (rightHeld) return -1f;
         return 0f;
     }
 
@@ -139,33 +151,29 @@ public class BurController : MonoBehaviour
 
     private void HandleWin()
     {
-        // stop and show win
+        if (_isCompleted) return;
+        _isCompleted = true;
+
         view.ShowWinScreen(true);
         view.SetStatusText("УСПЕШНАЯ РАСКОПКА!");
-        if (resetCoroutine != null) StopCoroutine(resetCoroutine);
-        resetCoroutine = StartCoroutine(ResetAfterDelay(3f));
+        _onFinishedCallback?.Invoke(true, _currentTarget);
+        StartCoroutine(DelayedCleanup(2f));
     }
 
     private void HandleLose()
     {
+        if (_isCompleted) return;
+        _isCompleted = true;
+
         view.ShowLoseScreen(true);
         view.SetStatusText("БУР СЛОМАЛСЯ!");
-        if (resetCoroutine != null) StopCoroutine(resetCoroutine);
-        resetCoroutine = StartCoroutine(ResetAfterDelay(3f));
+        _onFinishedCallback?.Invoke(false, _currentTarget);
+        StartCoroutine(DelayedCleanup(2f));
     }
 
-    private IEnumerator ResetAfterDelay(float delay)
+    private IEnumerator DelayedCleanup(float delay)
     {
         yield return new WaitForSeconds(delay);
-        DoReset();
-    }
-
-    private void DoReset()
-    {
-        view.ShowWinScreen(false);
-        view.ShowLoseScreen(false);
-        model.Reset();
-        view.SetGreenZoneWidth(greenZoneWidth);
-        view.SetStatusText("Держите бур в зеленой зоне!");
+        Cleanup();
     }
 }

@@ -37,8 +37,6 @@ public class GravimeterController : MonoBehaviour, IMinigameController
 
     public void StartAnalysis(ScannableObject target, Action<bool, ScannableObject> onFinishedCallback)
     {
-        //if (gameObject.activeSelf) return;
-
         _onFinishedCallback = onFinishedCallback; // <--- СОХРАНЯЕМ КОЛБЭК
         _currentTarget = target;
         _isCompleted = false;
