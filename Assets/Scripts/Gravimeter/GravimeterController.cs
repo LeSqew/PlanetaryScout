@@ -9,6 +9,7 @@ public class GravimeterController : MonoBehaviour, IMinigameController
     private GravimeterModel _model;
     private ScannableObject _currentTarget;
     private bool _isCompleted = false;
+    public bool RequiresInputBlocking => true;
 
     private float _lastUIUpdateTime = 0f;
     private const float UI_UPDATE_INTERVAL = 0.05f;
@@ -117,12 +118,6 @@ public class GravimeterController : MonoBehaviour, IMinigameController
         Cleanup();
 
         //StartCoroutine(ShowResultAndCleanup());
-    }
-    private IEnumerator ShowResultAndCleanup()
-    {
-        // Даем время на отображение результата в UI
-        yield return new WaitForSeconds(2f);
-        Cleanup();
     }
 
     public void Cleanup() 

@@ -34,6 +34,7 @@ public class BurController : MonoBehaviour, IMinigameController
     private InputAction leftClick;
     private InputAction rightClick;
     private RectTransform containerRect;
+    public bool RequiresInputBlocking => true;
 
     private BurModel model;
     private BurView view;
@@ -96,6 +97,7 @@ public class BurController : MonoBehaviour, IMinigameController
         model.OnLose -= HandleLose;
 
         Destroy(gameObject);
+        Destroy(_currentTarget.gameObject);
     }
 
     void Update()

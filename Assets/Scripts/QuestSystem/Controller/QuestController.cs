@@ -74,10 +74,6 @@ public class QuestController : MonoBehaviour
     
     private void OnObjectDestroyed(DataCategory category, int remainingCount)
     {
-        // var affectedQuests = model.ActiveQuests
-        //     .Where(q => !q.isCompleted && q.template.goalCategory == category)
-        //     .ToList();
-
         var affectedQuests = model.ActiveQuests
             .Where(q => q.status == QuestStatus.Active && q.template.goalCategory == category)
             .ToList();
