@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Scanner
   m_EditorClassIdentifier: 
   toolName: Scanner
-  icon: {fileID: 1188370193, guid: 98045fbc11e5ccb4b8dfe2ceb67786cf, type: 3}
+  icon: {fileID: 1048253502, guid: a0c9e6a160984804891db58e407aee2c, type: 3}
   modelPrefab: {fileID: 0}
   compatibleTypes: 040000000000000001000000
   minigamePrefab: {fileID: 7795904989699501142, guid: 0f032cd3f48244646b504645ed17bb82, type: 3}

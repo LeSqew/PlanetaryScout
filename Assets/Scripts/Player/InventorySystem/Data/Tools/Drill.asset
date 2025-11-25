@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Drill
   m_EditorClassIdentifier: 
   toolName: Drill
-  icon: {fileID: -1665548654, guid: 98045fbc11e5ccb4b8dfe2ceb67786cf, type: 3}
+  icon: {fileID: -1027784292, guid: a0c9e6a160984804891db58e407aee2c, type: 3}
   modelPrefab: {fileID: 0}
   compatibleTypes: 06000000
   minigamePrefab: {fileID: 6294197226785037806, guid: 9cf25d890adc8f94dbaec492a19243b0, type: 3}

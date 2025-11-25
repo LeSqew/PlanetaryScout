@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Gravimeter
   m_EditorClassIdentifier: 
   toolName: Gravimeter
-  icon: {fileID: -1489294328, guid: 98045fbc11e5ccb4b8dfe2ceb67786cf, type: 3}
+  icon: {fileID: -905665431, guid: a0c9e6a160984804891db58e407aee2c, type: 3}
   modelPrefab: {fileID: 0}
   compatibleTypes: 05000000
   minigamePrefab: {fileID: 4733084843211524056, guid: 3b6be7ce4a21745449217f1ef73bb946, type: 3}
