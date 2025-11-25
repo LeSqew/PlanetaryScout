@@ -115,6 +115,9 @@
                     "initialStateCheck": true
                 },
                 {
+                    "name": "ThrowStone",
+                    "type": "Button",
+                    "id": "c5a626dd-4b08-48ec-b33e-33e8bcaeb1a4",
                     "name": "ToggleDrone",
                     "type": "Button",
                     "id": "577195c8-bc25-4097-9c8f-59763c6c104a",
@@ -598,6 +601,12 @@
                 },
                 {
                     "name": "",
+                    "id": "905ecd69-e2db-4e7f-9ed1-8e7a7456a4b1",
+                    "path": "<Keyboard>/g",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ThrowStone",
                     "id": "5384c210-50ce-4e48-9518-dd4d47f38d75",
                     "path": "<Keyboard>/q",
                     "interactions": "",

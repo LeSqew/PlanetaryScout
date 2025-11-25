@@ -201,6 +201,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
+                    ""name"": ""ThrowStone"",
+                    ""type"": ""Button"",
+                    ""id"": ""c5a626dd-4b08-48ec-b33e-33e8bcaeb1a4"",
                     ""name"": ""ToggleDrone"",
                     ""type"": ""Button"",
                     ""id"": ""577195c8-bc25-4097-9c8f-59763c6c104a"",
@@ -684,6 +687,12 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""905ecd69-e2db-4e7f-9ed1-8e7a7456a4b1"",
+                    ""path"": ""<Keyboard>/g"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ThrowStone"",
                     ""id"": ""5384c210-50ce-4e48-9518-dd4d47f38d75"",
                     ""path"": ""<Keyboard>/q"",
                     ""interactions"": """",
@@ -1520,6 +1529,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Player_TakeDamage = m_Player.FindAction("TakeDamage", throwIfNotFound: true);
         m_Player_Heal = m_Player.FindAction("Heal", throwIfNotFound: true);
         m_Player_SelectSlot = m_Player.FindAction("SelectSlot", throwIfNotFound: true);
+        m_Player_ThrowStone = m_Player.FindAction("ThrowStone", throwIfNotFound: true);
         m_Player_ToggleDrone = m_Player.FindAction("ToggleDrone", throwIfNotFound: true);
         m_Player_ToggleJournal = m_Player.FindAction("ToggleJournal", throwIfNotFound: true);
         // UI
@@ -1641,6 +1651,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_TakeDamage;
     private readonly InputAction m_Player_Heal;
     private readonly InputAction m_Player_SelectSlot;
+    private readonly InputAction m_Player_ThrowStone;
     private readonly InputAction m_Player_ToggleDrone;
     private readonly InputAction m_Player_ToggleJournal;
     /// <summary>
@@ -1703,6 +1714,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @SelectSlot => m_Wrapper.m_Player_SelectSlot;
         /// <summary>
+        /// Provides access to the underlying input action "Player/ThrowStone".
+        /// </summary>
+        public InputAction @ThrowStone => m_Wrapper.m_Player_ThrowStone;
         /// Provides access to the underlying input action "Player/ToggleDrone".
         /// </summary>
         public InputAction @ToggleDrone => m_Wrapper.m_Player_ToggleDrone;
@@ -1772,6 +1786,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @SelectSlot.started += instance.OnSelectSlot;
             @SelectSlot.performed += instance.OnSelectSlot;
             @SelectSlot.canceled += instance.OnSelectSlot;
+            @ThrowStone.started += instance.OnThrowStone;
+            @ThrowStone.performed += instance.OnThrowStone;
+            @ThrowStone.canceled += instance.OnThrowStone;
             @ToggleDrone.started += instance.OnToggleDrone;
             @ToggleDrone.performed += instance.OnToggleDrone;
             @ToggleDrone.canceled += instance.OnToggleDrone;
@@ -1825,6 +1842,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @SelectSlot.started -= instance.OnSelectSlot;
             @SelectSlot.performed -= instance.OnSelectSlot;
             @SelectSlot.canceled -= instance.OnSelectSlot;
+            @ThrowStone.started -= instance.OnThrowStone;
+            @ThrowStone.performed -= instance.OnThrowStone;
+            @ThrowStone.canceled -= instance.OnThrowStone;
             @ToggleDrone.started -= instance.OnToggleDrone;
             @ToggleDrone.performed -= instance.OnToggleDrone;
             @ToggleDrone.canceled -= instance.OnToggleDrone;
@@ -2474,11 +2494,13 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnSelectSlot(InputAction.CallbackContext context);
         /// <summary>
+        /// Method invoked when associated input action "ThrowStone" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// Method invoked when associated input action "ToggleDrone" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnThrowStone(InputAction.CallbackContext context);
         void OnToggleDrone(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "ToggleJournal" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
