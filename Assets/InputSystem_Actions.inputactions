@@ -109,7 +109,7 @@
                     "name": "SelectSlot",
                     "type": "Value",
                     "id": "4dfde154-89f6-4840-9224-82d8f8a19a26",
-                    "expectedControlType": "",
+                    "expectedControlType": "Axis",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -118,6 +118,18 @@
                     "name": "ThrowStone",
                     "type": "Button",
                     "id": "c5a626dd-4b08-48ec-b33e-33e8bcaeb1a4",
+                    "name": "ToggleDrone",
+                    "type": "Button",
+                    "id": "577195c8-bc25-4097-9c8f-59763c6c104a",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ToggleJournal",
+                    "type": "Button",
+                    "id": "9fcefe63-6905-453a-b814-eb5ab9bdf3c7",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -595,6 +607,23 @@
                     "processors": "",
                     "groups": "",
                     "action": "ThrowStone",
+                    "id": "5384c210-50ce-4e48-9518-dd4d47f38d75",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ToggleDrone",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8fb14609-fd4e-4e72-8267-bd7e7b220d5d",
+                    "path": "<Keyboard>/tab",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ToggleJournal",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

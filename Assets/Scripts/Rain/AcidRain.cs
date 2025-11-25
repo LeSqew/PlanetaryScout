@@ -1,3 +1,4 @@
+using Player.Health;
 using UnityEngine;
 
 public class AcidRain : MonoBehaviour
@@ -29,10 +30,10 @@ public class AcidRain : MonoBehaviour
         // could be refactored
         timer += Time.deltaTime;
 
-        if (timer >= damageInterval && playerInRain && playerHealth != null)
+        if (timer >= damageInterval && playerInRain && playerHealth)
         {
             int damage = Mathf.RoundToInt(damagePerSecond * damageInterval);
-            playerHealth.ApplyDamage(damage);
+            playerHealth.takeDamage?.Invoke(damage);
             timer = 0f;
         }
     }
@@ -56,7 +57,7 @@ public class AcidRain : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         //check again
-        // Проверяем, что вошел объект с HealthController (пустой объект Player)
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ HealthController (пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ Player)
         HealthController health = other.GetComponent<HealthController>();
         if (health != null)
         {
@@ -65,7 +66,7 @@ public class AcidRain : MonoBehaviour
             return;
         }
 
-        // Если вошла капсула, ищем HealthController у ее родителя
+        // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅ HealthController пїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         if (other.GetComponent<CapsuleCollider>() != null)
         {
             health = other.GetComponentInParent<HealthController>();
@@ -79,7 +80,7 @@ public class AcidRain : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        // Проверяем, что вышел объект с HealthController (пустой объект Player)
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ HealthController (пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ Player)
         HealthController health = other.GetComponent<HealthController>();
         if (health != null && health == playerHealth)
         {
@@ -87,7 +88,7 @@ public class AcidRain : MonoBehaviour
             return;
         }
 
-        // Если вышла капсула, проверяем ее родителя
+        // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         if (other.GetComponent<CapsuleCollider>() != null)
         {
             health = other.GetComponentInParent<HealthController>();

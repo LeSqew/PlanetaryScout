@@ -306,13 +306,15 @@ GameObject:
   - component: {fileID: 3724820621678454061}
   - component: {fileID: 1249087688578902269}
   - component: {fileID: 4161473159989712658}
+  - component: {fileID: 3210115498404717102}
   - component: {fileID: 6908114419153899184}
+  - component: {fileID: 2079645028137317198}
   - component: {fileID: 1783180273860792256}
   - component: {fileID: 1684678671658749567}
   - component: {fileID: 7933261355915758276}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -399,6 +401,21 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   raycastOrigin: {fileID: 7413016261839620816}
+--- !u!114 &3210115498404717102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6202345169813843770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1716296f4b97ee54b97a50163ae4ca6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fillImage: {fileID: 7235081550252690782}
+  timerText: {fileID: 0}
+  maxTime: 60
 --- !u!114 &6908114419153899184
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -411,10 +428,58 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e73b1e39cde2cc846afb6cc233a9dd20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hpSetttings: {fileID: 11400000, guid: f81282944878566409d5babf967e289a, type: 2}
-  healthBarView: {fileID: 1783180273860792256}
-  takeDamage: {fileID: -2231497642720772289, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  heal: {fileID: 4380181030209168982, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  hpSettings: {fileID: 11400000, guid: f81282944878566409d5babf967e289a, type: 2}
+  heal:
+    m_PersistentCalls:
+      m_Calls: []
+  takeDamage:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2079645028137317198}
+        m_TargetAssemblyTypeName: Player.Health.HpRegenerator, Assembly-CSharp
+        m_MethodName: Timeout
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  death:
+    m_PersistentCalls:
+      m_Calls: []
+  stopRegeneration:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2079645028137317198}
+        m_TargetAssemblyTypeName: Player.Health.HpRegenerator, Assembly-CSharp
+        m_MethodName: StopRegen
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &2079645028137317198
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6202345169813843770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 160a596e933164ab48dfa508da9d11d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healAmount: 5
+  timeOut: 5
+  interval: 2
 --- !u!114 &1783180273860792256
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -708,3 +773,14 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 9082108321034679576, guid: b31c2e71ed4a1464a98616cde2bb3bc0, type: 3}
   m_PrefabInstance: {fileID: 2848424284303483262}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7235081550252690782 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4895288128027896864, guid: b31c2e71ed4a1464a98616cde2bb3bc0, type: 3}
+  m_PrefabInstance: {fileID: 2848424284303483262}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

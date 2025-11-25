@@ -84,6 +84,26 @@ public class SpectrometerView : MonoBehaviour
             measuredColorImage.color = measured;
     }
 
+    public void ResetUI()
+    {
+        // Сброс слайдеров
+        sliderR.value = 0.5f;
+        sliderG.value = 0.5f;
+        sliderB.value = 0.5f;
+        sliderUV.value = 0f;
+
+        // Сброс текста результата
+        if (resultText != null)
+            resultText.text = "";
+
+        // Сброс точности
+        SetAccuracy(0f);
+
+        // Очистка цветов
+        if (targetColorImage != null) targetColorImage.color = Color.clear;
+        if (measuredColorImage != null) measuredColorImage.color = Color.clear;
+    }
+    
     public void OnConfirmButton() => OnConfirmPressed?.Invoke();
     
 }

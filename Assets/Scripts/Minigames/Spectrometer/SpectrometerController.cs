@@ -1,47 +1,59 @@
 using System;
 using Minigames.Spectrometer;
+using Player.Health;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 
 /// <summary>
 /// Контроллер для мини-игры "Спектрометр".
 /// Отвечает за связь между пользовательским вводом (View) и игровой логикой (Model).
 /// Управляет потоком данных, расчетом точности и обработкой подтверждения.
-public class SpectrometerController : MonoBehaviour
+public class SpectrometerController : MonoBehaviour, IMinigameController
 {
     public SpectrometerView view;
-    public InputActionAsset inputActions;
+    private HealthController _playerHealth;
 
     private SpectrometerModel _model;
+    private ScannableObject _currentTarget;
 
+    public bool RequiresInputBlocking => true;
     public event Action<float> OnAccuracyChanged;
-    public event Action<string> OnAnalysisCompleted;
+    private Action<bool, ScannableObject> _onAnalysisFinished;
 
-    private InputAction _confirm;
-    
     private void Awake()
     {
-        _model = new SpectrometerModel();
-
         view.OnSliderChanged += HandleFiltersChanged;
         view.OnConfirmPressed += HandleConfirm;
-
-        if (inputActions != null)
+        _playerHealth = FindObjectOfType<HealthController>();
+        if (_playerHealth == null)
         {
-            var map = inputActions.FindActionMap("Spectrometer", true);
-            _confirm = map.FindAction("Confirm", true);
+            Debug.LogError("HealthController не найден на сцене!");
         }
     }
-    
-    private void OnEnable()
+
+    public void StartAnalysis(ScannableObject target, Action<bool, ScannableObject> onFinishedCallback)
     {
-        _confirm.Enable();
+        // Не нужно проверять activeSelf, так как это новый экземпляр
+        _onAnalysisFinished = onFinishedCallback;
+        _currentTarget = target;
+        _model = new SpectrometerModel();
+        _model.InitializeFromObject(target.category, target.rarity);
+
+        view.ResetUI();
+
+        view.RenderColors(
+            _model.GetMeasuredColor(), 
+            _model.GetTargetColor()
+        );
+        
+        //MinigameManager.Instance.EnterMinigame(); // ← единая точка входа
+        gameObject.SetActive(true);
     }
 
-    private void OnDisable()
+    public void Cleanup()
     {
-        _confirm.Disable();
+        // Удаляем созданный экземпляр мини-игры
+        Destroy(gameObject);
     }
 
     /// <summary>
@@ -64,11 +76,15 @@ public class SpectrometerController : MonoBehaviour
         if (_model.TryGetResult(out string result))
         {
             view.ShowResult(result);
-            OnAnalysisCompleted?.Invoke(result);
+
+            _onAnalysisFinished?.Invoke(true, _currentTarget);
         }
         else
         {
-            view.ShowResult("Недостаточная точность. Попробуйте подобрать цвет точнее.");
+            view.ShowResult("Ошибка анализа! Спектрометр дал сбой.");
+            _playerHealth.takeDamage.Invoke(25);
+            _onAnalysisFinished?.Invoke(true, _currentTarget);
         }
+        
     }
 }

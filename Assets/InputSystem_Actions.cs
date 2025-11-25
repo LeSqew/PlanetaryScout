@@ -195,7 +195,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""name"": ""SelectSlot"",
                     ""type"": ""Value"",
                     ""id"": ""4dfde154-89f6-4840-9224-82d8f8a19a26"",
-                    ""expectedControlType"": """",
+                    ""expectedControlType"": ""Axis"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
@@ -204,6 +204,18 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""name"": ""ThrowStone"",
                     ""type"": ""Button"",
                     ""id"": ""c5a626dd-4b08-48ec-b33e-33e8bcaeb1a4"",
+                    ""name"": ""ToggleDrone"",
+                    ""type"": ""Button"",
+                    ""id"": ""577195c8-bc25-4097-9c8f-59763c6c104a"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ToggleJournal"",
+                    ""type"": ""Button"",
+                    ""id"": ""9fcefe63-6905-453a-b814-eb5ab9bdf3c7"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -681,6 +693,23 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""ThrowStone"",
+                    ""id"": ""5384c210-50ce-4e48-9518-dd4d47f38d75"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ToggleDrone"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8fb14609-fd4e-4e72-8267-bd7e7b220d5d"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ToggleJournal"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1501,6 +1530,8 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Player_Heal = m_Player.FindAction("Heal", throwIfNotFound: true);
         m_Player_SelectSlot = m_Player.FindAction("SelectSlot", throwIfNotFound: true);
         m_Player_ThrowStone = m_Player.FindAction("ThrowStone", throwIfNotFound: true);
+        m_Player_ToggleDrone = m_Player.FindAction("ToggleDrone", throwIfNotFound: true);
+        m_Player_ToggleJournal = m_Player.FindAction("ToggleJournal", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1621,6 +1652,8 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Heal;
     private readonly InputAction m_Player_SelectSlot;
     private readonly InputAction m_Player_ThrowStone;
+    private readonly InputAction m_Player_ToggleDrone;
+    private readonly InputAction m_Player_ToggleJournal;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -1684,6 +1717,13 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/ThrowStone".
         /// </summary>
         public InputAction @ThrowStone => m_Wrapper.m_Player_ThrowStone;
+        /// Provides access to the underlying input action "Player/ToggleDrone".
+        /// </summary>
+        public InputAction @ToggleDrone => m_Wrapper.m_Player_ToggleDrone;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/ToggleJournal".
+        /// </summary>
+        public InputAction @ToggleJournal => m_Wrapper.m_Player_ToggleJournal;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1749,6 +1789,12 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @ThrowStone.started += instance.OnThrowStone;
             @ThrowStone.performed += instance.OnThrowStone;
             @ThrowStone.canceled += instance.OnThrowStone;
+            @ToggleDrone.started += instance.OnToggleDrone;
+            @ToggleDrone.performed += instance.OnToggleDrone;
+            @ToggleDrone.canceled += instance.OnToggleDrone;
+            @ToggleJournal.started += instance.OnToggleJournal;
+            @ToggleJournal.performed += instance.OnToggleJournal;
+            @ToggleJournal.canceled += instance.OnToggleJournal;
         }
 
         /// <summary>
@@ -1799,6 +1845,12 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @ThrowStone.started -= instance.OnThrowStone;
             @ThrowStone.performed -= instance.OnThrowStone;
             @ThrowStone.canceled -= instance.OnThrowStone;
+            @ToggleDrone.started -= instance.OnToggleDrone;
+            @ToggleDrone.performed -= instance.OnToggleDrone;
+            @ToggleDrone.canceled -= instance.OnToggleDrone;
+            @ToggleJournal.started -= instance.OnToggleJournal;
+            @ToggleJournal.performed -= instance.OnToggleJournal;
+            @ToggleJournal.canceled -= instance.OnToggleJournal;
         }
 
         /// <summary>
@@ -2443,11 +2495,20 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         void OnSelectSlot(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "ThrowStone" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "ToggleDrone" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnThrowStone(InputAction.CallbackContext context);
+        void OnToggleDrone(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ToggleJournal" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnToggleJournal(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.

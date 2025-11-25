@@ -1,118 +1,115 @@
+using Player.Health;
 using UnityEngine;
 
-public class FallDamageController : MonoBehaviour
+namespace Player.FallDamage
 {
-    [Header("Fall Damage Settings")]
-    [SerializeField] private float damageSpeedThreshold = -15f; // Порог скорости падения, после которой наносится урон
-    [SerializeField] private float damageModifier = 1f;          // Модификатор урона
-    [SerializeField] private float raycastDistance = 0.2f;       // Длина луча для проверки касания земли
-    [SerializeField] private LayerMask groundLayer;              // Слой, который считается землёй
-    [SerializeField] private Transform raycastOrigin;            // Точка, из которой выпускается луч (указать в инспекторе!)
-
-    private HealthController healthController; // Контроллер здоровья игрока
-    private Rigidbody rb;                      // Физический компонент игрока
-    private float maxFallSpeed = 0f;           // Минимальная (наибольшая по модулю) скорость падения
-    private bool wasGrounded = false;          // Был ли игрок на земле в предыдущем кадре
-
-    void Start()
+    public class FallDamageController : MonoBehaviour
     {
-        // Получаем ссылки на нужные компоненты
-        healthController = GetComponent<HealthController>();
-        rb = GetComponent<Rigidbody>();
+        [Header("Fall Damage Settings")]
+        [SerializeField] private float damageSpeedThreshold = -15f; // Порог скорости падения, после которой наносится урон
+        [SerializeField] private float damageModifier = 1f;          // Модификатор урона
+        [SerializeField] private float raycastDistance = 0.2f;       // Длина луча для проверки касания земли
+        [SerializeField] private LayerMask groundLayer;              // Слой, который считается землёй
+        [SerializeField] private Transform raycastOrigin;            // Точка, из которой выпускается луч (указать в инспекторе!)
 
-        // Проверка, что всё настроено
-        if (healthController == null)
+        private HealthController _healthController; // Контроллер здоровья игрока
+        private Rigidbody _rb;                      // Физический компонент игрока
+        private float _maxFallSpeed = 0f;           // Минимальная (наибольшая по модулю) скорость падения
+        private bool _wasGrounded = false;          // Был ли игрок на земле в предыдущем кадре
+
+        void Start()
         {
-            Debug.LogError("HealthController not found on the player!");
-        }
+            // Получаем ссылки на нужные компоненты
+            _healthController = GetComponent<HealthController>();
+            _rb = GetComponent<Rigidbody>();
 
-        if (rb == null)
-        {
-            Debug.LogError("Rigidbody not found on the player!");
-        }
-
-        if (raycastOrigin == null)
-        {
-            Debug.LogError("Raycast origin is not assigned in the inspector!");
-        }
-    }
-
-    void FixedUpdate()
-    {
-        // Точка, из которой пускаем луч вниз
-        Vector3 rayStartPoint = raycastOrigin != null ? raycastOrigin.position : transform.position;
-
-        // Проверяем, стоит ли игрок на земле
-        bool isGrounded = CheckGrounded(rayStartPoint);
-
-        // Если игрок в воздухе и падает — обновляем максимальную скорость падения
-        if (!isGrounded && rb.linearVelocity.y < maxFallSpeed)
-        {
-            maxFallSpeed = rb.linearVelocity.y;
-        }
-
-        // Если только что коснулся земли (только что приземлился)
-        if (isGrounded && !wasGrounded)
-        {
-            // Проверяем, превысил ли скорость падения порог
-            if (maxFallSpeed <= damageSpeedThreshold)
+            // Проверка, что всё настроено
+            if (!_healthController)
             {
-                ApplyFallDamage();
+                Debug.LogError("HealthController not found on the player!");
             }
 
-            // Сбрасываем значение для следующего падения
-            maxFallSpeed = 0;
+            if (!_rb)
+            {
+                Debug.LogError("Rigidbody not found on the player!");
+            }
+
+            if (!raycastOrigin)
+            {
+                Debug.LogError("Raycast origin is not assigned in the inspector!");
+            }
         }
 
-        // Запоминаем состояние касания земли для следующего кадра
-        wasGrounded = isGrounded;
-    }
+        void FixedUpdate()
+        {
+            // Точка, из которой пускаем луч вниз
+            Vector3 rayStartPoint = raycastOrigin ? raycastOrigin.position : transform.position;
 
-    /// <summary>
-    /// Проверяет, стоит ли игрок на земле, используя Raycast вниз.
-    /// </summary>
-    private bool CheckGrounded(Vector3 rayStart)
-    {
-        return Physics.Raycast(rayStart, Vector3.down, raycastDistance, groundLayer);
-    }
+            // Проверяем, стоит ли игрок на земле
+            bool isGrounded = CheckGrounded(rayStartPoint);
 
-    /// <summary>
-    /// Рассчитывает и применяет урон при падении.
-    /// </summary>
-    private void ApplyFallDamage()
-    {
-        // Разница между фактической скоростью и порогом
-        float speedOverThreshold = Mathf.Abs(maxFallSpeed) - Mathf.Abs(damageSpeedThreshold);
+            // Если игрок в воздухе и падает — обновляем максимальную скорость падения
+            if (!isGrounded && _rb.linearVelocity.y < _maxFallSpeed)
+            {
+                _maxFallSpeed = _rb.linearVelocity.y;
+            }
 
-        // Если разница отрицательная — урона быть не должно
-        if (speedOverThreshold <= 0)
-            return;
+            // Если только что коснулся земли (только что приземлился)
+            if (isGrounded && !_wasGrounded)
+            {
+                // Проверяем, превысил ли скорость падения порог
+                if (_maxFallSpeed <= damageSpeedThreshold)
+                {
+                    ApplyFallDamage();
+                }
 
-        // Урон = превышение скорости × модификатор
-        int damage = Mathf.RoundToInt(speedOverThreshold * damageModifier);
+                // Сбрасываем значение для следующего падения
+                _maxFallSpeed = 0;
+            }
 
-        Debug.Log($"[FallDamage] Player hit the ground! Speed: {maxFallSpeed:F2}, Damage: {damage}");
+            // Запоминаем состояние касания земли для следующего кадра
+            _wasGrounded = isGrounded;
+        }
 
-        // Применяем урон через модель здоровья
-        healthController.Model.TakeDamage(damage);
-        healthController.Model.OnDeath();
+        /// <summary>
+        /// Проверяет, стоит ли игрок на земле, используя Raycast вниз.
+        /// </summary>
+        private bool CheckGrounded(Vector3 rayStart)
+        {
+            return Physics.Raycast(rayStart, Vector3.down, raycastDistance, groundLayer);
+        }
 
-        // Обновляем визуальный индикатор здоровья
-        healthController.healthBarView.UpdateHealthBar(
-            healthController.Model.currentHealth,
-            healthController.Model.maxHealth
-        );
-    }
+        /// <summary>
+        /// Рассчитывает и применяет урон при падении.
+        /// </summary>
+        private void ApplyFallDamage()
+        {
+            // Разница между фактической скоростью и порогом
+            float speedOverThreshold = Mathf.Abs(_maxFallSpeed) - Mathf.Abs(damageSpeedThreshold);
 
-    /// <summary>
-    /// Рисует луч в редакторе для отладки (красная линия вниз).
-    /// </summary>
-    private void OnDrawGizmosSelected()
-    {
-        if (raycastOrigin == null)
-            return;
+            // Если разница отрицательная — урона быть не должно
+            if (speedOverThreshold <= 0)
+                return;
 
-        Gizmos.color = Color.red;
-        Gizmos.DrawRay(raycastOrigin.position, Vector3.down * raycastDistance);
+            // Урон = превышение скорости × модификатор
+            int damage = Mathf.RoundToInt(speedOverThreshold * damageModifier);
+
+            // Debug.Log($"[FallDamage] Player hit the ground! Speed: {_maxFallSpeed:F2}, Damage: {damage}");
+
+            // Применяем урон через модель здоровья
+            _healthController.takeDamage?.Invoke(damage);
+        }
+
+        /// <summary>
+        /// Рисует луч в редакторе для отладки (красная линия вниз).
+        /// </summary>
+        private void OnDrawGizmosSelected()
+        {
+            if (raycastOrigin == null)
+                return;
+
+            Gizmos.color = Color.red;
+            Gizmos.DrawRay(raycastOrigin.position, Vector3.down * raycastDistance);
+        }
     }
 }
