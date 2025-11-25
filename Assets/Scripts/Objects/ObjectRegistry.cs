@@ -69,7 +69,28 @@ public class ObjectRegistry : MonoBehaviour
             _objectsByCategory[obj.category].Remove(obj);
         }
     }
+    // ObjectRegistry.cs
+    public LayerMask GetScannableLayerMask()
+    {
+        var layers = new HashSet<int>();
+        foreach (var list in _objectsByCategory.Values)
+        {
+            foreach (var obj in list)
+            {
+                if (obj != null)
+                {
+                    layers.Add(obj.gameObject.layer);
+                }
+            }
+        }
 
+        LayerMask mask = 0;
+        foreach (int layer in layers)
+        {
+            mask |= (1 << layer);
+        }
+        return mask;
+    }
     public int GetRemainingCount(DataCategory category)
     {
         if (_objectsByCategory.TryGetValue(category, out var list))

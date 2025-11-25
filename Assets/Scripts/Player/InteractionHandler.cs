@@ -9,7 +9,7 @@ public class InteractionHandler : MonoBehaviour
 
     [Header("Настройки Raycast")]
     public float interactDistance = 3f;
-    public LayerMask interactableLayer;
+    // public LayerMask interactableLayer;
 
     [SerializeField] private InteractionHintUI interactionHint;
     
@@ -125,17 +125,20 @@ public class InteractionHandler : MonoBehaviour
         
             // Отключаем взаимодействие (но объект остаётся видимым)
             target.DisableInteraction();
+            MinigameReportUI.Instance?.ShowSuccessReport(target);
         }
         else
         {
+            string failureReason = "Сканирование не удалось";
+            MinigameReportUI.Instance?.ShowFailureReport(target, failureReason);
             if (currentTool?.destroyObjectOnFailure == true)
             {
-                // ✅ Удаляем из реестра при провале
+                
                 ObjectRegistry.Instance?.UnregisterObject(target);
                 DataCollectionEvents.RaiseObjectDestroyed(target.category);
                 Destroy(target.gameObject);
             }
-            // Если destroyObjectOnFailure = false, объект остаётся в реестре (можно повторить)
+            
         }
 
         controller.Cleanup();
@@ -144,8 +147,11 @@ public class InteractionHandler : MonoBehaviour
 
     private bool TryGetTarget(out ScannableObject obj)
     {
+        // Получаем актуальный LayerMask из реестра
+        LayerMask scanLayerMask = ObjectRegistry.Instance?.GetScannableLayerMask() ?? 0;
+
         Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
-        if (Physics.Raycast(ray, out RaycastHit hit, interactDistance, interactableLayer))
+        if (Physics.Raycast(ray, out RaycastHit hit, interactDistance, scanLayerMask))
         {
             obj = hit.collider.GetComponent<ScannableObject>();
             return obj != null && hit.collider.enabled;

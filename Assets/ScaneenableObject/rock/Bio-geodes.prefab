@@ -75,8 +75,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   category: 6
   rarity: 3
-  displayName: "\u041D\u0435\u0438\u0437\u0432\u0435\u0441\u0442\u043D\u044B\u0439
-    \u043E\u0431\u044A\u0435\u043A\u0442"
+  displayName: "\u0411\u0438\u043E-\u0433\u0435\u043E\u0434\u044B"
 --- !u!1001 &318889825536093387
 PrefabInstance:
   m_ObjectHideFlags: 0

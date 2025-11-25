@@ -53,15 +53,13 @@ public class QuestController : MonoBehaviour
             var objects = ObjectRegistry.Instance.GetObjects(t.goalCategory);
             if (objects.Count == 0) continue;
 
-            // 🔥 Определяем редкость на основе доступных объектов
             var rarities = objects.Where(o => o != null).Select(o => o.rarity).ToList();
             int minRarity = rarities.Min();
             int maxRarity = rarities.Max();
-
-            // 🔥 Определяем количество целей (например, 30-70% от общего числа)
+            
             int totalCount = objects.Count;
-            int minCount = Mathf.Max(1, Mathf.CeilToInt(totalCount * 0.3f));
-            int maxCount = Mathf.Min(totalCount, Mathf.FloorToInt(totalCount * 0.7f));
+            int minCount = Mathf.Max(1, Mathf.CeilToInt(totalCount * 0.1f));
+            int maxCount = Mathf.Min(totalCount, Mathf.FloorToInt(totalCount * 0.3f));
             int requiredCount = Random.Range(minCount, maxCount + 1);
 
             model.ActiveQuests.Add(new ActiveQuest

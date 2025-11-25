@@ -184,8 +184,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   category: 1
   rarity: 2
-  displayName: "\u041D\u0435\u0438\u0437\u0432\u0435\u0441\u0442\u043D\u044B\u0439
-    \u043E\u0431\u044A\u0435\u043A\u0442"
+  displayName: "\u0421\u0438\u043C\u0431\u0438\u043E\u0442\u0438\u0447\u0435\u0441\u043A\u0438\u0435
+    \u0437\u0430\u0440\u043E\u0441\u043B\u0438"
 --- !u!1001 &1658589015086923049
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -334,7 +334,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   category: 1
   rarity: 2
-  displayName: 
+  displayName: "\u0421\u0438\u043C\u0431\u0438\u043E\u0442\u0438\u0447\u0435\u0441\u043A\u0438\u0435
+    \u0437\u0430\u0440\u043E\u0441\u043B\u0438"
 --- !u!1001 &4458264132174428986
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -478,8 +479,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   category: 1
   rarity: 2
-  displayName: "\u041D\u0435\u0438\u0437\u0432\u0435\u0441\u0442\u043D\u044B\u0439
-    \u043E\u0431\u044A\u0435\u043A\u0442"
+  displayName: "\u0421\u0438\u043C\u0431\u0438\u043E\u0442\u0438\u0447\u0435\u0441\u043A\u0438\u0435
+    \u0437\u0430\u0440\u043E\u0441\u043B\u0438"
 --- !u!4 &4203079898214063313 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: c538332ccab997c4bab832776600d753, type: 3}
@@ -628,8 +629,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   category: 1
   rarity: 2
-  displayName: "\u041D\u0435\u0438\u0437\u0432\u0435\u0441\u0442\u043D\u044B\u0439
-    \u043E\u0431\u044A\u0435\u043A\u0442"
+  displayName: "\u0421\u0438\u043C\u0431\u0438\u043E\u0442\u0438\u0447\u0435\u0441\u043A\u0438\u0435
+    \u0437\u0430\u0440\u043E\u0441\u043B\u0438"
 --- !u!4 &5568979360482540588 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: c538332ccab997c4bab832776600d753, type: 3}
@@ -778,8 +779,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   category: 1
   rarity: 2
-  displayName: "\u041D\u0435\u0438\u0437\u0432\u0435\u0441\u0442\u043D\u044B\u0439
-    \u043E\u0431\u044A\u0435\u043A\u0442"
+  displayName: "\u0421\u0438\u043C\u0431\u0438\u043E\u0442\u0438\u0447\u0435\u0441\u043A\u0438\u0435
+    \u0437\u0430\u0440\u043E\u0441\u043B\u0438"
 --- !u!4 &5389194304554878472 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: c538332ccab997c4bab832776600d753, type: 3}

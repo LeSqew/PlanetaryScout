@@ -185,8 +185,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   category: 2
   rarity: 1
-  displayName: "\u041D\u0435\u0438\u0437\u0432\u0435\u0441\u0442\u043D\u044B\u0439
-    \u043E\u0431\u044A\u0435\u043A\u0442"
+  displayName: "\u041C\u0445\u0438-\u0433\u0440\u0438\u0431\u043A\u0438"
 --- !u!1001 &1580069421805137989
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -335,8 +334,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   category: 2
   rarity: 1
-  displayName: "\u041D\u0435\u0438\u0437\u0432\u0435\u0441\u0442\u043D\u044B\u0439
-    \u043E\u0431\u044A\u0435\u043A\u0442"
+  displayName: "\u041C\u0445\u0438-\u0433\u0440\u0438\u0431\u043A\u0438"
 --- !u!1001 &1932178651288448927
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -480,8 +478,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   category: 2
   rarity: 1
-  displayName: "\u041D\u0435\u0438\u0437\u0432\u0435\u0441\u0442\u043D\u044B\u0439
-    \u043E\u0431\u044A\u0435\u043A\u0442"
+  displayName: "\u041C\u0445\u0438-\u0433\u0440\u0438\u0431\u043A\u0438"
 --- !u!4 &2115217665220495476 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: deff750622d07c54693c12ca24048831, type: 3}
@@ -630,8 +627,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   category: 2
   rarity: 1
-  displayName: "\u041D\u0435\u0438\u0437\u0432\u0435\u0441\u0442\u043D\u044B\u0439
-    \u043E\u0431\u044A\u0435\u043A\u0442"
+  displayName: "\u041C\u0445\u0438-\u0433\u0440\u0438\u0431\u043A\u0438"
 --- !u!4 &1887228830643460683 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: deff750622d07c54693c12ca24048831, type: 3}
@@ -780,8 +776,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   category: 2
   rarity: 1
-  displayName: "\u041D\u0435\u0438\u0437\u0432\u0435\u0441\u0442\u043D\u044B\u0439
-    \u043E\u0431\u044A\u0435\u043A\u0442"
+  displayName: "\u041C\u0445\u0438-\u0433\u0440\u0438\u0431\u043A\u0438"
 --- !u!4 &4345484612962129309 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: deff750622d07c54693c12ca24048831, type: 3}
@@ -930,8 +925,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   category: 2
   rarity: 1
-  displayName: "\u041D\u0435\u0438\u0437\u0432\u0435\u0441\u0442\u043D\u044B\u0439
-    \u043E\u0431\u044A\u0435\u043A\u0442"
+  displayName: "\u041C\u0445\u0438-\u0433\u0440\u0438\u0431\u043A\u0438"
 --- !u!4 &6612442927295857676 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: deff750622d07c54693c12ca24048831, type: 3}

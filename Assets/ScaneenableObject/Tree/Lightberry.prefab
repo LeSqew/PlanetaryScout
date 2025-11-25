@@ -3156,8 +3156,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   category: 0
   rarity: 2
-  displayName: "\u041D\u0435\u0438\u0437\u0432\u0435\u0441\u0442\u043D\u044B\u0439
-    \u043E\u0431\u044A\u0435\u043A\u0442"
+  displayName: Lightberry
 --- !u!4 &6665996411987065563 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 130be00048ba5d94aaa11835a1621ea9, type: 3}
@@ -3302,8 +3301,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   category: 0
   rarity: 2
-  displayName: "\u041D\u0435\u0438\u0437\u0432\u0435\u0441\u0442\u043D\u044B\u0439
-    \u043E\u0431\u044A\u0435\u043A\u0442"
+  displayName: Lightberry
 --- !u!4 &6559125927482929791 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 130be00048ba5d94aaa11835a1621ea9, type: 3}
@@ -3453,8 +3451,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   category: 0
   rarity: 2
-  displayName: "\u041D\u0435\u0438\u0437\u0432\u0435\u0441\u0442\u043D\u044B\u0439
-    \u043E\u0431\u044A\u0435\u043A\u0442"
+  displayName: Lightberry
 --- !u!1001 &7669017071315403477
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3750,8 +3747,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   category: 0
   rarity: 2
-  displayName: "\u041D\u0435\u0438\u0437\u0432\u0435\u0441\u0442\u043D\u044B\u0439
-    \u043E\u0431\u044A\u0435\u043A\u0442"
+  displayName: Lightberry
 --- !u!4 &7828476573575708180 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 130be00048ba5d94aaa11835a1621ea9, type: 3}
