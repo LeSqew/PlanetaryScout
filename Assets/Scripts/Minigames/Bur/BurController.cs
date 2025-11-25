@@ -80,7 +80,7 @@ public class BurController : MonoBehaviour, IMinigameController
         view.SetPointNormalized(model.Position);
         view.ShowWinScreen(false);
         view.ShowLoseScreen(false);
-        view.SetStatusText("������� ��� � ������� ����!");
+        view.SetStatusText("Держите бур в зеленой зоне!");
 
         gameObject.SetActive(true);
     }
@@ -144,11 +144,11 @@ public class BurController : MonoBehaviour, IMinigameController
     {
         if (inGreen)
         {
-            view.SetTimerText($"�� ��������: {timeLeft:F1}�", true);
+            view.SetTimerText($"До раскопки: {timeLeft:F1}с", true);
         }
         else
         {
-            view.SetTimerText($"�� �������: {timeLeft:F1}�", false);
+            view.SetTimerText($"До поломки: {timeLeft:F1}с", false);
         }
     }
 
@@ -158,7 +158,7 @@ public class BurController : MonoBehaviour, IMinigameController
         _isCompleted = true;
 
         view.ShowWinScreen(true);
-        view.SetStatusText("�������� ��������!");
+        view.SetStatusText("Успешная раскопка!");
         _onFinishedCallback?.Invoke(true, _currentTarget);
         StartCoroutine(DelayedCleanup(2f));
     }
@@ -169,7 +169,7 @@ public class BurController : MonoBehaviour, IMinigameController
         _isCompleted = true;
 
         view.ShowLoseScreen(true);
-        view.SetStatusText("��� ��������!");
+        view.SetStatusText("Бур сломался!");
         _onFinishedCallback?.Invoke(false, _currentTarget);
         StartCoroutine(DelayedCleanup(2f));
     }
