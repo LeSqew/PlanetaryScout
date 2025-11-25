@@ -1704,6 +1704,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6116009473059493204}
   - component: {fileID: -3543800002137102688}
+  - component: {fileID: 4884584088305292609}
   m_Layer: 7
   m_Name: Lightberry
   m_TagString: Untagged
@@ -1778,6 +1779,27 @@ MonoBehaviour:
   rarity: 2
   displayName: "\u041D\u0435\u0438\u0437\u0432\u0435\u0441\u0442\u043D\u044B\u0439
     \u043E\u0431\u044A\u0435\u043A\u0442"
+--- !u!65 &4884584088305292609
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7218614267430427510}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 30, y: 1, z: 30}
+  m_Center: {x: 0, y: 0, z: 5}
 --- !u!1 &8100844245411667871
 GameObject:
   m_ObjectHideFlags: 0

@@ -118,9 +118,6 @@
                     "name": "ThrowStone",
                     "type": "Button",
                     "id": "c5a626dd-4b08-48ec-b33e-33e8bcaeb1a4",
-                    "name": "ToggleDrone",
-                    "type": "Button",
-                    "id": "577195c8-bc25-4097-9c8f-59763c6c104a",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -130,6 +127,15 @@
                     "name": "ToggleJournal",
                     "type": "Button",
                     "id": "9fcefe63-6905-453a-b814-eb5ab9bdf3c7",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Death",
+                    "type": "Button",
+                    "id": "8a1b7c7f-abe0-40db-ac7e-c0b214fafefa",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -607,12 +613,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "ThrowStone",
-                    "id": "5384c210-50ce-4e48-9518-dd4d47f38d75",
-                    "path": "<Keyboard>/q",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ToggleDrone",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -624,6 +624,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "ToggleJournal",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "afc86ed7-3337-403d-8c09-76df9281e73d",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Death",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1fe98b9a-b4de-409a-8012-507939b16137",
+                    "path": "<Keyboard>/period",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "Death",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

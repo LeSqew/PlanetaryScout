@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 550376790124014474}
   - component: {fileID: 1474025257963745082}
+  - component: {fileID: 2713984174365917664}
   m_Layer: 7
   m_Name: 'Forest field '
   m_TagString: Untagged
@@ -26,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 7536524262103583316}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 35.697945, y: 3.115408, z: -29.063528}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -81,6 +82,27 @@ MonoBehaviour:
   rarity: 1
   displayName: "\u041D\u0435\u0438\u0437\u0432\u0435\u0441\u0442\u043D\u044B\u0439
     \u043E\u0431\u044A\u0435\u043A\u0442"
+--- !u!65 &2713984174365917664
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7536524262103583316}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 30, y: 0.1, z: 80}
+  m_Center: {x: 10, y: 0, z: 10}
 --- !u!1001 &147655911296714978
 PrefabInstance:
   m_ObjectHideFlags: 0

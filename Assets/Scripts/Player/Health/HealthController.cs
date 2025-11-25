@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
 
 namespace Player.Health
 {
@@ -19,6 +20,8 @@ namespace Player.Health
 
         public UnityEvent stopRegeneration;
         // Start is called once before the first execution of Update after the MonoBehaviour is created
+
+        public InputActionReference deathButton;
         private void Awake()
         {
             _model = new HealthModel(hpSettings);
@@ -34,6 +37,7 @@ namespace Player.Health
 
         private void Update()
         {
+            if (deathButton.action.IsPressed()) takeDamage.Invoke(_model.CurrentHealth);
             if (IsFullHp)
             {
                 stopRegeneration?.Invoke();

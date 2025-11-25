@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -19,8 +20,17 @@ public class MainMenu : MonoBehaviour
 
     private void Start()
     {
+        Cursor.visible = true;
+        // SetupButtonListeners();
+        educationPanel.SetActive(false);
+    }
+
+    private void Awake()
+    {
+        Cursor.visible = true;
         SetupButtonListeners();
         educationPanel.SetActive(false);
+        GetComponent<CursorController>().EnableCursor();
     }
 
     private void SetupButtonListeners()
@@ -31,7 +41,7 @@ public class MainMenu : MonoBehaviour
         backButton.onClick.AddListener(OnBackButtonClicked);
     }
 
-    //Запуск следующей сцены по их порядку в билде
+    //пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ
     public void OnPlayButtonClicked()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);

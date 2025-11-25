@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2344084089008962808}
   - component: {fileID: -2495328542270578396}
+  - component: {fileID: 4215524475293680272}
   m_Layer: 7
   m_Name: Light flowers
   m_TagString: Untagged
@@ -58,6 +59,27 @@ MonoBehaviour:
   rarity: 2
   displayName: "\u041D\u0435\u0438\u0437\u0432\u0435\u0441\u0442\u043D\u044B\u0439
     \u043E\u0431\u044A\u0435\u043A\u0442"
+--- !u!65 &4215524475293680272
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 497546229034961602}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 10, y: 0.1, z: 10}
+  m_Center: {x: 4, y: 0, z: -3}
 --- !u!1 &4971114204325069035
 GameObject:
   m_ObjectHideFlags: 0
