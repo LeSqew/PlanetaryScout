@@ -43,49 +43,39 @@ public class QuestController : MonoBehaviour
             .Where(t => t.faction == Faction.None)
             .Where(t => t.biome == biome)
             .Where(t => !t.requiresWeather || t.weather == weather)
-            .GroupBy(t => new { t.goalCategory, t.biome, t.minRarity, t.maxRarity })
+            .GroupBy(t => t.goalCategory) // ← группировка только по категории
             .Select(g => g.First())
             .OrderBy(_ => Random.value)
             .Take(3);
 
         foreach (var t in candidates)
         {
-            int availableCount = ObjectRegistry.Instance.GetRemainingCount(t.goalCategory);
-        
-            // 🔥 Вычисляем количество целей на основе доступных объектов
-            int actualCount = CalculateQuestCount(t, availableCount);
-        
-            // Пропускаем квест, если нет объектов
-            if (actualCount <= 0) continue;
+            var objects = ObjectRegistry.Instance.GetObjects(t.goalCategory);
+            if (objects.Count == 0) continue;
 
-            model.ActiveQuests.Add(new ActiveQuest {
+            // 🔥 Определяем редкость на основе доступных объектов
+            var rarities = objects.Where(o => o != null).Select(o => o.rarity).ToList();
+            int minRarity = rarities.Min();
+            int maxRarity = rarities.Max();
+
+            // 🔥 Определяем количество целей (например, 30-70% от общего числа)
+            int totalCount = objects.Count;
+            int minCount = Mathf.Max(1, Mathf.CeilToInt(totalCount * 0.3f));
+            int maxCount = Mathf.Min(totalCount, Mathf.FloorToInt(totalCount * 0.7f));
+            int requiredCount = Random.Range(minCount, maxCount + 1);
+
+            model.ActiveQuests.Add(new ActiveQuest
+            {
                 template = t,
-                requiredCount = actualCount
+                requiredCount = requiredCount,
+                minRarity = minRarity,
+                maxRarity = maxRarity
             });
         }
 
         journalUI.Refresh(model.ActiveQuests);
     }
     
-    private int CalculateQuestCount(QuestTemplate template, int availableCount)
-    {
-        if (availableCount <= 0) return 0;
-
-        // Для редких объектов — меньше целей
-        int adjustedMax = template.maxTargetCount;
-        if (template.minRarity > 2) // редкость 3-4
-        {
-            adjustedMax = Mathf.Min(adjustedMax, 2);
-        }
-
-        int min = Mathf.Max(1, template.minTargetCount);
-        int max = Mathf.Min(availableCount, adjustedMax);
-
-        if (availableCount < min) return Mathf.Min(1, availableCount);
-        if (min > max) min = max;
-
-        return Random.Range(min, max + 1);
-    }
     void OnQuestCompleted(ActiveQuest quest)
     {
         if (quest.status == QuestStatus.Completed)

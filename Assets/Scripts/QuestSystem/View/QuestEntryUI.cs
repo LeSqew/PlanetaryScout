@@ -1,3 +1,4 @@
+// QuestEntryUI.cs
 using UnityEngine;
 using TMPro;
 
@@ -24,10 +25,18 @@ public class QuestEntryUI : MonoBehaviour
             rarityText.color = Color.white;
         }
 
-        var rarity = "";
-        if (quest.template.minRarity == quest.template.maxRarity) rarity = quest.template.minRarity.ToString(); 
-        else rarity = $"{quest.template.minRarity}-{quest.template.maxRarity}";
+        // 🔥 Теперь читаем редкость из ActiveQuest, а не из template
+        string rarity;
+        if (quest.minRarity == quest.maxRarity)
+        {
+            rarity = quest.minRarity.ToString();
+        }
+        else
+        {
+            rarity = $"{quest.minRarity}-{quest.maxRarity}";
+        }
         rarityText.text = $"Редкость: {rarity}";
+
         if (quest.status == QuestStatus.Failed)
         {
             rarityText.color = Color.gray;

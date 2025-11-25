@@ -14,10 +14,6 @@ public class QuestTemplate : ScriptableObject
 
     [Header("Цель")]
     public DataCategory goalCategory;
-    [Range(1, 10)] public int minTargetCount = 3;
-    [Range(1, 10)] public int maxTargetCount = 6;
-    [Range(1, 4)] public int minRarity = 1;
-    [Range(1, 4)] public int maxRarity = 2;
 
     [Header("Источник")]
     public Faction faction = Faction.None;
