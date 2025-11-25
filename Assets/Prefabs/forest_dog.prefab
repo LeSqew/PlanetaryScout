@@ -14,8 +14,8 @@ GameObject:
   - component: {fileID: 2047116668019621171}
   - component: {fileID: 5622416049481473878}
   - component: {fileID: 7669742612492066973}
-  - component: {fileID: 6347404773917082040}
   - component: {fileID: 7194866462146218179}
+  - component: {fileID: 6347404773917082040}
   m_Layer: 6
   m_Name: forest_dog
   m_TagString: Untagged
@@ -172,6 +172,18 @@ MonoBehaviour:
   dogAlarmSpeed: 8
   dogCalmSpeed: 2
   view: {fileID: 7194866462146218179}
+--- !u!114 &7194866462146218179
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8091497934336392650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5d296009fb291c43b2014216631c73b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!54 &6347404773917082040
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -199,15 +211,3 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 64
   m_CollisionDetection: 0
---- !u!114 &7194866462146218179
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8091497934336392650}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5d296009fb291c43b2014216631c73b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

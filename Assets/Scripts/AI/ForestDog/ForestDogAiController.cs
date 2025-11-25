@@ -1,3 +1,4 @@
+using Player.Health;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
@@ -72,7 +73,7 @@ public class ForestDogAiController : MonoBehaviour
 
     public void OnHearingSound(Vector3 soundPosition)
     {
-        // Прекращаем текущее патрулирование и идём к звуку
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ
         state = ForestDogAiModel.state.checking_sound;
         agent.SetDestination(soundPosition);
         agent.speed = dogAlarmSpeed;
@@ -89,7 +90,7 @@ public class ForestDogAiController : MonoBehaviour
     {
         state = ForestDogAiModel.state.waiting_after_bite;
 
-        healthController.ApplyDamage(DogAttackDamage);
+        healthController.takeDamage?.Invoke(DogAttackDamage);
 
         view.PlayDogAttackAnimation();
 

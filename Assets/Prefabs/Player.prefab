@@ -415,7 +415,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fillImage: {fileID: 7235081550252690782}
   timerText: {fileID: 0}
-  maxTime: 60
+  maxTime: 1200
 --- !u!114 &6908114419153899184
 MonoBehaviour:
   m_ObjectHideFlags: 0
