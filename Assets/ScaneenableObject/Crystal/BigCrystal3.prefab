@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8184626403017180145}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: BigCrystal3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -106,7 +106,7 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 748145120801198448, guid: be19e51b1bdeb2749b8c785c4716436a, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 615679675694740303}
+      addedObject: {fileID: 6839913025003246812}
   m_SourcePrefab: {fileID: 100100000, guid: be19e51b1bdeb2749b8c785c4716436a, type: 3}
 --- !u!4 &8644469777606242918 stripped
 Transform:
@@ -118,7 +118,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 748145120801198448, guid: be19e51b1bdeb2749b8c785c4716436a, type: 3}
   m_PrefabInstance: {fileID: 8565127259301460396}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &615679675694740303
+--- !u!114 &6839913025003246812
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -132,5 +132,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   category: 5
   rarity: 3
-  displayName: "\u041D\u0435\u0438\u0437\u0432\u0435\u0441\u0442\u043D\u044B\u0439
-    \u043E\u0431\u044A\u0435\u043A\u0442"
+  displayName: "Big \u043A\u0440\u0438\u0441\u0442\u0430\u043B\u043B"

@@ -137,7 +137,7 @@ PrefabInstance:
       addedObject: {fileID: 385488423439724927}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c538332ccab997c4bab832776600d753, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 7749228036790019645}
+      addedObject: {fileID: 3451191113994201148}
   m_SourcePrefab: {fileID: 100100000, guid: c538332ccab997c4bab832776600d753, type: 3}
 --- !u!4 &527506596920817448 stripped
 Transform:
@@ -170,7 +170,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.0329298, y: 0.03859699, z: 0.030345}
   m_Center: {x: -0.0021535298, y: 0.01587206, z: -0.0003369907}
---- !u!114 &7749228036790019645
+--- !u!114 &3451191113994201148
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -184,8 +184,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   category: 1
   rarity: 2
-  displayName: "\u041D\u0435\u0438\u0437\u0432\u0435\u0441\u0442\u043D\u044B\u0439
-    \u043E\u0431\u044A\u0435\u043A\u0442"
+  displayName: "\u0421\u0438\u043C\u0431\u0438\u043E\u0442\u0438\u0447\u0435\u0441\u043A\u0438\u0435
+    \u0437\u0430\u0440\u043E\u0441\u043B\u0438"
 --- !u!1001 &1658589015086923049
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -287,7 +287,7 @@ PrefabInstance:
       addedObject: {fileID: 2696582504029521298}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c538332ccab997c4bab832776600d753, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 745415262493195782}
+      addedObject: {fileID: 5802906465726921288}
   m_SourcePrefab: {fileID: 100100000, guid: c538332ccab997c4bab832776600d753, type: 3}
 --- !u!4 &1193107102208596674 stripped
 Transform:
@@ -320,7 +320,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.0329298, y: 0.03859699, z: 0.030345}
   m_Center: {x: -0.0021535298, y: 0.01587206, z: -0.0003369907}
---- !u!114 &745415262493195782
+--- !u!114 &5802906465726921288
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -334,8 +334,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   category: 1
   rarity: 2
-  displayName: "\u041D\u0435\u0438\u0437\u0432\u0435\u0441\u0442\u043D\u044B\u0439
-    \u043E\u0431\u044A\u0435\u043A\u0442"
+  displayName: "\u0421\u0438\u043C\u0431\u0438\u043E\u0442\u0438\u0447\u0435\u0441\u043A\u0438\u0435
+    \u0437\u0430\u0440\u043E\u0441\u043B\u0438"
 --- !u!1001 &4458264132174428986
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -437,7 +437,7 @@ PrefabInstance:
       addedObject: {fileID: 2162836157655938347}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c538332ccab997c4bab832776600d753, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 5383045320424863490}
+      addedObject: {fileID: 8870554829263699718}
   m_SourcePrefab: {fileID: 100100000, guid: c538332ccab997c4bab832776600d753, type: 3}
 --- !u!1 &3539695487157405291 stripped
 GameObject:
@@ -465,7 +465,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.0329298, y: 0.03859699, z: 0.030345}
   m_Center: {x: -0.0021535298, y: 0.01587206, z: -0.0003369907}
---- !u!114 &5383045320424863490
+--- !u!114 &8870554829263699718
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -479,8 +479,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   category: 1
   rarity: 2
-  displayName: "\u041D\u0435\u0438\u0437\u0432\u0435\u0441\u0442\u043D\u044B\u0439
-    \u043E\u0431\u044A\u0435\u043A\u0442"
+  displayName: "\u0421\u0438\u043C\u0431\u0438\u043E\u0442\u0438\u0447\u0435\u0441\u043A\u0438\u0435
+    \u0437\u0430\u0440\u043E\u0441\u043B\u0438"
 --- !u!4 &4203079898214063313 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: c538332ccab997c4bab832776600d753, type: 3}
@@ -587,7 +587,7 @@ PrefabInstance:
       addedObject: {fileID: 5548436529190479580}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c538332ccab997c4bab832776600d753, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 829155165622636162}
+      addedObject: {fileID: 7948542389748133422}
   m_SourcePrefab: {fileID: 100100000, guid: c538332ccab997c4bab832776600d753, type: 3}
 --- !u!1 &5044926122970277526 stripped
 GameObject:
@@ -615,7 +615,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.0329298, y: 0.03859699, z: 0.030345}
   m_Center: {x: -0.0021535298, y: 0.01587206, z: -0.0003369907}
---- !u!114 &829155165622636162
+--- !u!114 &7948542389748133422
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -629,8 +629,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   category: 1
   rarity: 2
-  displayName: "\u041D\u0435\u0438\u0437\u0432\u0435\u0441\u0442\u043D\u044B\u0439
-    \u043E\u0431\u044A\u0435\u043A\u0442"
+  displayName: "\u0421\u0438\u043C\u0431\u0438\u043E\u0442\u0438\u0447\u0435\u0441\u043A\u0438\u0435
+    \u0437\u0430\u0440\u043E\u0441\u043B\u0438"
 --- !u!4 &5568979360482540588 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: c538332ccab997c4bab832776600d753, type: 3}
@@ -737,7 +737,7 @@ PrefabInstance:
       addedObject: {fileID: 5352173835521164919}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c538332ccab997c4bab832776600d753, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 7797607741678722173}
+      addedObject: {fileID: 4040561957073896458}
   m_SourcePrefab: {fileID: 100100000, guid: c538332ccab997c4bab832776600d753, type: 3}
 --- !u!1 &4720215539215834290 stripped
 GameObject:
@@ -765,7 +765,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.0329298, y: 0.03859699, z: 0.030345}
   m_Center: {x: -0.0021535298, y: 0.01587206, z: -0.0003369907}
---- !u!114 &7797607741678722173
+--- !u!114 &4040561957073896458
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -779,8 +779,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   category: 1
   rarity: 2
-  displayName: "\u041D\u0435\u0438\u0437\u0432\u0435\u0441\u0442\u043D\u044B\u0439
-    \u043E\u0431\u044A\u0435\u043A\u0442"
+  displayName: "\u0421\u0438\u043C\u0431\u0438\u043E\u0442\u0438\u0447\u0435\u0441\u043A\u0438\u0435
+    \u0437\u0430\u0440\u043E\u0441\u043B\u0438"
 --- !u!4 &5389194304554878472 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: c538332ccab997c4bab832776600d753, type: 3}
