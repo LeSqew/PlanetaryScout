@@ -20,6 +20,7 @@ public class MainMenu : MonoBehaviour
     private void Start()
     {
         SetupButtonListeners();
+        educationPanel.SetActive(false);
     }
 
     private void SetupButtonListeners()
@@ -44,8 +45,8 @@ public class MainMenu : MonoBehaviour
 
     public void OnBackButtonClicked()
     {
-        educationPanel.SetActive(false);
         mainMenuPanel.SetActive(true);
+        educationPanel.SetActive(false);
     }
 
     public void OnExitButtonClicked()
