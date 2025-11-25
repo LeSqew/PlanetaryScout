@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public class QuestModel
 {
@@ -23,6 +24,14 @@ public class QuestModel
             }
         }
         return changed;
+    }
+    
+    public bool AreAllQuestsCompletedOrFailed()
+    {
+        return ActiveQuests.Count == 0 || 
+               ActiveQuests.All(q => 
+                   q.status == QuestStatus.Completed || 
+                   q.status == QuestStatus.Failed);
     }
 
     public void Clear() => ActiveQuests.Clear();

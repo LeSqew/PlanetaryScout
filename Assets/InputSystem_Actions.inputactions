@@ -118,9 +118,15 @@
                     "name": "ToggleDrone",
                     "type": "Button",
                     "id": "577195c8-bc25-4097-9c8f-59763c6c104a",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "ToggleJournal",
                     "type": "Button",
-                    "id": "83bfe181-bc70-44d3-8958-2142416792bc",
+                    "id": "9fcefe63-6905-453a-b814-eb5ab9bdf3c7",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -598,7 +604,12 @@
                     "processors": "",
                     "groups": "",
                     "action": "ToggleDrone",
-                    "id": "39c7d9ee-41d1-4014-a6b7-50f78c2272c7",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8fb14609-fd4e-4e72-8267-bd7e7b220d5d",
                     "path": "<Keyboard>/tab",
                     "interactions": "",
                     "processors": "",

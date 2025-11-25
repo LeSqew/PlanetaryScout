@@ -1,94 +1,113 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 
-public class AnimalScanner : MonoBehaviour
+public class AnimalScanner : MonoBehaviour, IMinigameController
 {
     [Header("Scan Settings")]
-    [SerializeField] private float scanTime = 2f;              // Время удержания ЛКМ для завершения сканирования
-    [SerializeField] private Image scanProgressCircle;         // Круг вокруг курсора (UI Image)
-    [SerializeField] private Camera mainCamera;                // Камера, из которой будет идти луч
+    [SerializeField] private float scanTime = 2f;
+    [SerializeField] private float maxAngleDegrees = 5f; // угол для "в центре"
+    [SerializeField] private Image scanProgressCircle;
 
-    private float scanProgress = 0f;                           // Текущее заполнение круга (0–1)
-    private GameObject currentTarget;                          // Объект, на который наведен курсор
-    private bool isScanning = false;                           // Флаг состояния сканирования
+    private Camera _mainCamera;
+    private ScannableObject _target;
+    private float _progress = 0f;
+    private bool _isCompleted = false;
+    private Action<bool, ScannableObject> _onFinishedCallback;
 
-    private void Start()
+    public bool RequiresInputBlocking => false;
+
+    void Awake()
     {
-        // Автоматически находим основную камеру, если не назначена
-        if (mainCamera == null)
-            mainCamera = Camera.main;
-
-        // Сбрасываем круг
-        if (scanProgressCircle != null)
-            scanProgressCircle.fillAmount = 0f;
-    }
-
-    private void Update()
-    {
-        HandleScanning();
-        UpdateCirclePosition();
-    }
-
-    /// <summary>
-    /// Основная логика: наведение, удержание, сканирование.
-    /// </summary>
-    private void HandleScanning()
-    {
-        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-
-        // Проверяем, попал ли луч в объект с тегом Animal
-        if (Physics.Raycast(ray, out RaycastHit hit) && hit.collider.CompareTag("Animal"))
+        _mainCamera = Camera.main;
+        if (_mainCamera == null)
         {
-            currentTarget = hit.collider.gameObject;
+            Debug.LogError("Камера не найдена!");
+        }
+    }
 
-            // Если ЛКМ удерживается — заполняем круг
-            if (Input.GetMouseButton(0))
+    void Start()
+    {
+        if (scanProgressCircle != null)
+        {
+            scanProgressCircle.fillAmount = 0f;
+            scanProgressCircle.transform.position = new Vector2(Screen.width * 0.5f, Screen.height * 0.5f);
+        }
+    }
+
+    void Update()
+    {
+        if (_isCompleted || _target == null || _mainCamera == null) return;
+
+        // Проверяем, в центре ли сейчас цель
+        bool isInCenter = IsTargetInCenter();
+
+        if (Input.GetMouseButton(0))
+        {
+            if (isInCenter)
             {
-                isScanning = true;
-                scanProgress += Time.deltaTime / scanTime;
-                scanProgress = Mathf.Clamp01(scanProgress);
+                _progress += Time.deltaTime / scanTime;
+                _progress = Mathf.Clamp01(_progress);
 
                 if (scanProgressCircle != null)
-                    scanProgressCircle.fillAmount = scanProgress;
+                    scanProgressCircle.fillAmount = _progress;
 
-                // Скан завершён
-                if (scanProgress >= 1f)
+                if (_progress >= 1f)
                 {
-                    Debug.Log($"✅ Скан завершён: {currentTarget.name}");
-                    ResetScan();
+                    OnSuccess();
                 }
             }
             else
             {
-                // ЛКМ отпущена — сбрасываем прогресс
-                ResetScan();
+                ResetProgress();
             }
         }
         else
         {
-            // Курсор не наведен на животное — сброс
-            ResetScan();
+            ResetProgress();
         }
     }
 
-    /// <summary>
-    /// Обновляет позицию круга, чтобы он всегда был возле курсора.
-    /// </summary>
-    private void UpdateCirclePosition()
+    private bool IsTargetInCenter()
     {
-        if (scanProgressCircle != null)
-            scanProgressCircle.transform.position = Input.mousePosition;
+        Vector3 directionToTarget = (_target.transform.position - _mainCamera.transform.position).normalized;
+        float angle = Vector3.Angle(_mainCamera.transform.forward, directionToTarget);
+        return angle <= maxAngleDegrees;
     }
 
-    /// <summary>
-    /// Сбрасывает прогресс и состояние.
-    /// </summary>
-    private void ResetScan()
+    private void ResetProgress()
     {
-        isScanning = false;
-        scanProgress = 0f;
+        _progress = 0f;
+        if (scanProgressCircle != null)
+            scanProgressCircle.fillAmount = 0f;
+    }
+
+    // === IMinigameController ===
+    public void StartAnalysis(ScannableObject target, Action<bool, ScannableObject> onFinishedCallback)
+    {
+        _target = target;
+        _onFinishedCallback = onFinishedCallback;
+        _progress = 0f;
+        _isCompleted = false;
 
         if (scanProgressCircle != null)
             scanProgressCircle.fillAmount = 0f;
+
+        gameObject.SetActive(true);
+    }
+
+    public void Cleanup()
+    {
+        _isCompleted = true;
+        _target = null;
+        _onFinishedCallback = null;
+        Destroy(gameObject);
+    }
+
+    private void OnSuccess()
+    {
+        if (_isCompleted) return;
+        _isCompleted = true;
+        _onFinishedCallback?.Invoke(true, _target);
     }
 }

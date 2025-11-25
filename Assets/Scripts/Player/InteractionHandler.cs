@@ -5,11 +5,12 @@ public class InteractionHandler : MonoBehaviour
 {
     [Header("Ссылки на Системы")]
     [SerializeField] private InventoryController inventoryController;
-    // MinigameActivator больше не нужен, его логика здесь
 
     [Header("Настройки Raycast")]
     public float interactDistance = 3f;
     public LayerMask interactableLayer;
+
+    private GameObject gameInstance;
 
     // TODO: Привяжите этот метод к вашему Input Action (например, "UseTool")
     void Update() // Используем Update только для простоты демонстрации Raycast
@@ -43,8 +44,8 @@ public class InteractionHandler : MonoBehaviour
             return;
         }
 
-        // 3. Создание префаба и получение контроллера
-        GameObject gameInstance = Instantiate(currentTool.minigamePrefab);
+        if (gameInstance != null) Destroy(gameInstance);
+        gameInstance = Instantiate(currentTool.minigamePrefab);
         IMinigameController controller = gameInstance.GetComponent<IMinigameController>();
 
         if (controller == null)
@@ -53,31 +54,36 @@ public class InteractionHandler : MonoBehaviour
             Destroy(gameInstance);
             return;
         }
-
-        // 4. Запуск Мини-игры и передача Callback
-        controller.StartAnalysis(targetObject, (success, completedTarget) =>
+        if (controller.RequiresInputBlocking)
         {
-            HandleMinigameResult(success, completedTarget, controller);
+            MinigameManager.Instance.EnterMinigame();
+        }
+
+        controller.StartAnalysis(targetObject, (success, target) =>
+        {
+            HandleMinigameResult(success, target, controller, controller.RequiresInputBlocking);
         });
     }
 
     // Этот метод вызывается контроллером мини-игры по завершении
-    private void HandleMinigameResult(bool success, ScannableObject completedTarget, IMinigameController controller)
+    private void HandleMinigameResult(bool success, ScannableObject target, IMinigameController controller, bool wasInputBlocked)
     {
-        MinigameManager.Instance.ExitMinigame(); // Выход из глобального состояния
+        Debug.Log($"📥 HandleMinigameResult: success={success}, target={target?.category}");
+        if (wasInputBlocked)
+        {
+            MinigameManager.Instance.ExitMinigame();
+        }
 
         if (success)
         {
-            // Система квестов ловит это событие
-            completedTarget.OnScanCompleted();
-            // 💡 ВАЖНО: ScannableObject.OnScanCompleted() уже вызывает Destroy(gameObject)
+            target.OnScanCompleted();
         }
         else
         {
-            Debug.Log("Мини-игра провалена.");
+            if(target.category == DataCategory.Mineral)
+                target.DestroySelf();
         }
 
-        // 5. Очистка (уничтожение префаба мини-игры)
         controller.Cleanup();
     }
 

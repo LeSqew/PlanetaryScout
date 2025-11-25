@@ -1,6 +1,8 @@
+using System;
 using UnityEngine;
 using System.Linq;
 using System.Collections.Generic;
+using Random = UnityEngine.Random;
 
 public class QuestController : MonoBehaviour
 {
@@ -11,6 +13,8 @@ public class QuestController : MonoBehaviour
     public QuestJournalUI journalUI;
 
     private QuestModel model;
+    public bool AreAllQuestsCompletedOrFailed => model.AreAllQuestsCompletedOrFailed();
+    public static event Action OnAllQuestsCompleted;
 
     void Awake()
     {
@@ -62,6 +66,7 @@ public class QuestController : MonoBehaviour
         {
             model.ActiveQuests.Remove(quest);
             journalUI.Refresh(model.ActiveQuests);
+            CheckIfAllQuestsCompleted();
         }
     }
     void OnDataCollected(ScanResult result)
@@ -69,15 +74,12 @@ public class QuestController : MonoBehaviour
         if (model.ProcessScanResult(result))
         {
             journalUI.Refresh(model.ActiveQuests); // или обновить частично
+            CheckIfAllQuestsCompleted();
         }
     }
     
     private void OnObjectDestroyed(DataCategory category, int remainingCount)
     {
-        // var affectedQuests = model.ActiveQuests
-        //     .Where(q => !q.isCompleted && q.template.goalCategory == category)
-        //     .ToList();
-
         var affectedQuests = model.ActiveQuests
             .Where(q => q.status == QuestStatus.Active && q.template.goalCategory == category)
             .ToList();
@@ -90,6 +92,15 @@ public class QuestController : MonoBehaviour
                 quest.status = QuestStatus.Failed;
                 journalUI.Refresh(model.ActiveQuests);
             }
+        }
+        CheckIfAllQuestsCompleted();
+    }
+    
+    private void CheckIfAllQuestsCompleted()
+    {
+        if (AreAllQuestsCompletedOrFailed)
+        {
+            OnAllQuestsCompleted?.Invoke();
         }
     }
 }

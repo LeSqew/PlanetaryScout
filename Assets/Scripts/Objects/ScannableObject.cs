@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 
 /// <summary>
@@ -22,6 +23,7 @@ public class ScannableObject : MonoBehaviour
     /// </summary>
     public void OnScanCompleted()
     {
+        Debug.Log("🎯 OnScanCompleted вызван");
         var result = new ScanResult
         {
             category = category,
@@ -32,5 +34,18 @@ public class ScannableObject : MonoBehaviour
         DataCollectionEvents.RaiseDataCollected(result);
         
         Destroy(gameObject);
+    }
+
+    public void DestroySelf()
+    {
+        // Считаем оставшиеся объекты (исключая себя)
+        int remaining = FindObjectsOfType<ScannableObject>()
+            .Count(obj => obj.category == category && obj != this);
+
+        // Уничтожаем
+        Destroy(gameObject);
+
+        // Уведомляем
+        DataCollectionEvents.RaiseObjectDestroyed(category, remaining);
     }
 }

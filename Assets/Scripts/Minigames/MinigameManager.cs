@@ -34,6 +34,7 @@ public class MinigameManager : MonoBehaviour
     /// </summary>
     public void EnterMinigame()
     {
+        Debug.Log("➡️ EnterMinigame: disabling player input");
         IsInMinigame = true;
         // Скрыть журнал заданий
         questJournal.gameObject.SetActive(false);;

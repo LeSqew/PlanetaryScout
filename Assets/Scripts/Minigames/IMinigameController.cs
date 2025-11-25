@@ -7,4 +7,5 @@ public interface IMinigameController
 
     // Обязательный метод для очистки (вызывается после завершения)
     void Cleanup();
+    bool RequiresInputBlocking { get; }
 }
