@@ -27,10 +27,11 @@ public class MainMenu : MonoBehaviour
 
     private void Awake()
     {
-        Cursor.visible = true;
         SetupButtonListeners();
         educationPanel.SetActive(false);
-        GetComponent<CursorController>().EnableCursor();
+        var cursor = GetComponent<CursorController>();
+        cursor.EnableCursor();
+        cursor.UnlockCursor();
     }
 
     private void SetupButtonListeners()
