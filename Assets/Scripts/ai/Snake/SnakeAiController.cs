@@ -1,3 +1,4 @@
+using Player.Health;
 using UnityEngine;
 
 public class SnakeAiController : MonoBehaviour
@@ -32,11 +33,10 @@ public class SnakeAiController : MonoBehaviour
     private void Attack()
     {
         model.CurrentState = SnakeAiModel.state.attacking;
-        healthController.Model.TakeDamage(model.SnakeDamage);
+        healthController.takeDamage?.Invoke(model.SnakeDamage);
         // something with view here instead this
         snakeAiView.PlayBiteAnimation();
         StunPlayer();
-        snakeAiView.UpdateHP(healthController.Model.currentHealth);
         Invoke(nameof(CheckForAnotherAttack), model.WaitInSeconds_BeforeSecondBite);
     }
 
@@ -46,11 +46,10 @@ public class SnakeAiController : MonoBehaviour
         if (model.CurrentDistanceToPlayer <= model.Detection_Range && !model.IsLightThere)
         {
             model.CurrentState = SnakeAiModel.state.attacking;
-            healthController.Model.TakeDamage(model.SnakeDamage);
+            healthController.takeDamage?.Invoke(model.SnakeDamage);
             snakeAiView.PlayBiteAnimation();
             StunPlayer();
         }
-        snakeAiView.UpdateHP(healthController.Model.currentHealth);
         model.CurrentState = SnakeAiModel.state.retreating;
         snakeAiView.SnakeRetreat();
         Invoke(nameof(ReturnSnakeToHidden), 5f);

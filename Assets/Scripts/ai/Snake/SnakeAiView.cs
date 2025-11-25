@@ -3,19 +3,11 @@ using System.Collections;
 
 public class SnakeAiView : MonoBehaviour
 {
-    [Header("Health Bar")]
-    public HealthBarView healthBarView;
-
     public Rigidbody SnakeRigidbody;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-    }
-
-    public void UpdateHP(int hpvalue) 
-    {
-        healthBarView.PrintHp(hpvalue);
     }
 
     public void PlayBiteAnimation() 
@@ -59,19 +51,19 @@ public class SnakeAiView : MonoBehaviour
 
         while (elapsedTime < duration)
         {
-            // Вычисляем прогресс от 0 до 1
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ 0 пїЅпїЅ 1
             float progress = elapsedTime / duration;
 
-            // Плавно интерполируем между начальной и конечной позицией
+            // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             Vector3 newPosition = Vector3.Lerp(startPosition, targetPosition, progress);
             SnakeRigidbody.MovePosition(newPosition);
 
-            // Увеличиваем время и ждем следующий кадр
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
             elapsedTime += Time.deltaTime;
             yield return null;
         }
 
-        // Убеждаемся, что достигли точной конечной позиции
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         SnakeRigidbody.MovePosition(targetPosition);
     }
 
