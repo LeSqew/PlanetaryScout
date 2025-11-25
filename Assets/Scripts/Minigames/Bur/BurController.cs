@@ -18,6 +18,7 @@ public class BurController : MonoBehaviour, IMinigameController
     public float loseTime = 5f;
 
     [Header("UI References")]
+    public RectTransform containerRect;
     public RectTransform movingPoint;
     public RectTransform greenZone;
     public Image pointImage;
@@ -33,7 +34,7 @@ public class BurController : MonoBehaviour, IMinigameController
     // Internal
     private InputAction leftClick;
     private InputAction rightClick;
-    private RectTransform containerRect;
+    
     public bool RequiresInputBlocking => true;
 
     private BurModel model;
@@ -60,7 +61,7 @@ public class BurController : MonoBehaviour, IMinigameController
             adjustedWinTime, adjustedLoseTime, 0.5f);
 
         // Инициализация View
-        containerRect = GetComponent<RectTransform>();
+        //containerRect = GetComponent<RectTransform>();
         view = new BurView(containerRect, movingPoint, greenZone, pointImage,
             winScreen, loseScreen, timerText, statusText);
 
