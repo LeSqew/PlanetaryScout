@@ -10,4 +10,6 @@ public class ToolData : ScriptableObject
     public DataCategory[] compatibleTypes; // Тип объекта, с которым можно взаимодействовать
     [Header("Мини-игра")]
     public GameObject minigamePrefab;
+    [Header("Поведение при провале")]
+    public bool destroyObjectOnFailure = false;
 }
