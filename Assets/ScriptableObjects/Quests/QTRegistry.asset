@@ -12,4 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f480daf29665f1148b8cd78dede32ce7, type: 3}
   m_Name: QTRegistry
   m_EditorClassIdentifier: 
-  allTemplates: []
+  allTemplates:
+  - {fileID: 11400000, guid: 6c35ee37e8b86694d96c224503481301, type: 2}
+  - {fileID: 11400000, guid: a136c26c1ec8f8043a3dc6d5aacb94e9, type: 2}
+  - {fileID: 11400000, guid: 9ae5fedc059f75f47a79910a694cb05e, type: 2}
+  - {fileID: 11400000, guid: 5ca0a5ad3f6bf3445b3655f369ffa9ab, type: 2}
+  - {fileID: 11400000, guid: 5159029aca3c9ca41963ef022047b826, type: 2}
+  - {fileID: 11400000, guid: 1e12cbab772313544a36bda69071bacd, type: 2}
+  - {fileID: 11400000, guid: 4d1cd0f0b0e6b784eaa1d131e52df32e, type: 2}
