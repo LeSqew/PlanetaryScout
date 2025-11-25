@@ -15,4 +15,7 @@ MonoBehaviour:
   Acceleration: 10
   MaxSpeed: 10
   JumpForce: 10
-  JumpRayDistance: 0.2
+  JumpRayDistance: 1
+  GroundLayerMask:
+    serializedVersion: 2
+    m_Bits: 8

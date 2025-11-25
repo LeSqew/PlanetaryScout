@@ -1,3 +1,4 @@
+using Player.InventorySystem;
 using UnityEngine;
 
 public class InventorySetup : MonoBehaviour

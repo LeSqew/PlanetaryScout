@@ -9,5 +9,6 @@ namespace Player.Movement
         public float MaxSpeed;
         public float JumpForce;
         public float JumpRayDistance;
+        public LayerMask GroundLayerMask;
     }
 }

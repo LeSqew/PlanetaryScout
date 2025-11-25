@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Linq;
+using Player.InventorySystem;
 
 public class InteractionHandler : MonoBehaviour
 {

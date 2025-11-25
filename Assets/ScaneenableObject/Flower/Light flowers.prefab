@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2344084089008962808}
+  - component: {fileID: -2495328542270578396}
   m_Layer: 0
   m_Name: Light flowers
   m_TagString: Untagged
@@ -41,6 +42,22 @@ Transform:
   - {fileID: 6415409568598525683}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-2495328542270578396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 497546229034961602}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4986291c4777bf24a90f8b3c47386390, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  category: 3
+  rarity: 2
+  displayName: "\u041D\u0435\u0438\u0437\u0432\u0435\u0441\u0442\u043D\u044B\u0439
+    \u043E\u0431\u044A\u0435\u043A\u0442"
 --- !u!1 &4971114204325069035
 GameObject:
   m_ObjectHideFlags: 0

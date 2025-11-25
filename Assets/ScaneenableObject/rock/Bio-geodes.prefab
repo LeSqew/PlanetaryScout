@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1580008749020805886}
   - component: {fileID: 5436987464252367490}
+  - component: {fileID: -9159739233988422633}
   m_Layer: 0
   m_Name: Bio-geodes
   m_TagString: Untagged
@@ -60,6 +61,22 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 10, y: 5, z: 5}
   m_Center: {x: 0, y: 0, z: -2}
+--- !u!114 &-9159739233988422633
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5796983146445801449}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4986291c4777bf24a90f8b3c47386390, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  category: 6
+  rarity: 3
+  displayName: "\u041D\u0435\u0438\u0437\u0432\u0435\u0441\u0442\u043D\u044B\u0439
+    \u043E\u0431\u044A\u0435\u043A\u0442"
 --- !u!1001 &318889825536093387
 PrefabInstance:
   m_ObjectHideFlags: 0
