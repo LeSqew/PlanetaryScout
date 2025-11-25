@@ -51,27 +51,27 @@ public class BurController : MonoBehaviour, IMinigameController
         _currentTarget = target;
         _onFinishedCallback = onFinishedCallback;
 
-        // Настройка под редкость (опционально)
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ)
         float rarityMultiplier = 1f + (target.rarity - 1) * 0.2f;
         float adjustedWinTime = winTime / rarityMultiplier;
         float adjustedLoseTime = loseTime / rarityMultiplier;
 
-        // Инициализация модели
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
         model = new BurModel(moveSpeed, driftStrength, driftChangeFrequency,
             adjustedWinTime, adjustedLoseTime, 0.5f);
 
-        // Инициализация View
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ View
         //containerRect = GetComponent<RectTransform>();
         view = new BurView(containerRect, movingPoint, greenZone, pointImage,
             winScreen, loseScreen, timerText, statusText);
 
-        // Подписка на события
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         model.OnPositionChanged += HandlePositionChanged;
         model.OnTimerUpdated += HandleTimerUpdated;
         model.OnWin += HandleWin;
         model.OnLose += HandleLose;
 
-        // Ввод
+        // пїЅпїЅпїЅпїЅ
         if (leftClickAction != null) { leftClick = leftClickAction.action; leftClick.Enable(); }
         if (rightClickAction != null) { rightClick = rightClickAction.action; rightClick.Enable(); }
 
@@ -80,7 +80,7 @@ public class BurController : MonoBehaviour, IMinigameController
         view.SetPointNormalized(model.Position);
         view.ShowWinScreen(false);
         view.ShowLoseScreen(false);
-        view.SetStatusText("Держите бур в зеленой зоне!");
+        view.SetStatusText("пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ!");
 
         gameObject.SetActive(true);
     }
@@ -98,7 +98,7 @@ public class BurController : MonoBehaviour, IMinigameController
         model.OnLose -= HandleLose;
 
         Destroy(gameObject);
-        Destroy(_currentTarget.gameObject);
+        //Destroy(_currentTarget.gameObject);
     }
 
     void Update()
@@ -144,11 +144,11 @@ public class BurController : MonoBehaviour, IMinigameController
     {
         if (inGreen)
         {
-            view.SetTimerText($"До раскопки: {timeLeft:F1}с", true);
+            view.SetTimerText($"пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: {timeLeft:F1}пїЅ", true);
         }
         else
         {
-            view.SetTimerText($"До поломки: {timeLeft:F1}с", false);
+            view.SetTimerText($"пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ: {timeLeft:F1}пїЅ", false);
         }
     }
 
@@ -158,7 +158,7 @@ public class BurController : MonoBehaviour, IMinigameController
         _isCompleted = true;
 
         view.ShowWinScreen(true);
-        view.SetStatusText("УСПЕШНАЯ РАСКОПКА!");
+        view.SetStatusText("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ!");
         _onFinishedCallback?.Invoke(true, _currentTarget);
         StartCoroutine(DelayedCleanup(2f));
     }
@@ -169,7 +169,7 @@ public class BurController : MonoBehaviour, IMinigameController
         _isCompleted = true;
 
         view.ShowLoseScreen(true);
-        view.SetStatusText("БУР СЛОМАЛСЯ!");
+        view.SetStatusText("пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ!");
         _onFinishedCallback?.Invoke(false, _currentTarget);
         StartCoroutine(DelayedCleanup(2f));
     }

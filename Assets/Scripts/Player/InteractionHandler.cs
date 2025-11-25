@@ -11,6 +11,7 @@ public class InteractionHandler : MonoBehaviour
     public LayerMask interactableLayer;
 
     private GameObject gameInstance;
+    private ToolData currentTool;
 
     // TODO: Привяжите этот метод к вашему Input Action (например, "UseTool")
     void Update() // Используем Update только для простоты демонстрации Raycast
@@ -27,7 +28,7 @@ public class InteractionHandler : MonoBehaviour
     {
         if (!TryGetTarget(out ScannableObject targetObject)) return;
 
-        var currentTool = inventoryController.GetCurrentTool();
+        currentTool = inventoryController.GetCurrentTool();
         if (currentTool == null) { Debug.Log("Слот пуст."); return; }
 
         // 1. Проверка совместимости (Используем ваш InventoryController)
@@ -77,14 +78,24 @@ public class InteractionHandler : MonoBehaviour
         if (success)
         {
             target.OnScanCompleted();
+
+            // 2. Делаем объект неактивным для взаимодействия (но не удаляем!)
+            target.DisableInteraction();
         }
         else
         {
-            if(target.category == DataCategory.Mineral)
-                target.DestroySelf();
+            if (currentTool?.destroyObjectOnFailure == true)
+            {
+                int remaining = FindObjectsOfType<ScannableObject>()
+                    .Count(obj => obj.category == target.category && obj != target);
+            
+                DataCollectionEvents.RaiseObjectDestroyed(target.category, remaining);
+                Destroy(target.gameObject);
+            }
         }
 
         controller.Cleanup();
+        currentTool = null;
     }
 
     // Вспомогательный метод (Рейкаст)
@@ -94,7 +105,7 @@ public class InteractionHandler : MonoBehaviour
         if (Physics.Raycast(ray, out RaycastHit hit, interactDistance, interactableLayer))
         {
             obj = hit.collider.GetComponent<ScannableObject>();
-            return obj != null;
+            return obj != null && hit.collider.enabled;
         }
 
         obj = null;

@@ -9,7 +9,7 @@ using UnityEngine;
 public class ScannableObject : MonoBehaviour
 {
     [Header("Тип информации")]
-    public DataCategory category = DataCategory.Flora;
+    public DataCategory category = DataCategory.Tree;
 
     [Header("Редкость (1–4)")]
     [Range(1, 4)]
@@ -23,29 +23,15 @@ public class ScannableObject : MonoBehaviour
     /// </summary>
     public void OnScanCompleted()
     {
-        Debug.Log("🎯 OnScanCompleted вызван");
-        var result = new ScanResult
-        {
-            category = category,
-            rarity = rarity,
-            success = true
-        };
-
+        Debug.Log($"🎯 OnScanCompleted вызван для категории: {category}");
+        var result = new ScanResult { category = category, rarity = rarity, success = true };
         DataCollectionEvents.RaiseDataCollected(result);
-        
-        Destroy(gameObject);
     }
 
-    public void DestroySelf()
+    // Отключает взаимодействие (вызывается из InteractionHandler)
+    public void DisableInteraction()
     {
-        // Считаем оставшиеся объекты (исключая себя)
-        int remaining = FindObjectsOfType<ScannableObject>()
-            .Count(obj => obj.category == category && obj != this);
-
-        // Уничтожаем
-        Destroy(gameObject);
-
-        // Уведомляем
-        DataCollectionEvents.RaiseObjectDestroyed(category, remaining);
+        var collider = GetComponent<Collider>();
+        if (collider != null) collider.enabled = false;
     }
 }

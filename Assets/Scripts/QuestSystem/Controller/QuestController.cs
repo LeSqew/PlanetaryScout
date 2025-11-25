@@ -71,6 +71,7 @@ public class QuestController : MonoBehaviour
     }
     void OnDataCollected(ScanResult result)
     {
+        Debug.Log($"📥 Событие получено: {result.category}");
         if (model.ProcessScanResult(result))
         {
             journalUI.Refresh(model.ActiveQuests); // или обновить частично
