@@ -95,7 +95,7 @@ public class GravimeterView : MonoBehaviour
     {
         if (statusText)
         {
-            statusText.text = "!!! ✅ УСПЕХ! АНОМАЛИЯ ЗАФИКСИРОВАНА !!!";
+            statusText.text = "!!! УСПЕХ! АНОМАЛИЯ ЗАФИКСИРОВАНА !!!";
             statusText.color = Color.green;
         }
     }
@@ -104,7 +104,7 @@ public class GravimeterView : MonoBehaviour
     {
         if (statusText)
         {
-            statusText.text = "!!! 🚨 СБОЙ! АНОМАЛИЯ ПРОПУЩЕНА. ДАННЫЕ ИСКАЖЕНЫ !!!";
+            statusText.text = "!!! СБОЙ! АНОМАЛИЯ ПРОПУЩЕНА. ДАННЫЕ ИСКАЖЕНЫ !!!";
             statusText.color = Color.magenta;
         }
     }
@@ -139,7 +139,7 @@ public class GravimeterView : MonoBehaviour
         if (statusText == null) return;
         if (!matched && timeLeft)
         {
-            statusText.text = "❌ ИДЕТ СОВМЕЩЕНИЕ...";
+            statusText.text = " ИДЕТ СОВМЕЩЕНИЕ...";
             statusText.color = Color.red;
         }
     }
