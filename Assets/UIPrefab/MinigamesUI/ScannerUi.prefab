@@ -59,7 +59,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -87,8 +87,7 @@ GameObject:
   - component: {fileID: 7363760024183299446}
   - component: {fileID: 3899894743816980118}
   - component: {fileID: 1074067811964610364}
-  - component: {fileID: 3722408507251588421}
-  - component: {fileID: 2242610435954684823}
+  - component: {fileID: 5113254721140829422}
   m_Layer: 5
   m_Name: ScannerUi
   m_TagString: Untagged
@@ -179,7 +178,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &3722408507251588421
+--- !u!114 &5113254721140829422
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -188,24 +187,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 7795904989699501142}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 03bf548777a7a6e46a7a2cad45308eef, type: 3}
+  m_Script: {fileID: 11500000, guid: 8babc71a0d430b94d990c083290f41fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseScanTime: 3
-  maxAngleDegrees: 5
-  scanProgressCircle: {fileID: 0}
-  mainCamera: {fileID: 0}
---- !u!114 &2242610435954684823
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7795904989699501142}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a3f6e785c5a02894f8d1f2e4a6975c7c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  scanTime: 2
   scanProgressCircle: {fileID: 1335271446101479374}
-  failIndicator: {fileID: 0}
