@@ -43,17 +43,31 @@ public class QuestController : MonoBehaviour
             .Where(t => t.faction == Faction.None)
             .Where(t => t.biome == biome)
             .Where(t => !t.requiresWeather || t.weather == weather)
-            .GroupBy(t => new { t.goalCategory, t.biome, t.minRarity, t.maxRarity }) // ← группировка по смыслу
-            .Select(g => g.First()) // ← берём только один шаблон на тип
+            .GroupBy(t => t.goalCategory) // ← группировка только по категории
+            .Select(g => g.First())
             .OrderBy(_ => Random.value)
             .Take(3);
 
         foreach (var t in candidates)
         {
-            int actualCount = Random.Range(t.minTargetCount, t.maxTargetCount + 1);
-            model.ActiveQuests.Add(new ActiveQuest {
+            var objects = ObjectRegistry.Instance.GetObjects(t.goalCategory);
+            if (objects.Count == 0) continue;
+
+            var rarities = objects.Where(o => o != null).Select(o => o.rarity).ToList();
+            int minRarity = rarities.Min();
+            int maxRarity = rarities.Max();
+            
+            int totalCount = objects.Count;
+            int minCount = Mathf.Max(1, Mathf.CeilToInt(totalCount * 0.1f));
+            int maxCount = Mathf.Min(totalCount, Mathf.FloorToInt(totalCount * 0.3f));
+            int requiredCount = Random.Range(minCount, maxCount + 1);
+
+            model.ActiveQuests.Add(new ActiveQuest
+            {
                 template = t,
-                requiredCount = actualCount
+                requiredCount = requiredCount,
+                minRarity = minRarity,
+                maxRarity = maxRarity
             });
         }
 
@@ -79,16 +93,20 @@ public class QuestController : MonoBehaviour
         }
     }
     
-    private void OnObjectDestroyed(DataCategory category, int remainingCount)
+    private void OnObjectDestroyed(DataCategory category)
     {
+        // 🔥 БОЛЬШЕ НЕ НУЖНО: remainingCount приходит извне
+        // Вместо этого — получаем актуальное количество из реестра
+        int actualRemaining = ObjectRegistry.Instance.GetRemainingCount(category);
+
         var affectedQuests = model.ActiveQuests
             .Where(q => q.status == QuestStatus.Active && q.template.goalCategory == category)
             .ToList();
-        
+    
         foreach (var quest in affectedQuests)
         {
             int stillNeeded = quest.requiredCount - quest.currentProgress;
-            if (remainingCount < stillNeeded)
+            if (actualRemaining < stillNeeded)
             {
                 quest.status = QuestStatus.Failed;
                 journalUI.Refresh(model.ActiveQuests);

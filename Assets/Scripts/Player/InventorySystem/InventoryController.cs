@@ -8,6 +8,7 @@ namespace Player.InventorySystem
     {
         [SerializeField] public int slotCount = 5;
         [SerializeField] private InventoryView[] slotViews;
+        [SerializeField] private InputActionReference switchToolAction;
 
         private InventoryModel _model;
         private int _currentSlotIndex = 0;
@@ -21,8 +22,18 @@ namespace Player.InventorySystem
             {
                 UpdateSlotView(i, _model.GetItem(i));
             }
+            if (switchToolAction != null)
+            {
+                switchToolAction.action.performed += OnSelectSlot;
+            }
         }
-
+        private void OnDestroy()
+        {
+            if (switchToolAction != null)
+            {
+                switchToolAction.action.performed -= OnSelectSlot;
+            }
+        }
         private void UpdateSlotView(int index, InventoryItem item)
         {
             if (index < slotViews.Length)

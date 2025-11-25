@@ -4,16 +4,17 @@ using UnityEngine;
 public static class DataCollectionEvents
 {
     public static event Action<ScanResult> OnDataCollected;
-    public static event Action<DataCategory, int> OnScannableObjectDestroyed;
+    
+    // Убираем remainingCount — будем считать внутри QuestController
+    public static event Action<DataCategory> OnScannableObjectDestroyed;
 
     public static void RaiseDataCollected(ScanResult result)
     {
-        Debug.Log($"📤 Событие отправлено: {result.category}");
         OnDataCollected?.Invoke(result);
     }
     
-    public static void RaiseObjectDestroyed(DataCategory category, int remainingCount)
+    public static void RaiseObjectDestroyed(DataCategory category)
     {
-        OnScannableObjectDestroyed?.Invoke(category, remainingCount);
+        OnScannableObjectDestroyed?.Invoke(category);
     }
 }

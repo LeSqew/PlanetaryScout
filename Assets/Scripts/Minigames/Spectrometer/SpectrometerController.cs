@@ -83,7 +83,7 @@ public class SpectrometerController : MonoBehaviour, IMinigameController
         {
             view.ShowResult("Ошибка анализа! Спектрометр дал сбой.");
             _playerHealth.takeDamage.Invoke(25);
-            _onAnalysisFinished?.Invoke(true, _currentTarget);
+            _onAnalysisFinished?.Invoke(false, _currentTarget);
         }
         
     }

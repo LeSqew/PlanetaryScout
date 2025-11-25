@@ -34,4 +34,19 @@ public class ScannableObject : MonoBehaviour
         var collider = GetComponent<Collider>();
         if (collider != null) collider.enabled = false;
     }
+    
+    /*void OnEnable()
+    {
+        ObjectRegistry.Instance?.RegisterObject(this);
+    }
+
+    void OnDisable()
+    {
+        ObjectRegistry.Instance?.UnregisterObject(this);
+    }
+
+    void OnDestroy()
+    {
+        ObjectRegistry.Instance?.UnregisterObject(this);
+    }*/
 }

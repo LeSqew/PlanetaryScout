@@ -56,7 +56,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   titleText: {fileID: 4084424956930712949}
   progressText: {fileID: 1343863560798892617}
-  rewardText: {fileID: 1448894788788820841}
+  rarityText: {fileID: 1448894788788820841}
 --- !u!114 &8146118686576028462
 MonoBehaviour:
   m_ObjectHideFlags: 0
