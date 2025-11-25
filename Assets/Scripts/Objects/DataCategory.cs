@@ -1,7 +1,16 @@
 public enum DataCategory
 {
-    Flora,
+    Tree, 
+    Bush,
+    Mushroom,
+    Flower,
+    
     Fauna,
+    
     Mineral,
-    WeatherData
+    Stone,
+    //Flora,
+    //Fauna,
+    //Mineral,
+    //WeatherData
 }

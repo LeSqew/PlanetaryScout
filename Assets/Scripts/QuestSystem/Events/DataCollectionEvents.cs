@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 public static class DataCollectionEvents
 {
@@ -7,6 +8,7 @@ public static class DataCollectionEvents
 
     public static void RaiseDataCollected(ScanResult result)
     {
+        Debug.Log($"📤 Событие отправлено: {result.category}");
         OnDataCollected?.Invoke(result);
     }
     
