@@ -119,18 +119,23 @@ public class InteractionHandler : MonoBehaviour
         if (success)
         {
             target.OnScanCompleted();
+        
+            // ✅ Удаляем из реестра при успехе
+            ObjectRegistry.Instance?.UnregisterObject(target);
+        
+            // Отключаем взаимодействие (но объект остаётся видимым)
             target.DisableInteraction();
         }
         else
         {
             if (currentTool?.destroyObjectOnFailure == true)
             {
-                int remaining = FindObjectsOfType<ScannableObject>()
-                    .Count(obj => obj.category == target.category && obj != target);
-            
-                DataCollectionEvents.RaiseObjectDestroyed(target.category, remaining);
+                // ✅ Удаляем из реестра при провале
+                ObjectRegistry.Instance?.UnregisterObject(target);
+                DataCollectionEvents.RaiseObjectDestroyed(target.category);
                 Destroy(target.gameObject);
             }
+            // Если destroyObjectOnFailure = false, объект остаётся в реестре (можно повторить)
         }
 
         controller.Cleanup();

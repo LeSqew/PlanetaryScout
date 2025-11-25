@@ -46,12 +46,13 @@ public class MinigameManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
-
+    
     /// <summary>
     /// Вызывается при завершении любой мини-игры
     /// </summary>
     public void ExitMinigame()
     {
+        Debug.Log("✅ ExitMinigame вызван");
         IsInMinigame = false;
         // Показать журнал заданий
         questJournal.gameObject.SetActive(true);

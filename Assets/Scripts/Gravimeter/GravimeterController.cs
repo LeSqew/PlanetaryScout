@@ -127,7 +127,7 @@ public class GravimeterController : MonoBehaviour, IMinigameController
         
         _isCompleted = false;
         gameObject.SetActive(false);
-        Destroy(_currentTarget.gameObject);
+        Destroy(gameObject);
         //_currentTarget = null;
     }
 

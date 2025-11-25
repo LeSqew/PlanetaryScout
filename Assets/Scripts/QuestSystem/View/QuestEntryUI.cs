@@ -5,7 +5,7 @@ public class QuestEntryUI : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI titleText;
     [SerializeField] private TextMeshProUGUI progressText;
-    [SerializeField] private TextMeshProUGUI rewardText;
+    [SerializeField] private TextMeshProUGUI rarityText;
 
     public void Initialize(ActiveQuest quest)
     {
@@ -15,19 +15,22 @@ public class QuestEntryUI : MonoBehaviour
         {
             progressText.text = "ЗАДАНИЕ НЕВОЗМОЖНО";
             progressText.color = Color.red;
-            rewardText.color = Color.gray;
+            rarityText.color = Color.gray;
         }
         else
         {
             progressText.text = $"Собрано: {quest.currentProgress}/{quest.requiredCount}";
             progressText.color = Color.white;
-            rewardText.color = Color.white;
+            rarityText.color = Color.white;
         }
 
-        rewardText.text = $"${quest.template.rewardMoney} + {quest.template.rewardResearchPoints} RP";
+        var rarity = "";
+        if (quest.template.minRarity == quest.template.maxRarity) rarity = quest.template.minRarity.ToString(); 
+        else rarity = $"{quest.template.minRarity}-{quest.template.maxRarity}";
+        rarityText.text = $"Редкость: {rarity}";
         if (quest.status == QuestStatus.Failed)
         {
-            rewardText.color = Color.gray;
+            rarityText.color = Color.gray;
         }
     }
 

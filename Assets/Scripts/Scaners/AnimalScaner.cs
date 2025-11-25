@@ -6,14 +6,16 @@ public class AnimalScanner : MonoBehaviour, IMinigameController
 {
     [Header("Scan Settings")]
     [SerializeField] private float scanTime = 2f;
-    [SerializeField] private float maxAngleDegrees = 5f; // угол для "в центре"
     [SerializeField] private Image scanProgressCircle;
-
+    
     private Camera _mainCamera;
     private ScannableObject _target;
     private float _progress = 0f;
     private bool _isCompleted = false;
     private Action<bool, ScannableObject> _onFinishedCallback;
+
+    // Layer для Raycast (чтобы не попадать в UI и т.д.)
+    [SerializeField] private LayerMask scanLayerMask;
 
     public bool RequiresInputBlocking => false;
 
@@ -39,12 +41,12 @@ public class AnimalScanner : MonoBehaviour, IMinigameController
     {
         if (_isCompleted || _target == null || _mainCamera == null) return;
 
-        // Проверяем, в центре ли сейчас цель
-        bool isInCenter = IsTargetInCenter();
+        // Проверяем, попадает ли центр экрана в _target
+        bool isInCollider = IsCenterRaycastHittingTarget();
 
         if (Input.GetMouseButton(0))
         {
-            if (isInCenter)
+            if (isInCollider)
             {
                 _progress += Time.deltaTime / scanTime;
                 _progress = Mathf.Clamp01(_progress);
@@ -68,11 +70,19 @@ public class AnimalScanner : MonoBehaviour, IMinigameController
         }
     }
 
-    private bool IsTargetInCenter()
+    private bool IsCenterRaycastHittingTarget()
     {
-        Vector3 directionToTarget = (_target.transform.position - _mainCamera.transform.position).normalized;
-        float angle = Vector3.Angle(_mainCamera.transform.forward, directionToTarget);
-        return angle <= maxAngleDegrees;
+        Ray ray = _mainCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+        
+        // Делаем Raycast
+        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, scanLayerMask))
+        {
+            // Проверяем, тот ли это объект
+            ScannableObject hitObject = hit.collider.GetComponent<ScannableObject>();
+            return hitObject == _target;
+        }
+
+        return false;
     }
 
     private void ResetProgress()
