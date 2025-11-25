@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8184626403017180145}
   - component: {fileID: 6730809754018752825}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: BigCrystal3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -112,6 +112,10 @@ PrefabInstance:
     - target: {fileID: 748145120801198448, guid: be19e51b1bdeb2749b8c785c4716436a, type: 3}
       propertyPath: m_Name
       value: PP_Crystal_Column_02_Red (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 748145120801198448, guid: be19e51b1bdeb2749b8c785c4716436a, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

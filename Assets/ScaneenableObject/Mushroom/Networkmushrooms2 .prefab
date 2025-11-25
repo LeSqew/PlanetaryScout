@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6237938148817355165}
   - component: {fileID: -7879440254700079453}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: 'Networkmushrooms2 '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -62,6 +62,10 @@ PrefabInstance:
     - target: {fileID: 100000, guid: 7a20860fd638ba042881a75a19fd3317, type: 3}
       propertyPath: m_Name
       value: LittleMushroomGroup2 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 7a20860fd638ba042881a75a19fd3317, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7a20860fd638ba042881a75a19fd3317, type: 3}
       propertyPath: m_LocalPosition.x
@@ -129,6 +133,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: LittleMushroomGroup2
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 7a20860fd638ba042881a75a19fd3317, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7a20860fd638ba042881a75a19fd3317, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -194,6 +202,10 @@ PrefabInstance:
     - target: {fileID: 100000, guid: 7a20860fd638ba042881a75a19fd3317, type: 3}
       propertyPath: m_Name
       value: LittleMushroomGroup2 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 7a20860fd638ba042881a75a19fd3317, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7a20860fd638ba042881a75a19fd3317, type: 3}
       propertyPath: m_LocalPosition.x

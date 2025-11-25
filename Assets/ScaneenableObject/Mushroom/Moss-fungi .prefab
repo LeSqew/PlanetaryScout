@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7513318557060145203}
   - component: {fileID: 2163752652344951840}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: 'Moss-fungi '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -142,6 +142,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PREFAB_03 (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: deff750622d07c54693c12ca24048831, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -268,6 +272,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: deff750622d07c54693c12ca24048831, type: 3}
       propertyPath: m_Name
       value: PREFAB_03 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: deff750622d07c54693c12ca24048831, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -396,6 +404,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PREFAB_03
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: deff750622d07c54693c12ca24048831, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -522,6 +534,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: deff750622d07c54693c12ca24048831, type: 3}
       propertyPath: m_Name
       value: PREFAB_03 (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: deff750622d07c54693c12ca24048831, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -650,6 +666,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PREFAB_03 (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: deff750622d07c54693c12ca24048831, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -776,6 +796,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: deff750622d07c54693c12ca24048831, type: 3}
       propertyPath: m_Name
       value: PREFAB_03 (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: deff750622d07c54693c12ca24048831, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

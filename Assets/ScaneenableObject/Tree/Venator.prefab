@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2491689316967161885}
   - component: {fileID: 604820503537288605}
   - component: {fileID: -8310074543919065343}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Venator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -119,9 +119,41 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -3133498875991405556, guid: 1b9c87a2b1034dd4084df565f5561d9f, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 788838510059676625, guid: 1b9c87a2b1034dd4084df565f5561d9f, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 1b9c87a2b1034dd4084df565f5561d9f, type: 3}
       propertyPath: m_Name
       value: CarnivorousPlant_FREE
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 1b9c87a2b1034dd4084df565f5561d9f, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2153030593813143974, guid: 1b9c87a2b1034dd4084df565f5561d9f, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2496075934696133925, guid: 1b9c87a2b1034dd4084df565f5561d9f, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4304452338702080680, guid: 1b9c87a2b1034dd4084df565f5561d9f, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7407756339908614020, guid: 1b9c87a2b1034dd4084df565f5561d9f, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7547169208358973756, guid: 1b9c87a2b1034dd4084df565f5561d9f, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

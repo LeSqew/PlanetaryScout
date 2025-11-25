@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3625764402962178070}
   - component: {fileID: 3886638098124818018}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Bioluminescent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -68,7 +68,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6125847623972339564, guid: 28e017abcbfbc3d46877312268f24382, type: 3}
       propertyPath: m_Layer
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 6125847623972339564, guid: 28e017abcbfbc3d46877312268f24382, type: 3}
       propertyPath: m_IsActive
@@ -183,7 +183,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6125847623972339564, guid: 28e017abcbfbc3d46877312268f24382, type: 3}
       propertyPath: m_Layer
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 6125847623972339564, guid: 28e017abcbfbc3d46877312268f24382, type: 3}
       propertyPath: m_IsActive
@@ -298,7 +298,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5801776538384646662, guid: 7948f941e64933e4aa732a352cbc7c53, type: 3}
       propertyPath: m_Layer
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 5801776538384646662, guid: 7948f941e64933e4aa732a352cbc7c53, type: 3}
       propertyPath: m_IsActive
@@ -417,7 +417,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3538274379456189382, guid: 9edec794b5c921549ae6b327ce55e933, type: 3}
       propertyPath: m_Layer
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 3538274379456189382, guid: 9edec794b5c921549ae6b327ce55e933, type: 3}
       propertyPath: m_IsActive
@@ -532,7 +532,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3538274379456189382, guid: 9edec794b5c921549ae6b327ce55e933, type: 3}
       propertyPath: m_Layer
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 3538274379456189382, guid: 9edec794b5c921549ae6b327ce55e933, type: 3}
       propertyPath: m_IsActive
@@ -703,7 +703,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9161298304678015665, guid: 5965be77b51ce2646bfdc4fc00a472e1, type: 3}
       propertyPath: m_Layer
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 9161298304678015665, guid: 5965be77b51ce2646bfdc4fc00a472e1, type: 3}
       propertyPath: m_IsActive
