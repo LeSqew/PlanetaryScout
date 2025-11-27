@@ -1,10 +1,17 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 namespace Utils
 {
     public class SceneLoader : MonoBehaviour
     {
+        [SerializeField] private InputActionAsset inputActionAsset; // назначьте в инспекторе
+
+        private void Awake()
+        {
+            Application.targetFrameRate = 60;
+        }
 
         /// <summary>
         /// Загружает сцену по её ID (build index).
@@ -12,10 +19,24 @@ namespace Utils
         /// <param name="sceneId">ID сцены из Build Settings.</param>
         public void LoadSceneById(int sceneId)
         {
+            Debug.Log($"[SCENE LOADER] Загрузка сцены {sceneId} из: {new System.Diagnostics.StackTrace(1, true)}");
+
             if (sceneId < 0 || sceneId >= SceneManager.sceneCountInBuildSettings)
             {
                 Debug.LogError($"Scene ID {sceneId} вне диапазона! Проверь Build Settings.");
                 return;
+            }
+
+            var playerMap = inputActionAsset.FindActionMap("Player");
+            if (playerMap != null)
+            {
+                playerMap.Enable();
+                Time.timeScale = 1f;
+                Debug.Log("Player input map enabled.");
+            }
+            else
+            {
+                Debug.LogError("Player action map not found in InputActionAsset!");
             }
 
             SceneManager.LoadScene(sceneId);
@@ -48,5 +69,6 @@ namespace Utils
         {
             LoadSceneById(SceneManager.GetActiveScene().buildIndex);
         }
+
     }
 }

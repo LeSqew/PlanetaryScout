@@ -18,6 +18,8 @@ namespace Player
         [Header("Health Controller")]
         private HealthController _healthController;
 
+        private bool _isDeathTriggered = false;
+
         private void Start()
         {
             _remainingTime = maxTime;
@@ -40,7 +42,11 @@ namespace Player
             }
             else
             {
-                _healthController.death?.Invoke();;
+                if (!_isDeathTriggered)
+                {
+                    _isDeathTriggered = true;
+                    _healthController.death?.Invoke();
+                }
             }
         }
 
@@ -48,7 +54,6 @@ namespace Player
         {
             if (!fillImage)
             {
-                // Debug.Log("fillImage is null");
                 return;
             }
 

@@ -167,7 +167,7 @@ MonoBehaviour:
   state: 0
   healthController: {fileID: 0}
   attackCooldown: 6
-  DogAttackDistance: 1
+  DogAttackDistance: 1.15
   DogAttackDamage: 20
   dogAlarmSpeed: 8
   dogCalmSpeed: 2

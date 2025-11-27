@@ -50,7 +50,6 @@ public class GravimeterController : MonoBehaviour, IMinigameController
         _model = new GravimeterModel();
         if (_model != null) Debug.Log("Model created");
         _model.StartMinigame(new WaveParams(amplitude, frequency, phaseShift), requiredAccuracy);
-        Debug.Log("_model.StartMinigame");
         gameObject.SetActive(true);
         UpdateView();
     }

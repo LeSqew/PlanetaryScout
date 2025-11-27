@@ -18,35 +18,20 @@ public class ScannableObject : MonoBehaviour
     [Header("Отображаемое имя (опционально)")]
     public string displayName = "Неизвестный объект";
 
+    [Header("Состояние")]
+    public bool isScanned = false; // ← новый флаг
+
+    public bool CanBeInteractedWith => !isScanned;
+
     /// <summary>
     /// Вызывается мини-игрой при успешном завершении сканирования.
     /// </summary>
     public void OnScanCompleted()
     {
-        Debug.Log($"🎯 OnScanCompleted вызван для категории: {category}");
+        isScanned = true;
         var result = new ScanResult { category = category, rarity = rarity, success = true };
         DataCollectionEvents.RaiseDataCollected(result);
     }
 
-    // Отключает взаимодействие (вызывается из InteractionHandler)
-    public void DisableInteraction()
-    {
-        var collider = GetComponent<Collider>();
-        if (collider != null) collider.enabled = false;
-    }
     
-    /*void OnEnable()
-    {
-        ObjectRegistry.Instance?.RegisterObject(this);
-    }
-
-    void OnDisable()
-    {
-        ObjectRegistry.Instance?.UnregisterObject(this);
-    }
-
-    void OnDestroy()
-    {
-        ObjectRegistry.Instance?.UnregisterObject(this);
-    }*/
 }

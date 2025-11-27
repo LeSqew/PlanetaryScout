@@ -15,9 +15,11 @@ public class QuestController : MonoBehaviour
     private QuestModel model;
     public bool AreAllQuestsCompletedOrFailed => model.AreAllQuestsCompletedOrFailed();
     public static event Action OnAllQuestsCompleted;
+    public static QuestController Instance { get; private set; }
 
     void Awake()
     {
+        Instance = this;
         model = new QuestModel();
     }
 
@@ -34,7 +36,6 @@ public class QuestController : MonoBehaviour
         DataCollectionEvents.OnScannableObjectDestroyed -= OnObjectDestroyed;
     }
 
-    // Вызывается при высадке на планету
     public void GenerateBaseQuests(Biome biome, WeatherCondition weather)
     {
         model.Clear();
@@ -73,11 +74,12 @@ public class QuestController : MonoBehaviour
 
         journalUI.Refresh(model.ActiveQuests);
     }
-    
+
     void OnQuestCompleted(ActiveQuest quest)
     {
-        if (quest.status == QuestStatus.Completed)
+        if (quest.status == QuestStatus.Completed || quest.status == QuestStatus.Failed)
         {
+            model.CompletedQuests.Add(quest);
             model.ActiveQuests.Remove(quest);
             journalUI.Refresh(model.ActiveQuests);
             CheckIfAllQuestsCompleted();
@@ -85,7 +87,6 @@ public class QuestController : MonoBehaviour
     }
     void OnDataCollected(ScanResult result)
     {
-        Debug.Log($"📥 Событие получено: {result.category}");
         if (model.ProcessScanResult(result))
         {
             journalUI.Refresh(model.ActiveQuests); // или обновить частично
@@ -95,8 +96,6 @@ public class QuestController : MonoBehaviour
     
     private void OnObjectDestroyed(DataCategory category)
     {
-        // 🔥 БОЛЬШЕ НЕ НУЖНО: remainingCount приходит извне
-        // Вместо этого — получаем актуальное количество из реестра
         int actualRemaining = ObjectRegistry.Instance.GetRemainingCount(category);
 
         var affectedQuests = model.ActiveQuests
@@ -109,7 +108,7 @@ public class QuestController : MonoBehaviour
             if (actualRemaining < stillNeeded)
             {
                 quest.status = QuestStatus.Failed;
-                journalUI.Refresh(model.ActiveQuests);
+                OnQuestCompleted(quest);
             }
         }
         CheckIfAllQuestsCompleted();
@@ -121,5 +120,28 @@ public class QuestController : MonoBehaviour
         {
             OnAllQuestsCompleted?.Invoke();
         }
+    }
+
+    public MissionReport GenerateMissionReport()
+    {
+        var allQuests = model.GetAllQuests();
+        return new MissionReport(allQuests);
+    }
+}
+
+
+public class MissionReport
+{
+    public int TotalQuests { get; }
+    public int CompletedQuests { get; }
+    public int FailedQuests { get; }
+    public List<ActiveQuest> Quests { get; }
+
+    public MissionReport(List<ActiveQuest> quests)
+    {
+        Quests = quests;
+        TotalQuests = quests.Count;
+        CompletedQuests = quests.Count(q => q.status == QuestStatus.Completed);
+        FailedQuests = quests.Count(q => q.status == QuestStatus.Failed);
     }
 }

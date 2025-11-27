@@ -7,14 +7,14 @@ public class AnimalScanner : MonoBehaviour, IMinigameController
     [Header("Scan Settings")]
     [SerializeField] private float scanTime = 2f;
     [SerializeField] private Image scanProgressCircle;
-    
+    [SerializeField] private float scanDistance = 3f;
+
     private Camera _mainCamera;
     private ScannableObject _target;
     private float _progress = 0f;
     private bool _isCompleted = false;
     private Action<bool, ScannableObject> _onFinishedCallback;
 
-    // Layer для Raycast (чтобы не попадать в UI и т.д.)
     [SerializeField] private LayerMask scanLayerMask;
 
     public bool RequiresInputBlocking => false;
@@ -41,8 +41,7 @@ public class AnimalScanner : MonoBehaviour, IMinigameController
     {
         if (_isCompleted || _target == null || _mainCamera == null) return;
 
-        // Проверяем, попадает ли центр экрана в _target
-        bool isInCollider = IsCenterRaycastHittingTarget();
+        bool isInCollider = IsCrosshairHittingTarget();
 
         if (Input.GetMouseButton(0))
         {
@@ -70,16 +69,14 @@ public class AnimalScanner : MonoBehaviour, IMinigameController
         }
     }
 
-    private bool IsCenterRaycastHittingTarget()
+    private bool IsCrosshairHittingTarget()
     {
         Ray ray = _mainCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
-        
-        // Делаем Raycast
-        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, scanLayerMask))
+
+        // Ограничиваем дистанцию (например, 5 метров)
+        if (Physics.Raycast(ray, out RaycastHit hit, scanDistance, scanLayerMask))
         {
-            // Проверяем, тот ли это объект
-            ScannableObject hitObject = hit.collider.GetComponent<ScannableObject>();
-            return hitObject == _target;
+            return hit.collider.gameObject == _target.gameObject;
         }
 
         return false;
@@ -92,7 +89,6 @@ public class AnimalScanner : MonoBehaviour, IMinigameController
             scanProgressCircle.fillAmount = 0f;
     }
 
-    // === IMinigameController ===
     public void StartAnalysis(ScannableObject target, Action<bool, ScannableObject> onFinishedCallback)
     {
         _target = target;
