@@ -14,7 +14,7 @@ namespace Player.Health
 
         public UnityEvent<int> heal;
         public UnityEvent<int> takeDamage;
-        public UnityEvent death;
+        public Action death;
 
         private bool IsFullHp => _model.CurrentHealth == hpSettings.maxHp;
 

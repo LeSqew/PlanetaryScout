@@ -1,11 +1,14 @@
-﻿using UnityEngine;
+﻿using Player.InventorySystem;
 using System.Linq;
-using Player.InventorySystem;
+using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class InteractionHandler : MonoBehaviour
 {
     [Header("Ссылки на Системы")]
     [SerializeField] private InventoryController inventoryController;
+
+    [SerializeField] private InputActionAsset inputActions;
 
     [Header("Настройки Raycast")]
     public float interactDistance = 3f;
@@ -15,6 +18,35 @@ public class InteractionHandler : MonoBehaviour
     
     private GameObject gameInstance;
     private ToolData currentTool;
+    private InputAction _interactAction;
+
+    void Awake()
+    {
+        // Получаем InputAction из ссылки
+        if (inputActions != null)
+        {
+            _interactAction = inputActions.FindActionMap("Player", true).FindAction("Interact", true);
+            _interactAction.performed += OnInteractPerformed;
+        }
+    }
+
+    void OnEnable()
+    {
+        _interactAction?.Enable();
+    }
+
+    void OnDisable()
+    {
+        _interactAction?.Disable();
+    }
+
+    void OnDestroy()
+    {
+        if (_interactAction != null)
+        {
+            _interactAction.performed -= OnInteractPerformed;
+        }
+    }
 
     void Update()
     {
@@ -24,14 +56,11 @@ public class InteractionHandler : MonoBehaviour
             return;
         }
 
-        // 🔥 Проверка наведения КАЖДЫЙ КАДР
         HandleHover();
-
-        // Запуск взаимодействия по клику
-        if (Input.GetMouseButtonDown(0))
-        {
-            HandleInteraction();
-        }
+    }
+    private void OnInteractPerformed(InputAction.CallbackContext context)
+    {
+        HandleInteraction();
     }
 
     // 🔍 Новое: обработка наведения
@@ -119,12 +148,8 @@ public class InteractionHandler : MonoBehaviour
         if (success)
         {
             target.OnScanCompleted();
-        
-            // ✅ Удаляем из реестра при успехе
             ObjectRegistry.Instance?.UnregisterObject(target);
         
-            // Отключаем взаимодействие (но объект остаётся видимым)
-            target.DisableInteraction();
             MinigameReportUI.Instance?.ShowSuccessReport(target);
         }
         else
@@ -154,7 +179,7 @@ public class InteractionHandler : MonoBehaviour
         if (Physics.Raycast(ray, out RaycastHit hit, interactDistance, scanLayerMask))
         {
             obj = hit.collider.GetComponent<ScannableObject>();
-            return obj != null && hit.collider.enabled;
+            return obj != null && obj.CanBeInteractedWith;
         }
 
         obj = null;

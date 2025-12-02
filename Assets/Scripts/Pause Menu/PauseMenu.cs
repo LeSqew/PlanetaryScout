@@ -2,7 +2,6 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using static UnityEngine.Timeline.DirectorControlPlayable;
 
 public class PauseMenu : MonoBehaviour
 {
@@ -20,6 +19,8 @@ public class PauseMenu : MonoBehaviour
 
     [Header("Action Map")]
     [SerializeField] private InputActionAsset inputActionAsset;
+
+
     private InputActionMap UIActionMap;
     private InputActionMap playerMap;
     private InputAction pauseAction;
@@ -65,7 +66,7 @@ public class PauseMenu : MonoBehaviour
         {
             ResumeGame();
         }
-        else
+        else if (!MinigameManager.IsInMinigame && !MissionReportUI.IsDeathScreenActive)
         {
             PauseGame();
         }

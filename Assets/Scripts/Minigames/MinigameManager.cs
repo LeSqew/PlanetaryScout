@@ -45,6 +45,7 @@ public class MinigameManager : MonoBehaviour
         // Освободить курсор
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+
     }
     
     /// <summary>

@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: MovementSettings
   m_EditorClassIdentifier: 
   Acceleration: 10
-  MaxSpeed: 10
-  JumpForce: 10
-  JumpRayDistance: 1
+  MaxSpeed: 8
+  JumpForce: 8
+  JumpRayDistance: 0.8
   GroundLayerMask:
     serializedVersion: 2
     m_Bits: 8
