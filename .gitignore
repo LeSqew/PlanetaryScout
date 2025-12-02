@@ -29,6 +29,7 @@
 .vs/
 .vsconfig
 .idea/
+.vscode/
 
 # Gradle cache directory
 .gradle/
@@ -77,3 +78,5 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
 Assets/TutorialInfo/Icons/URP.png
+/Build0.1
+.DS_Store
