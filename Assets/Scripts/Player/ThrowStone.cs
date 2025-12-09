@@ -56,14 +56,19 @@ public class ThrowStone : MonoBehaviour
         if (rb == null)
             rb = stone.AddComponent<Rigidbody>();
 
-        // Направление броска — forward камеры
-        Vector3 direction = playerCamera.transform.forward.normalized;
+        rb.mass = 1f;  // нормальная масса
+        rb.linearDamping = 0.1f; // немного сопротивления воздуха
+        rb.angularDamping = 0.05f;
+        rb.useGravity = true;
 
-        // Добавляем вертикальный импульс
-        Vector3 velocity = direction * throwDistance / 0.5f; // простая скорость для броска
-        velocity.y += throwArcHeight; // вертикальный импульс
+        // Рассчитываем направление
+        Vector3 targetDir = playerCamera.transform.forward;
 
-        rb.linearVelocity = velocity * throwForceMultiplier;
+        // Добавляем вертикальный компонент для дуги
+        targetDir.y += throwArcHeight / throwDistance; // регулируем высоту дуги
+
+        // Применяем силу импульсом
+        rb.AddForce(targetDir.normalized * throwDistance * throwForceMultiplier, ForceMode.VelocityChange);
 
         // Добавляем компонент для падения камня
         StoneImpact impact = stone.AddComponent<StoneImpact>();
@@ -71,7 +76,7 @@ public class ThrowStone : MonoBehaviour
         impact.soundRadius = soundRadius;
         impact.dogLayer = dogLayer;
 
-        //блокировка и перезарядка
+        // блокировка и перезарядка
         canThrow = false;
         Invoke(nameof(ResetThrow), throwCooldown);
     }

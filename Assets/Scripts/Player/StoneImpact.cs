@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class StoneImpact : MonoBehaviour
 {
@@ -12,19 +13,23 @@ public class StoneImpact : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        if (rb == null)
+            rb = gameObject.AddComponent<Rigidbody>();
+        rb.useGravity = true;
+        rb.linearDamping = 0.1f;
+        rb.angularDamping = 0.05f;
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         if (hasFallen) return;
-
         hasFallen = true;
 
-        // ����������� ����
+        // Проигрываем звук
         if (fallSound != null)
             AudioSource.PlayClipAtPoint(fallSound, transform.position);
 
-        // ������� ���� ����� � �������
+        // Реакция собак
         Collider[] dogs = Physics.OverlapSphere(transform.position, soundRadius, dogLayer);
         foreach (var dog in dogs)
         {
@@ -35,19 +40,16 @@ public class StoneImpact : MonoBehaviour
             }
         }
 
-        // �������� ������� ���������� �����
-        if (rb != null)
-        {
-            StartCoroutine(SlowDownAndStop());
-        }
+        // Если камень ударился о землю или объект, слегка уменьшить скорость и позволить катиться
+        StartCoroutine(SlowDownAndStop());
 
-        // ����� ������� ������ ����� 10 ������
+        // Удаляем через 60 секунд
         Destroy(gameObject, 60f);
     }
 
-    private System.Collections.IEnumerator SlowDownAndStop()
+    private IEnumerator SlowDownAndStop()
     {
-        float duration = 0.5f; // �� ������� ������ �����������
+        float duration = 1f; // длительность замедления
         Vector3 initialVelocity = rb.linearVelocity;
         float elapsed = 0f;
 
@@ -59,6 +61,7 @@ public class StoneImpact : MonoBehaviour
         }
 
         rb.linearVelocity = Vector3.zero;
-        rb.isKinematic = true; // ������������ ��������� ������
+        rb.angularVelocity = Vector3.zero;
+        // оставляем isKinematic = false, чтобы камень больше не зависал
     }
 }

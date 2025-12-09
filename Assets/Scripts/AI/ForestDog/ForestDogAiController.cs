@@ -29,6 +29,10 @@ public class ForestDogAiController : MonoBehaviour
 
     public float attackCooldown = 6f;
 
+    private float cooldownTimerAfterPlayerSeen = 0f;
+
+    public float cooldownAfterPlayerSeen = 6f;
+
     [SerializeField]
     private float DogAttackDistance = 1f;
 
@@ -41,10 +45,29 @@ public class ForestDogAiController : MonoBehaviour
     [SerializeField]
     private float dogCalmSpeed = 2f;
 
+    [SerializeField]
+    private float dogLungeDistance = 2f;
+
+    [SerializeField]
+    private float dogLungeSpeed = 12f;
+
+    [SerializeField]
+    private float lungeDuration = 0.3f;
+
     public ForestDogAiView view;
 
     Vector3 PlayerPoint;
     Vector3 DogPoint;
+
+    private float lungeTimer = 0f;
+
+    public void ChasePlayer() 
+    {
+        state = ForestDogAiModel.state.chasing_player;
+        agent.speed = dogAlarmSpeed;
+        view.PlayDogRunAnimation();
+        agent.SetDestination(player.transform.position);
+    }
 
     public void CheckForPlayer()
     {
@@ -52,10 +75,9 @@ public class ForestDogAiController : MonoBehaviour
         {
             if (Vector3.Distance(PlayerPoint, DogPoint) <= MaxHearingDistance)
             {
-                state = ForestDogAiModel.state.chasing_player;
-                agent.speed = dogAlarmSpeed;
-                agent.SetDestination(player.transform.position);
-                view.PlayDogRunAnimation();
+                state = ForestDogAiModel.state.waiting_after_playing_seen;
+                cooldownTimerAfterPlayerSeen = cooldownAfterPlayerSeen;
+                agent.isStopped = true;
             }
             else
             {
@@ -71,13 +93,14 @@ public class ForestDogAiController : MonoBehaviour
         }
     }
 
+    // Used when throwing stone. Called from StoneImpact.cs
     public void OnHearingSound(Vector3 soundPosition)
     {
-        // ���������� ������� �������������� � ��� � �����
+        agent.ResetPath();
         state = ForestDogAiModel.state.checking_sound;
-        agent.SetDestination(soundPosition);
         agent.speed = dogAlarmSpeed;
         view.PlayDogRunAnimation();
+        agent.SetDestination(soundPosition);
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -88,11 +111,11 @@ public class ForestDogAiController : MonoBehaviour
 
     void Attack() 
     {
-        state = ForestDogAiModel.state.waiting_after_bite;
-
         healthController.takeDamage?.Invoke(DogAttackDamage);
 
         view.PlayDogAttackAnimation();
+
+        state = ForestDogAiModel.state.waiting_after_bite;
 
         agent.isStopped = true;
 
@@ -105,9 +128,22 @@ public class ForestDogAiController : MonoBehaviour
         PlayerPoint = dog.ClosestPoint(player.transform.position);
         DogPoint = player.ClosestPoint(dog.transform.position);
 
+        if (state != ForestDogAiModel.state.waiting_after_bite && state != ForestDogAiModel.state.checking_sound &&
+            state != ForestDogAiModel.state.waiting_after_playing_seen) 
+        { 
+            CheckForPlayer(); 
+        }
 
+        if (state == ForestDogAiModel.state.waiting_after_playing_seen) 
+        {
+            cooldownTimerAfterPlayerSeen -= Time.deltaTime;
 
-        if (state != ForestDogAiModel.state.waiting_after_bite) { CheckForPlayer(); }
+            if (cooldownTimerAfterPlayerSeen <= 0f) 
+            {
+                agent.isStopped = false;
+                ChasePlayer();
+            }
+        }
 
         if (state == ForestDogAiModel.state.waiting_after_bite) 
         {
