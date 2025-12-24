@@ -1987,6 +1987,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4652504051522421526, guid: df3b3a7685c34d54587ddbafdaf312bb, type: 3}
+      propertyPath: m_Speed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4652504051522421526, guid: df3b3a7685c34d54587ddbafdaf312bb, type: 3}
       propertyPath: m_Height
       value: 2
       objectReference: {fileID: 0}
