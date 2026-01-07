@@ -475,6 +475,8 @@ GameObject:
   - component: {fileID: 1783180273860792256}
   - component: {fileID: 1684678671658749567}
   - component: {fileID: 7933261355915758276}
+  - component: {fileID: 5651732904639807963}
+  - component: {fileID: 5913001221919109988}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -701,6 +703,41 @@ MonoBehaviour:
   dogLayer:
     serializedVersion: 2
     m_Bits: 64
+--- !u!114 &5651732904639807963
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6202345169813843770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1329e7e6248fdf846b764c3d13294518, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!136 &5913001221919109988
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6202345169813843770}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 2.0472717
+  m_Direction: 1
+  m_Center: {x: 0, y: -0.021411657, z: 0}
 --- !u!1001 &1209738105526015348
 PrefabInstance:
   m_ObjectHideFlags: 0

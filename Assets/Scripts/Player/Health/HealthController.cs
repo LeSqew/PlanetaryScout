@@ -37,7 +37,7 @@ namespace Player.Health
 
         private void Update()
         {
-            if (deathButton.action.IsPressed()) takeDamage.Invoke(_model.CurrentHealth);
+            //if (deathButton.action.IsPressed()) takeDamage.Invoke(_model.CurrentHealth);
             if (IsFullHp)
             {
                 stopRegeneration?.Invoke();

@@ -4,81 +4,79 @@ namespace Tornado
 {
     public class PlayerTornadoController : MonoBehaviour
     {
-        private TornadoModel _tornadoModel;
-        private Rigidbody _playerRigidbody;
-        private CharacterController _characterController;
-        private bool _wasControlEnabled = true;
-        private SpringJoint _springJoint;
+        private TornadoModel _model;
+        private Rigidbody _rb;
+        private CharacterController _cc;
+        private SpringJoint _joint;
 
-        private void Start()
+        public void Attach(TornadoModel model)
         {
-            _playerRigidbody = GetComponent<Rigidbody>();
-            _characterController = GetComponent<CharacterController>();
-        }
+            _model = model;
+            _rb = GetComponent<Rigidbody>();
+            _cc = GetComponent<CharacterController>();
 
-        public void AttachToTornado(TornadoModel tornadoModel)
-        {
-            _tornadoModel = tornadoModel;
-        
-            if (_characterController != null)
+            if (_cc != null) _cc.enabled = false;
+            if (_rb != null)
             {
-                _wasControlEnabled = _characterController.enabled;
-                _characterController.enabled = false;
+                _rb.isKinematic = false;
+                _rb.useGravity = false;
+                _rb.linearVelocity = Vector3.zero; 
             }
 
-            CreateSpringJoint();
-        }
+            _joint = gameObject.AddComponent<SpringJoint>();
+            _joint.autoConfigureConnectedAnchor = false;
 
-        public void DetachFromTornado()
-        {
-            if (_springJoint != null)
-            {
-                Destroy(_springJoint);
-                _springJoint = null;
-            }
-
-            if (_characterController != null)
-            {
-                _characterController.enabled = _wasControlEnabled;
-            }
-
-            _tornadoModel = null;
-        }
-
-        private void CreateSpringJoint()
-        {
-            if (_playerRigidbody != null && _tornadoModel != null)
-            {
-                _springJoint = gameObject.AddComponent<SpringJoint>();
-                _springJoint.spring = _tornadoModel.TornadoStrength;
-                _springJoint.damper = _tornadoModel.TornadoStrength * 0.1f;
-                _springJoint.autoConfigureConnectedAnchor = false;
-                _springJoint.connectedAnchor = _tornadoModel.Position;
-            }
+            _joint.spring = _model.TornadoStrength * 0.5f; 
+            _joint.damper = 15f; 
+           
+            _joint.minDistance = 0f;
+            _joint.maxDistance = 1.5f;
         }
 
         private void FixedUpdate()
         {
-            if (_tornadoModel != null && _springJoint != null && _playerRigidbody != null)
-            {
-                // Обновляем точку подключения
-                _springJoint.connectedAnchor = _tornadoModel.Position;
+            if (_model == null || _rb == null) return;
 
-                // Применяем силу вращения (упрощенная версия из оригинального скрипта)
-                Vector3 direction = transform.position - _tornadoModel.Position;
-                Vector3 projection = Vector3.ProjectOnPlane(direction, Vector3.up); // Ось вращения Y
-            
-                if (projection.magnitude > 0.1f) // Защита от деления на ноль
-                {
-                    projection.Normalize();
-                
-                    // Поворот на 130 градусов для направления вращения
-                    Vector3 normal = Quaternion.AngleAxis(130, Vector3.up) * projection;
-                
-                    // Добавляем силу вращения
-                    _playerRigidbody.AddForce(normal * _tornadoModel.RotationStrength, ForceMode.Force);
-                }
+            Vector3 tornadoPos = _model.Position;
+            _joint.connectedAnchor = tornadoPos;
+
+            Vector3 diff = tornadoPos - transform.position;
+            Vector3 horizontalDiff = new Vector3(diff.x, 0, diff.z);
+            float dist = horizontalDiff.magnitude;
+
+            float captureRadius = 12f; 
+            float smoothFactor = Mathf.Clamp01(1f - (dist / captureRadius));
+
+            _rb.AddForce(horizontalDiff.normalized * _model.SuckingStrength * smoothFactor, ForceMode.Acceleration);
+
+            Vector3 orbitDir = Quaternion.AngleAxis(130, Vector3.up) * horizontalDiff.normalized;
+            _rb.AddForce(orbitDir * _model.RotationStrength * smoothFactor, ForceMode.Acceleration);
+
+    
+            float liftBase = Mathf.Clamp(8f / (dist + 1f), 0f, 10f);
+            _rb.AddForce(Vector3.up * liftBase * smoothFactor, ForceMode.Acceleration);
+        }
+
+        public void ApplyThrow(Vector3 tornadoPos, float force)
+        {
+            Vector3 throwDir = (transform.position - tornadoPos).normalized;
+            throwDir.y = 0.5f; 
+
+            Detach();
+            _rb.AddForce(throwDir.normalized * force, ForceMode.Impulse);
+        }
+
+        public void Detach()
+        {
+            if (_joint != null) Destroy(_joint);
+            if (_cc != null) _cc.enabled = true;
+            if (_rb != null)
+            {
+                _rb.useGravity = true;
+                _rb.linearDamping = 0.5f; 
             }
+            _model = null;
+            Destroy(this, 1f);
         }
     }
 }

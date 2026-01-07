@@ -1,24 +1,35 @@
-using Tornado;
 using UnityEngine;
 
-public class TornadoTestController : MonoBehaviour
+namespace Tornado
 {
-    private TornadoModel _model;
-    private TornadoView _view;
-
-    private void Start()
+    public class TornadoTestController : MonoBehaviour
     {
-        _model = new TornadoModel(transform.position, 20f, 5f, 3f);
-        _view = GetComponent<TornadoView>();
-        _view.Initialize(_model);
-        
-        // Просто подписываемся напрямую для тестирования
-        _model.OnPlayerCaught += (args) => Debug.Log("TEST: Player caught!");
-        _model.OnPlayerThrown += (args) => Debug.Log("TEST: Player thrown!");
-    }
+        private TornadoModel _model;
+        private TornadoView _view;
+        [SerializeField] private LayerMask groundLayer;
 
-    private void Update()
-    {
-        _model.Update(Time.deltaTime);
+        [Header("Settings")]
+        public float moveRadius = 20f;
+        public float moveSpeed = 5f;
+
+        private void Start()
+        { 
+            _model = new TornadoModel(transform.position, groundLayer);
+            _model.MoveSpeed = moveSpeed;
+
+            _view = GetComponent<TornadoView>();
+            if (_view != null)
+            {
+                _view.Initialize(_model);
+            }
+        }
+
+        private void Update()
+        {
+            if (_model != null)
+            {
+                _model.Update(Time.deltaTime);
+            }
+        }
     }
 }

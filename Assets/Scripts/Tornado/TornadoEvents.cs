@@ -1,56 +1,48 @@
 using UnityEngine;
 
-public static class TornadoEvents
+namespace Tornado
 {
-    public class PlayerCaughtEventArgs
+    public static class TornadoEvents
     {
-        public Vector3 TornadoPosition { get; }
-        
-        public PlayerCaughtEventArgs(Vector3 tornadoPosition)
+        // Событие: Игрок пойман
+        public class PlayerCaughtEventArgs
         {
-            TornadoPosition = tornadoPosition;
+            public Vector3 TornadoPosition { get; }
+            public PlayerCaughtEventArgs(Vector3 position) => TornadoPosition = position;
         }
-    }
 
-    public class PlayerReleasedEventArgs
-    {
-        public Vector3 TornadoPosition { get; }
-        
-        public PlayerReleasedEventArgs(Vector3 tornadoPosition)
+        // Событие: Игрок отпущен (без броска)
+        public class PlayerReleasedEventArgs
         {
-            TornadoPosition = tornadoPosition;
+            public Vector3 TornadoPosition { get; }
+            public PlayerReleasedEventArgs(Vector3 position) => TornadoPosition = position;
         }
-    }
 
-    public class PlayerThrownEventArgs
-    {
-        public Vector3 TornadoPosition { get; }
-        public Vector3 ThrowDirection { get; }
-        
-        public PlayerThrownEventArgs(Vector3 tornadoPosition, Vector3 throwDirection)
+        // Событие: Игрок выброшен силой
+        public class PlayerThrownEventArgs
         {
-            TornadoPosition = tornadoPosition;
-            ThrowDirection = throwDirection;
+            public Vector3 TornadoPosition { get; }
+            public float ThrowForce { get; }
+
+            public PlayerThrownEventArgs(Vector3 tornadoPosition, float throwForce)
+            {
+                TornadoPosition = tornadoPosition;
+                ThrowForce = throwForce;
+            }
         }
-    }
 
-    public class MovedEventArgs
-    {
-        public Vector3 NewPosition { get; }
-        
-        public MovedEventArgs(Vector3 newPosition)
+        // Событие: Торнадо сдвинулось (ТО САМОЕ ИСПРАВЛЕНИЕ)
+        public class MovedEventArgs
         {
-            NewPosition = newPosition;
+            public Vector3 NewPosition { get; }
+            public MovedEventArgs(Vector3 newPosition) => NewPosition = newPosition;
         }
-    }
 
-    public class TargetChangedEventArgs
-    {
-        public Vector3 NewTarget { get; }
-        
-        public TargetChangedEventArgs(Vector3 newTarget)
+        // Событие: Смена цели движения
+        public class TargetChangedEventArgs
         {
-            NewTarget = newTarget;
+            public Vector3 NewTarget { get; }
+            public TargetChangedEventArgs(Vector3 newTarget) => NewTarget = newTarget;
         }
     }
 }

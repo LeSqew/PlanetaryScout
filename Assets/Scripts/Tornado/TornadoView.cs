@@ -4,70 +4,59 @@ namespace Tornado
 {
     public class TornadoView : MonoBehaviour
     {
-        [SerializeField] private float maxDistance = 20f;
-        [SerializeField] private string playerTag = "Player";
-    
         private TornadoModel _model;
-        private TornadoVisualizer _visualizer;
-        private Collider _triggerCollider;
-        private bool _isPlayerCaught = false;
+        [SerializeField] private string playerTag = "Player";
+        [SerializeField] private TornadoVisualizer visualizer;
 
         public void Initialize(TornadoModel model)
         {
             _model = model;
-            transform.position = _model.Position;
-        
-            // Настройка коллайдера
-            _triggerCollider = GetComponent<Collider>();
-            if (_triggerCollider != null)
-            {
-                _triggerCollider.isTrigger = true;
-            }
-        
-            // Создаем визуализатор
-            _visualizer = gameObject.AddComponent<TornadoVisualizer>();
-            _visualizer.Initialize(_model);
+            if (visualizer != null) visualizer.Initialize(_model);
+            _model.OnPlayerThrown += HandleThrow;
         }
-
+    
+        private void Start()
+        {
+            transform.localScale = Vector3.zero; // Начинаем с нуля
+        }
+        
         private void Update()
         {
-            if (_model != null)
+            if (transform.localScale.x < 1f)
             {
-                transform.position = _model.Position;
+                transform.localScale = Vector3.MoveTowards(transform.localScale, Vector3.one, Time.deltaTime * 0.5f);
             }
+    
+            if (_model != null) transform.position = _model.Position;
         }
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.CompareTag(playerTag) && !_isPlayerCaught)
+            if (other.CompareTag(playerTag))
             {
-                _isPlayerCaught = true;
-            
                 _model.CatchPlayer();
-            
-                var playerController = other.GetComponent<PlayerTornadoController>();
-                if (playerController == null)
+        
+                var controller = other.GetComponent<PlayerTornadoController>();
+                if (controller == null)
                 {
-                    playerController = other.gameObject.AddComponent<PlayerTornadoController>();
+                    controller = other.gameObject.AddComponent<PlayerTornadoController>();
                 }
-                playerController.AttachToTornado(_model);
+                controller.Attach(_model);
             }
         }
 
-        private void OnTriggerExit(Collider other)
+        private void HandleThrow(TornadoEvents.PlayerThrownEventArgs args)
         {
-            if (other.CompareTag(playerTag) && _isPlayerCaught)
+            GameObject player = GameObject.FindGameObjectWithTag(playerTag);
+            if (player != null)
             {
-                _isPlayerCaught = false;
-            
-                _model.ReleasePlayer();
-            
-                var playerController = other.GetComponent<PlayerTornadoController>();
-                if (playerController != null)
-                {
-                    playerController.DetachFromTornado();
-                }
+                player.GetComponent<PlayerTornadoController>()?.ApplyThrow(args.TornadoPosition, args.ThrowForce);
             }
+        }
+
+        private void OnDestroy()
+        {
+            if (_model != null) _model.OnPlayerThrown -= HandleThrow;
         }
     }
 }

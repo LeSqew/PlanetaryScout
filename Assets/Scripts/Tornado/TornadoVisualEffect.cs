@@ -1,55 +1,31 @@
-using Tornado;
 using UnityEngine;
 
-public class TornadoVisualizer : MonoBehaviour
+namespace Tornado
 {
-    [SerializeField] private ParticleSystem tornadoPS;
-    [SerializeField] private float baseEmissionRate = 100f;
-
-    private TornadoModel _model;
-
-    public void Initialize(TornadoModel model)
+    public class TornadoVisualizer : MonoBehaviour
     {
-        _model = model;
-        
-        // Не создаем Particle System, а используем уже существующий из префаба
-        if (tornadoPS == null)
-        {
-            tornadoPS = GetComponentInChildren<ParticleSystem>();
-            if (tornadoPS == null)
-            {
-                tornadoPS = GetComponent<ParticleSystem>();
-            }
-        }
-    }
+        [Header("Settings")]
+        [SerializeField] private ParticleSystem tornadoPS; 
+        [SerializeField] private Color normalColor = Color.gray;
+        [SerializeField] private Color catchColor = new Color(0.6f, 0.4f, 0.3f); 
 
-    private void Update()
-    {
-        if (_model != null)
-        {
-            UpdateVisualEffect();
-        }
-    }
+        private TornadoModel _model;
 
-    private void UpdateVisualEffect()
-    {
-        if (tornadoPS == null) return;
-        
-        // Изменяем интенсивность в зависимости от состояния
-        float intensity = _model.HasPlayer ? 1.5f : 1f;
-        
-        var emission = tornadoPS.emission;
-        emission.rateOverTime = new ParticleSystem.MinMaxCurve(baseEmissionRate * intensity);
-
-        // Меняем цвет при захвате игрока
-        var main = tornadoPS.main;
-        if (_model.HasPlayer)
+        public void Initialize(TornadoModel model)
         {
-            main.startColor = Color.Lerp(Color.gray, Color.red, 0.3f);
+            _model = model;
         }
-        else
+
+        private void Update()
         {
-            main.startColor = Color.gray;
+            if (_model == null || tornadoPS == null) return;
+
+            var mainModule = tornadoPS.main;
+            Color targetColor = _model.HasPlayer ? catchColor : normalColor;
+            mainModule.startColor = Color.Lerp(mainModule.startColor.color, targetColor, Time.deltaTime * 2f);
+
+            var emission = tornadoPS.emission;
+            emission.rateOverTime = _model.HasPlayer ? 100f : 50f;
         }
     }
 }
