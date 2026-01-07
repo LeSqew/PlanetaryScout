@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5510565098073418560}
-  - component: {fileID: 1155076987108839187}
   - component: {fileID: 7424590458976639205}
   - component: {fileID: 4856931927777130482}
   m_Layer: 0
@@ -35,21 +34,6 @@ Transform:
   - {fileID: 1355137404534059992}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1155076987108839187
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 501873559588780990}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d688bd0394cee9943b1055bae363cef2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tornadoPS: {fileID: 5903019087437976015}
-  normalColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-  catchColor: {r: 0.6, g: 0.4, b: 0.3, a: 1}
 --- !u!114 &7424590458976639205
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63,7 +47,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerTag: Player
-  visualizer: {fileID: 1155076987108839187}
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  tornadoPS: {fileID: 5903019087437976015}
+  normalColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  catchColor: {r: 0.6, g: 0.4, b: 0.3, a: 1}
+  fadeDuration: 2
 --- !u!114 &4856931927777130482
 MonoBehaviour:
   m_ObjectHideFlags: 0

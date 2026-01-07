@@ -15,6 +15,11 @@ namespace Tornado
 
         private void Start()
         {
+            if (tornadoPrefab == null || spawnPoints.Length == 0)
+            {
+                Debug.LogError("TornadoSpawner: Проверьте префаб и точки спавна в Инспекторе!");
+                return;
+            }
             StartCoroutine(TornadoCycleRoutine());
         }
 
@@ -24,18 +29,14 @@ namespace Tornado
             {
                 yield return new WaitForSeconds(spawnDelay);
 
-                Transform spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
-      
-                _currentTornado = Instantiate(tornadoPrefab, spawnPoint.position, Quaternion.identity);
-                Debug.Log("Торнадо появилось!");
+                if (_currentTornado == null)
+                {
+                    SpawnTornado();
+                }
 
                 yield return new WaitForSeconds(lifeTime);
 
-                if (_currentTornado != null)
-                {
-                    Destroy(_currentTornado);
-                    Debug.Log("Торнадо исчезло.");
-                }
+                DespawnCurrentTornado();
             }
         }
 
@@ -43,8 +44,34 @@ namespace Tornado
         {
             if (_currentTornado == null)
             {
-                Transform spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
-                _currentTornado = Instantiate(tornadoPrefab, spawnPoint.position, Quaternion.identity);
+                SpawnTornado();
+            }
+        }
+
+        private void SpawnTornado()
+        {
+            Transform spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
+            _currentTornado = Instantiate(tornadoPrefab, spawnPoint.position, Quaternion.identity);
+
+            
+            Debug.Log("<color=green>Торнадо появилось!</color>");
+        }
+
+        private void DespawnCurrentTornado()
+        {
+            if (_currentTornado != null)
+            {
+                if (_currentTornado.TryGetComponent<TornadoView>(out var view))
+                {
+                    view.StartDissolving();
+                    Debug.Log("<color=yellow>Торнадо начало затухать...</color>");
+                }
+                else
+                {
+                    Destroy(_currentTornado);
+                }
+
+                _currentTornado = null;
             }
         }
     }
