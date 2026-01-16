@@ -49920,7 +49920,7 @@ PrefabInstance:
     - target: {fileID: 9091956240811870875, guid: e8a09d88b14c14e87ab51aa7ee2273e8, type: 3}
       propertyPath: PlayerCollider
       value: 
-      objectReference: {fileID: 161486237873411373}
+      objectReference: {fileID: 6908114418629472046}
     - target: {fileID: 9091956240811870875, guid: e8a09d88b14c14e87ab51aa7ee2273e8, type: 3}
       propertyPath: healthController
       value: 
@@ -50413,6 +50413,10 @@ PrefabInstance:
       propertyPath: move
       value: 
       objectReference: {fileID: 6282980601591796860, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+    - target: {fileID: 1249087688578902269, guid: be4fbca1c32b1476780795f41bfd933f, type: 3}
+      propertyPath: playerCollider
+      value: 
+      objectReference: {fileID: 6908114418629472046}
     - target: {fileID: 1350383769087560882, guid: be4fbca1c32b1476780795f41bfd933f, type: 3}
       propertyPath: lookAction
       value: 
@@ -138402,7 +138406,7 @@ PrefabInstance:
     - target: {fileID: 7669742612492066973, guid: 3e2e5b575fb2744b2b59c44029418853, type: 3}
       propertyPath: player
       value: 
-      objectReference: {fileID: 161486237873411373}
+      objectReference: {fileID: 6908114418629472046}
     - target: {fileID: 7669742612492066973, guid: 3e2e5b575fb2744b2b59c44029418853, type: 3}
       propertyPath: healthController
       value: 
@@ -175497,11 +175501,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5619033427623029576, guid: 3fbbf22c4bb1f8643be0a49d759db03c, type: 3}
   m_PrefabInstance: {fileID: 2147259596}
   m_PrefabAsset: {fileID: 0}
---- !u!136 &161486237873411373 stripped
-CapsuleCollider:
-  m_CorrespondingSourceObject: {fileID: 161486237390795958, guid: be4fbca1c32b1476780795f41bfd933f, type: 3}
-  m_PrefabInstance: {fileID: 591782299}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1684678671167680484 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1684678671658749567, guid: be4fbca1c32b1476780795f41bfd933f, type: 3}
@@ -176554,6 +176553,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e73b1e39cde2cc846afb6cc233a9dd20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!136 &6908114418629472046 stripped
+CapsuleCollider:
+  m_CorrespondingSourceObject: {fileID: 8744479404956127560, guid: be4fbca1c32b1476780795f41bfd933f, type: 3}
+  m_PrefabInstance: {fileID: 591782299}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &6976901023203077581 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1062687240506442050, guid: be4fbca1c32b1476780795f41bfd933f, type: 3}

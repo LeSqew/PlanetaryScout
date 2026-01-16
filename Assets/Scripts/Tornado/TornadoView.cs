@@ -26,6 +26,17 @@ namespace Tornado
 
         private void Start()
         {
+            Debug.Log($"TornadoView запущен, PlayerTag: {playerTag}");
+            Collider triggerCollider = GetComponent<Collider>();
+            if (triggerCollider != null)
+            {
+                Debug.Log($"IsTrigger: {triggerCollider.isTrigger}");
+            }
+            else
+            {
+                Debug.LogWarning("На торнадо отсутствует коллайдер!");
+            }
+    
             transform.localScale = Vector3.zero;
         }
 
@@ -66,28 +77,30 @@ namespace Tornado
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.CompareTag(playerTag) || other.transform.parent.CompareTag(playerTag))
+            Debug.Log($"Триггер сработал с: {other.name}, Tag: {other.tag}");
+    
+            if (!other.CompareTag(playerTag)) 
             {
-                _model.CatchPlayer();
-
-                var controller = other.GetComponentInParent<PlayerTornadoController>();
-        
-                if (controller == null)
-                {
-                    Rigidbody rb = other.GetComponentInParent<Rigidbody>();
-                    if (rb != null)
-                    {
-                        controller = rb.gameObject.AddComponent<PlayerTornadoController>();
-                    }
-                    else
-                    {
-                        controller = other.transform.root.gameObject.AddComponent<PlayerTornadoController>();
-                    }
-                }
-        
-                controller.Attach(_model);
-                Debug.Log("Player attached to Tornado!");
+                Debug.Log($"Объект {other.name} не является игроком");
+                return;
             }
+
+            // Прямо к объекту с тегом Player
+            PlayerTornadoController controller = other.GetComponent<PlayerTornadoController>();
+    
+            if (controller == null)
+            {
+                controller = other.gameObject.AddComponent<PlayerTornadoController>();
+                Debug.Log($"Добавлен новый контроллер к {other.name}");
+            }
+            else
+            {
+                Debug.Log($"Контроллер уже существует на {other.name}");
+            }
+
+            _model.CatchPlayer();
+            controller.Attach(_model);
+            Debug.Log("Игрок захвачен торнадо!");
         }
 
         private void HandleThrow(TornadoEvents.PlayerThrownEventArgs args)

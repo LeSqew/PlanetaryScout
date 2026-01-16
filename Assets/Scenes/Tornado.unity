@@ -158,6 +158,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 161486237390795958, guid: be4fbca1c32b1476780795f41bfd933f, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 250138150086499489, guid: be4fbca1c32b1476780795f41bfd933f, type: 3}
       propertyPath: m_LocalPosition.x
       value: -3.5314255
@@ -198,6 +202,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1249087688578902269, guid: be4fbca1c32b1476780795f41bfd933f, type: 3}
+      propertyPath: playerCollider
+      value: 
+      objectReference: {fileID: 1287652133}
     - target: {fileID: 1350383769087560882, guid: be4fbca1c32b1476780795f41bfd933f, type: 3}
       propertyPath: lookAction
       value: 
@@ -260,7 +268,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4821766086757631446, guid: be4fbca1c32b1476780795f41bfd933f, type: 3}
       propertyPath: m_TagString
-      value: Player
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 5125611155909263536, guid: be4fbca1c32b1476780795f41bfd933f, type: 3}
       propertyPath: m_AnchorMax.y
@@ -292,7 +300,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6202345169813843770, guid: be4fbca1c32b1476780795f41bfd933f, type: 3}
       propertyPath: m_TagString
-      value: Untagged
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 6343743541725441258, guid: be4fbca1c32b1476780795f41bfd933f, type: 3}
       propertyPath: m_AnchorMax.y
@@ -335,7 +343,7 @@ GameObject:
   - component: {fileID: 943307175}
   - component: {fileID: 943307174}
   - component: {fileID: 943307173}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -483,6 +491,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &1287652133 stripped
+CapsuleCollider:
+  m_CorrespondingSourceObject: {fileID: 8744479404956127560, guid: be4fbca1c32b1476780795f41bfd933f, type: 3}
+  m_PrefabInstance: {fileID: 750501838}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1290793437
 GameObject:
   m_ObjectHideFlags: 0
