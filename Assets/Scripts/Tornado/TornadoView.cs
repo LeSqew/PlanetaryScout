@@ -66,17 +66,27 @@ namespace Tornado
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.CompareTag(playerTag) || other.transform.root.CompareTag(playerTag))
+            if (other.CompareTag(playerTag) || other.transform.parent.CompareTag(playerTag))
             {
                 _model.CatchPlayer();
 
                 var controller = other.GetComponentInParent<PlayerTornadoController>();
+        
                 if (controller == null)
                 {
-                    GameObject target = other.attachedRigidbody != null ? other.attachedRigidbody.gameObject : other.gameObject;
-                    controller = target.AddComponent<PlayerTornadoController>();
+                    Rigidbody rb = other.GetComponentInParent<Rigidbody>();
+                    if (rb != null)
+                    {
+                        controller = rb.gameObject.AddComponent<PlayerTornadoController>();
+                    }
+                    else
+                    {
+                        controller = other.transform.root.gameObject.AddComponent<PlayerTornadoController>();
+                    }
                 }
+        
                 controller.Attach(_model);
+                Debug.Log("Player attached to Tornado!");
             }
         }
 

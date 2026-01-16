@@ -22,9 +22,9 @@ namespace Tornado
         private LayerMask _groundLayer;
         
         public float MoveSpeed { get; set; } = 2f;
-        public float RotationStrength { get; set; } = 40f;
-        public float SuckingStrength { get; set; } = 20f;
-        public float TornadoStrength { get; set; } = 5f; 
+        public float RotationStrength { get; set; } = 60f;
+        public float SuckingStrength { get; set; } = 70f;
+        public float TornadoStrength { get; set; } = 20f; 
         public float ThrowForce { get; set; } = 30f;
         public Vector3 Position => _position;
         public bool HasPlayer => _hasPlayer;

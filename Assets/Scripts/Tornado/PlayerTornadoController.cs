@@ -1,3 +1,4 @@
+using Player.Movement;
 using UnityEngine;
 
 namespace Tornado
@@ -6,31 +7,28 @@ namespace Tornado
     {
         private TornadoModel _model;
         private Rigidbody _rb;
-        private CharacterController _cc;
+        private MovementController _cc;
         private SpringJoint _joint;
 
         public void Attach(TornadoModel model)
         {
             _model = model;
             _rb = GetComponent<Rigidbody>();
-            _cc = GetComponent<CharacterController>();
+            _cc = GetComponent<MovementController>();
 
             if (_cc != null) _cc.enabled = false;
             if (_rb != null)
             {
                 _rb.isKinematic = false;
                 _rb.useGravity = false;
-                _rb.linearVelocity = Vector3.zero; 
+                Vector3 toTornado = (_model.Position - transform.position).normalized;
+                _rb.AddForce(toTornado * 15f, ForceMode.VelocityChange);
             }
 
             _joint = gameObject.AddComponent<SpringJoint>();
             _joint.autoConfigureConnectedAnchor = false;
-
-            _joint.spring = _model.TornadoStrength * 0.5f; 
-            _joint.damper = 15f; 
-           
-            _joint.minDistance = 0f;
-            _joint.maxDistance = 1.5f;
+            _joint.spring = _model.TornadoStrength * 10f; // Делаем пружину сильнее
+            _joint.damper = 5f;
         }
 
         private void FixedUpdate()
@@ -43,18 +41,26 @@ namespace Tornado
             Vector3 diff = tornadoPos - transform.position;
             Vector3 horizontalDiff = new Vector3(diff.x, 0, diff.z);
             float dist = horizontalDiff.magnitude;
+            
+            float suctionPower = _model.SuckingStrength * (1.5f / (dist + 0.5f)); 
+            suctionPower = Mathf.Clamp(suctionPower, _model.SuckingStrength, _model.SuckingStrength * 3f);
 
-            float captureRadius = 12f; 
-            float smoothFactor = Mathf.Clamp01(1f - (dist / captureRadius));
+            _rb.AddForce(horizontalDiff.normalized * suctionPower, ForceMode.Acceleration);
 
-            _rb.AddForce(horizontalDiff.normalized * _model.SuckingStrength * smoothFactor, ForceMode.Acceleration);
+            Vector3 orbitDir = Quaternion.AngleAxis(110, Vector3.up) * horizontalDiff.normalized;
+            _rb.AddForce(orbitDir * _model.RotationStrength, ForceMode.Acceleration);
 
-            Vector3 orbitDir = Quaternion.AngleAxis(130, Vector3.up) * horizontalDiff.normalized;
-            _rb.AddForce(orbitDir * _model.RotationStrength * smoothFactor, ForceMode.Acceleration);
+            _joint.spring = Mathf.Lerp(_model.TornadoStrength * 5f, _model.TornadoStrength, dist / 10f);
+            
+            Vector3 turbulence = new Vector3(
+                Random.Range(-1f, 1f),
+                Random.Range(0.5f, 1.5f),
+                Random.Range(-1f, 1f)
+            ) * 5f;
+            _rb.AddForce(turbulence, ForceMode.Acceleration);
 
-    
-            float liftBase = Mathf.Clamp(8f / (dist + 1f), 0f, 10f);
-            _rb.AddForce(Vector3.up * liftBase * smoothFactor, ForceMode.Acceleration);
+            float lift = 10f / (dist + 1f);
+            _rb.AddForce(Vector3.up * lift, ForceMode.Acceleration);
         }
 
         public void ApplyThrow(Vector3 tornadoPos, float force)
