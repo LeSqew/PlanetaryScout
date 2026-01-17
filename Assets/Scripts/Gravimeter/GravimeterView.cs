@@ -65,7 +65,6 @@ public class GravimeterView : MonoBehaviour
 
         float timeRange = 2f * Mathf.PI;
 
-        // 1. Рисуем ЦЕЛЕВУЮ кривую (красная) — сначала, чтобы игрок мог её "накрыть"
         for (int x = 0; x < WAVE_TEXTURE_WIDTH; x++)
         {
             float t = (x / (float)(WAVE_TEXTURE_WIDTH - 1)) * timeRange;
@@ -76,7 +75,6 @@ public class GravimeterView : MonoBehaviour
                 pixels[yPixel * WAVE_TEXTURE_WIDTH + x] = Color.red;
         }
 
-        // 2. Рисуем ИГРОВУЮ кривую (голубая) — поверх целевой
         for (int x = 0; x < WAVE_TEXTURE_WIDTH; x++)
         {
             float t = (x / (float)(WAVE_TEXTURE_WIDTH - 1)) * timeRange;
