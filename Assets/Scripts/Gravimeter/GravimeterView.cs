@@ -11,7 +11,7 @@ public class GravimeterView : MonoBehaviour
     [SerializeField] private TextMeshProUGUI statusText;
     [SerializeField] private TextMeshProUGUI timerText;
     [SerializeField] private TextMeshProUGUI qualityText;
-    [SerializeField] private RawImage waveImage; // ← один RawImage для обеих кривых
+    [SerializeField] private RawImage waveImage;
     
     [Header("Кнопка подтверждения")]
     [SerializeField] private Button confirmButton;
@@ -32,7 +32,6 @@ public class GravimeterView : MonoBehaviour
 
     void Start()
     {
-        // Получаем контроллер (если он на том же объекте или дочернем)
         _controller = GetComponent<GravimeterController>() 
                       ?? GetComponentInParent<GravimeterController>()
                       ?? FindObjectOfType<GravimeterController>();
@@ -43,16 +42,13 @@ public class GravimeterView : MonoBehaviour
         }
     }
 
-
-    // --- Публичные методы для Controller ---
     public void SetWaveData(WaveParams target, WaveParams player, float remainingTime, float dataQuality)
     {
         UpdateParametersText(target, player);
         UpdateTimerText(remainingTime, dataQuality);
         UpdateQualityText(dataQuality);
         UpdateStatusText(false, remainingTime > 0);
-    
-        // Рисуем ОБЕ кривые на одной текстуре
+
         DrawCombinedWave(_waveTexture, target, player);
     
         if (waveImage != null) waveImage.texture = _waveTexture;
@@ -65,7 +61,6 @@ public class GravimeterView : MonoBehaviour
 
         float timeRange = 2f * Mathf.PI;
 
-        // 1. Рисуем ЦЕЛЕВУЮ кривую (красная) — сначала, чтобы игрок мог её "накрыть"
         for (int x = 0; x < WAVE_TEXTURE_WIDTH; x++)
         {
             float t = (x / (float)(WAVE_TEXTURE_WIDTH - 1)) * timeRange;
@@ -76,7 +71,6 @@ public class GravimeterView : MonoBehaviour
                 pixels[yPixel * WAVE_TEXTURE_WIDTH + x] = Color.red;
         }
 
-        // 2. Рисуем ИГРОВУЮ кривую (голубая) — поверх целевой
         for (int x = 0; x < WAVE_TEXTURE_WIDTH; x++)
         {
             float t = (x / (float)(WAVE_TEXTURE_WIDTH - 1)) * timeRange;
@@ -109,7 +103,6 @@ public class GravimeterView : MonoBehaviour
         }
     }
 
-    // --- Внутренние методы ---
     private void UpdateParametersText(WaveParams target, WaveParams player)
     {
         if (parametersText == null) return;
