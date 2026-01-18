@@ -125,7 +125,8 @@ public class MissionReportUI : MonoBehaviour
 
     public void ReturnToHub()
     {
-        Time.timeScale = 1f; // Важно! В отчете время обычно остановлено
+        Time.timeScale = 1f; 
+        playerMap.Enable();
         UnityEngine.SceneManagement.SceneManager.LoadScene("Hub");
     }
     

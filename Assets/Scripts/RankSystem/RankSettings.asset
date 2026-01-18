@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: RankSettings
   m_EditorClassIdentifier: 
   levels:
-  - rankName: 0
-    requiredXP: 0
-    maxAllowedRarity: 1
   - rankName: 1
+    requiredXP: 200
+    maxAllowedRarity: 1
+  - rankName: 2
     requiredXP: 500
     maxAllowedRarity: 2
