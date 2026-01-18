@@ -4,34 +4,36 @@ using UnityEngine;
 public class LightningZone : MonoBehaviour
 {
     [Header("Zone Settings")]
-    public float zoneRadius = 20f;
-
-    [Header("Lightning Settings")]
-    [Range(0f, 1f)]
-    public float lightningChancePerSecond = 0.1f;
-    public float damageRadius = 5f;
-    public int damageAmount = 20;
-
-    [Header("Lightning Visual")]
-    public GameObject lightningPrefab;
-    public float lightningLifeTime = 2f;
-    public float lightningHeightOffset = 10f;
+    public bool isActive = true;
 
     [Header("References")]
+    public LightningZoneManager manager; // ссылка на менеджер
     public Transform player;
-    public HealthController healthController;
 
     [Header("Debug")]
     public bool drawGizmos = true;
 
+    private AudioSource audioSource;
+
     private void Start()
     {
-        InvokeRepeating(nameof(TryStrikeLightning), 1f, 1f);
+        audioSource = GetComponent<AudioSource>();
+
+        if (player == null) player = manager.player;
+
+        InvokeRepeating(
+            nameof(TryStrikeLightning),
+            manager.checkInterval,
+            manager.checkInterval
+        );
     }
 
     void TryStrikeLightning()
     {
-        if (Random.value > lightningChancePerSecond)
+        if (!isActive)
+            return;
+
+        if (Random.value > manager.lightningChance)
             return;
 
         Vector3 strikePoint = GetRandomPointInZone();
@@ -40,19 +42,16 @@ public class LightningZone : MonoBehaviour
 
     Vector3 GetRandomPointInZone()
     {
-        Vector2 randomCircle = Random.insideUnitCircle * zoneRadius;
+        Vector2 randomCircle = Random.insideUnitCircle * manager.zoneRadius;
 
-        Vector3 startPoint = new Vector3(
+        Vector3 rayStart = new Vector3(
             transform.position.x + randomCircle.x,
             transform.position.y + 50f,
             transform.position.z + randomCircle.y
         );
 
-        // Raycast вниз, чтобы попасть в землю
-        if (Physics.Raycast(startPoint, Vector3.down, out RaycastHit hit, 100f))
-        {
+        if (Physics.Raycast(rayStart, Vector3.down, out RaycastHit hit, 100f))
             return hit.point;
-        }
 
         return transform.position;
     }
@@ -60,22 +59,31 @@ public class LightningZone : MonoBehaviour
     void StrikeLightning(Vector3 strikePoint)
     {
         SpawnLightningFX(strikePoint);
+        PlaySound(strikePoint);
         DealDamage(strikePoint);
     }
 
     void SpawnLightningFX(Vector3 strikePoint)
     {
-        if (lightningPrefab == null) return;
+        if (manager.lightningPrefab == null) return;
 
-        Vector3 spawnPos = strikePoint + Vector3.up * lightningHeightOffset;
+        Vector3 spawnPos = strikePoint + Vector3.up * manager.lightningHeightOffset;
 
         GameObject lightning = Instantiate(
-            lightningPrefab,
+            manager.lightningPrefab,
             spawnPos,
             Quaternion.identity
         );
 
-        Destroy(lightning, lightningLifeTime);
+        Destroy(lightning, manager.lightningLifeTime);
+    }
+
+    void PlaySound(Vector3 strikePoint)
+    {
+        if (manager.lightningSound == null) return;
+
+        audioSource.transform.position = strikePoint;
+        audioSource.PlayOneShot(manager.lightningSound, manager.soundVolume);
     }
 
     void DealDamage(Vector3 strikePoint)
@@ -83,9 +91,9 @@ public class LightningZone : MonoBehaviour
         float sqrDistance =
             (player.position - strikePoint).sqrMagnitude;
 
-        if (sqrDistance <= damageRadius * damageRadius)
+        if (sqrDistance <= manager.damageRadius * manager.damageRadius)
         {
-            healthController.takeDamage.Invoke(damageAmount);
+            manager.healthController.takeDamage.Invoke(manager.damageAmount);
             Debug.Log("Игрок поражён молнией!");
         }
     }
@@ -95,9 +103,9 @@ public class LightningZone : MonoBehaviour
         if (!drawGizmos) return;
 
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, zoneRadius);
+        Gizmos.DrawWireSphere(transform.position, manager.zoneRadius);
 
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, damageRadius);
+        Gizmos.DrawWireSphere(transform.position, manager.damageRadius);
     }
 }
