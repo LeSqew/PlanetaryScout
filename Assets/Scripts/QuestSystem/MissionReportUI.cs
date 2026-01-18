@@ -1,4 +1,3 @@
-// MissionReportUI.cs
 using Player.Health;
 using System.Collections.Generic;
 using TMPro;
@@ -34,14 +33,12 @@ public class MissionReportUI : MonoBehaviour
     void Awake()
     {
         IsDeathScreenActive = false;
-        // Находим HealthController на сцене
         _healthController = FindObjectOfType<HealthController>();
         if (_healthController == null)
         {
-            Debug.LogError("HealthController не найден на сцене!");
+            Debug.LogError("HealthController пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ!");
         }
 
-        // Подписка на ивенты
         QuestController.OnAllQuestsCompleted += OnAllQuestsCompleted;
         if (_healthController != null)
         {
@@ -64,6 +61,13 @@ public class MissionReportUI : MonoBehaviour
     {
         var report = QuestController.Instance.GenerateMissionReport();
         
+        // Р”РѕР±Р°РІР»РµРЅР° РїСЂРѕРІРµСЂРєР° РЅР° null
+        if (RankManager.Instance != null)
+        {
+            // РСЃРїРѕР»СЊР·СѓР№ С‚Рѕ Р¶Рµ РёРјСЏ, С‡С‚Рѕ Рё РІ РєР»Р°СЃСЃРµ MissionStatus (HadMinigameErrors)
+            RankManager.Instance.ProcessMissionResults(report, MissionStatus.HadMinigameErrors, false);
+        }
+        
         playerMap.Disable();
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
@@ -75,12 +79,18 @@ public class MissionReportUI : MonoBehaviour
     {
         if (IsDeathScreenActive) return;
         IsDeathScreenActive = true;
-        Debug.Log("Сработал OnPlayerDeath в MissionReportUI");
+
+        var report = QuestController.Instance.GenerateMissionReport();
         
-        
-        DisplayDeath();
+        if (RankManager.Instance != null)
+        {
+            // РСЃРїСЂР°РІР»РµРЅРѕ РёРјСЏ РЅР° HadMinigameErrors РґР»СЏ СЃРѕРѕС‚РІРµС‚СЃС‚РІРёСЏ
+            RankManager.Instance.ProcessMissionResults(report, MissionStatus.HadMinigameErrors, true);
+        }
+
         playerMap.Disable();
-        Invoke(nameof(DisplayDeath), 0f);
+        // РЈР±СЂР°Р»Рё Р»РёС€РЅРёР№ Invoke, РѕСЃС‚Р°РІРёР»Рё РїСЂСЏРјРѕР№ РІС‹Р·РѕРІ
+        DisplayDeath(); 
     }
 
     private void DisplayVictory(MissionReport report)
@@ -89,16 +99,14 @@ public class MissionReportUI : MonoBehaviour
         victoryPanel.SetActive(true);
         Time.timeScale = 0f;
 
-        completedText.text = $"Успешно: {report.CompletedQuests} / {report.TotalQuests}";
-        failedText.text = $"Провалено: {report.FailedQuests} / {report.TotalQuests}";
+        completedText.text = $"пїЅпїЅпїЅпїЅпїЅпїЅпїЅ: {report.CompletedQuests} / {report.TotalQuests}";
+        failedText.text = $"пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: {report.FailedQuests} / {report.TotalQuests}";
 
-        // Очистка старого списка
         foreach (Transform child in questListContainer)
         {
             Destroy(child.gameObject);
         }
 
-        // Заполнение списка
         foreach (var quest in report.Quests)
         {
             var entry = Instantiate(questEntryPrefab, questListContainer);
