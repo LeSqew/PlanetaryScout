@@ -1,85 +1,70 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 using TMPro;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 public class PlanetSelector : MonoBehaviour
 {
-    [Header("Список всех планет")]
+    [Header("UI элементы (Screen Space)")]
+    [SerializeField] private GameObject missionPanel; 
+    [SerializeField] private TextMeshProUGUI planetNameText;
+    [SerializeField] private TextMeshProUGUI planetInfoText;
+    [SerializeField] private Image planetPreviewImage; // Если хочешь картинку планеты
+
+    [Header("Данные")]
     [SerializeField] private PlanetData[] allPlanets;
-
-    [Header("Ссылки на UI стола")]
-    [SerializeField] private TextMeshProUGUI nameText;
-    [SerializeField] private TextMeshProUGUI infoText;
-    [SerializeField] private Button launchButton;
-    [SerializeField] private TextMeshProUGUI rankWarningText;
-
-    [Header("Точка визуализации")]
-    [SerializeField] private Transform displayPivot; // Сюда спавним модель
-    [SerializeField] private float rotationSpeed = 20f;
+    [SerializeField] private InputActionAsset inputActions;
 
     private int _currentIndex = 0;
-    private GameObject _currentModel;
+    private InputActionMap _playerMap;
 
-    void Start()
+    void Awake()
     {
-        UpdateDisplay();
+        _playerMap = inputActions.FindActionMap("Player");
+        missionPanel.SetActive(false);
     }
 
-    void Update()
+    // Тот самый метод, который вызовет HubInteractionHandler
+    public void ShowPanel(bool isVisible)
     {
-        // Просто вращаем модель планеты для красоты
-        if (_currentModel != null)
+        if (missionPanel != null)
         {
-            _currentModel.transform.Rotate(Vector3.up, rotationSpeed * Time.deltaTime);
+            missionPanel.SetActive(isVisible);
+            if (isVisible) UpdateUI();
+        
+            // Включаем или выключаем курсор в зависимости от того, в триггере мы или нет
+            Cursor.visible = isVisible;
+            Cursor.lockState = isVisible ? CursorLockMode.None : CursorLockMode.Locked;
         }
     }
 
     public void NextPlanet()
     {
         _currentIndex = (_currentIndex + 1) % allPlanets.Length;
-        UpdateDisplay();
+        UpdateUI();
     }
 
     public void PreviousPlanet()
     {
         _currentIndex--;
         if (_currentIndex < 0) _currentIndex = allPlanets.Length - 1;
-        UpdateDisplay();
+        UpdateUI();
     }
 
-    private void UpdateDisplay()
+    private void UpdateUI()
     {
         PlanetData data = allPlanets[_currentIndex];
-
-        // 1. Обновляем текстовую информацию
-        nameText.text = data.planetName;
-        infoText.text = $"Биом: {data.biome}\n{data.description}";
-
-        // 2. Проверяем ранг через RankManager
-        int playerRank = RankManager.Instance != null ? RankManager.Instance.CurrentRank : 0;
-        bool isUnlocked = playerRank >= data.requiredRank;
-
-        launchButton.interactable = isUnlocked;
-        rankWarningText.gameObject.SetActive(!isUnlocked);
-        if (!isUnlocked)
-        {
-            rankWarningText.text = $"ТРЕБУЕТСЯ РАНГ: {data.requiredRank}";
-        }
-
-        // 3. Обновляем 3D модель
-        if (_currentModel != null) Destroy(_currentModel);
-        if (data.planetModelPrefab != null)
-        {
-            _currentModel = Instantiate(data.planetModelPrefab, displayPivot);
-            // Устанавливаем слои или материалы голограммы, если нужно
-        }
+        planetNameText.text = data.planetName;
+        planetInfoText.text = $"Биом: {data.biome}\n{data.description}";
+        
+        // Здесь же можно проверять ранг, как мы делали раньше
     }
 
-    public void LaunchMission()
+    public void Launch()
     {
-        // Перед вылетом можно сбросить MissionStatus
-        MissionStatus.Reset();
-        SceneManager.LoadScene(allPlanets[_currentIndex].sceneName);
+        _playerMap.Enable();
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        UnityEngine.SceneManagement.SceneManager.LoadScene(allPlanets[_currentIndex].sceneName);
     }
 }

@@ -1529,8 +1529,8 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1073127181}
         m_TargetAssemblyTypeName: Utils.SceneLoader, Assembly-CSharp
-        m_MethodName: LoadSceneById
-        m_Mode: 3
+        m_MethodName: ReturnToHub
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

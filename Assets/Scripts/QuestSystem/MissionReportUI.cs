@@ -123,6 +123,12 @@ public class MissionReportUI : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
     }
 
+    public void ReturnToHub()
+    {
+        Time.timeScale = 1f; // Важно! В отчете время обычно остановлено
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Hub");
+    }
+    
     private void HideAllPanels()
     {
         victoryPanel.SetActive(false);
