@@ -1,31 +1,100 @@
 using UnityEngine;
 using TMPro;
 using System.Collections.Generic;
+using UnityEngine.InputSystem;
 
 public class BestiaryManager : MonoBehaviour
 {
+    [Header("Input Settings")]
+    [SerializeField] private InputActionAsset inputActions; // РџРµСЂРµС‚Р°С‰РёС‚Рµ СЃСЋРґР° РІР°С€ .inputactions С„Р°Р№Р»
+
     [Header("Data")]
-    [SerializeField] private List<BestiaryEntry> allEntries; // Список всех ресурсов
+    [SerializeField] private List<BestiaryEntry> allEntries;
 
     [Header("UI References")]
-    [SerializeField] private Transform listContainer;       // Куда спавнить кнопки
-    [SerializeField] private BestiaryButton buttonPrefab;    // Префаб кнопки
+    [SerializeField] private GameObject bestiaryPanel;
+    [SerializeField] private Transform listContainer;
+    [SerializeField] private BestiaryButton buttonPrefab;
+    [SerializeField] private TextMeshProUGUI nameDisplay;
+    [SerializeField] private TextMeshProUGUI descDisplay;
 
-    [SerializeField] private TextMeshProUGUI nameDisplay;    // Текст названия справа
-    [SerializeField] private TextMeshProUGUI descDisplay;    // Текст описания справа
+    private InputActionMap _playerMap;
+    private InputAction _openBestiaryAction;
+    private bool _isOpened = false;
+
+    void Awake()
+    {
+        if (inputActions != null)
+        {
+            // РќР°С…РѕРґРёРј РєР°СЂС‚Сѓ Player РІ Р°СЃСЃРµС‚Рµ
+            _playerMap = inputActions.FindActionMap("Player", true);
+            // РќР°С…РѕРґРёРј РєРѕРЅРєСЂРµС‚РЅС‹Р№ СЌРєС€РµРЅ РїРѕ РёРјРµРЅРё
+            _openBestiaryAction = _playerMap.FindAction("OpenBestiary", true);
+        }
+        else
+        {
+            Debug.LogError("InputActionAsset РЅРµ РЅР°Р·РЅР°С‡РµРЅ РІ BestiaryManager!");
+        }
+    }
+
+    void OnEnable()
+    {
+        if (_playerMap != null)
+        {
+            _playerMap.Enable(); // Р’РєР»СЋС‡Р°РµРј РІСЃСЋ РєР°СЂС‚Сѓ
+            _openBestiaryAction.performed += OnToggleBestiary; // РџРѕРґРїРёСЃС‹РІР°РµРјСЃСЏ РЅР° СЃРѕР±С‹С‚РёРµ
+        }
+    }
+
+    void OnDisable()
+    {
+        if (_playerMap != null)
+        {
+            _openBestiaryAction.performed -= OnToggleBestiary;
+            _playerMap.Disable();
+        }
+    }
 
     void Start()
     {
+        bestiaryPanel.SetActive(false);
         PopulateList();
+    }
+
+    private void OnToggleBestiary(InputAction.CallbackContext context)
+    {
+        // РСЃРїРѕР»СЊР·СѓРµРј РІР°С€Сѓ Р»РѕРіРёРєСѓ РїСЂРѕРІРµСЂРєРё СЌРєСЂР°РЅР° СЃРјРµСЂС‚Рё
+        if (MissionReportUI.IsDeathScreenActive) return; 
+
+        _isOpened = !_isOpened;
+        bestiaryPanel.SetActive(_isOpened);
+
+        if (_isOpened)
+        {
+            PopulateList(); // РћР±РЅРѕРІР»СЏРµРј СЃРїРёСЃРѕРє РїСЂРё РѕС‚РєСЂС‹С‚РёРё
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+        }
+        else
+        {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
     }
 
     private void PopulateList()
     {
-        // Очищаем список перед заполнением
+        Debug.Log("РџРѕРїС‹С‚РєР° Р·Р°РїРѕР»РЅРёС‚СЊ СЃРїРёСЃРѕРє");
+        if (allEntries == null || allEntries.Count == 0) return;
+
+        // РћС‡РёС‰Р°РµРј СЃС‚Р°СЂС‹Рµ РєРЅРѕРїРєРё
         foreach (Transform child in listContainer) Destroy(child.gameObject);
 
+        // РЎРѕР·РґР°РµРј РЅРѕРІС‹Рµ РєРЅРѕРїРєРё РЅР° РѕСЃРЅРѕРІРµ Р°СЃСЃРµС‚РѕРІ
         foreach (var entry in allEntries)
         {
+            if (entry == null) continue;
+            Debug.Log($"РЎРѕР·РґР°РЅРёРµ РєРЅРѕРїРєРё РґР»СЏ: {entry.objectName}");
             var btn = Instantiate(buttonPrefab, listContainer);
             btn.Setup(entry.objectName, () => ShowDetails(entry));
         }
@@ -35,7 +104,5 @@ public class BestiaryManager : MonoBehaviour
     {
         nameDisplay.text = entry.objectName;
         descDisplay.text = entry.description;
-
-        // Здесь можно добавить логику отображения 3D модели через Render Texture
     }
 }
