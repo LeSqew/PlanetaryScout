@@ -2,12 +2,31 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Контроллер сканера животных. 
+/// Реализует механику удержания прицела с учетом инерционной тряски и затухания прогресса.
+/// </summary>
 public class AnimalScanner : MonoBehaviour, IMinigameController
 {
-    [Header("Scan Settings")]
+    [Header("Base Scan Settings")]
     [SerializeField] private float scanTime = 2f;
+    [SerializeField] private float scanDistance = 4f;
     [SerializeField] private Image scanProgressCircle;
-    [SerializeField] private float scanDistance = 3f;
+    [SerializeField] private LayerMask scanLayerMask;
+
+    [Header("Difficulty Settings")]
+    [Tooltip("Скорость потери прогресса при потере цели")]
+    [SerializeField] private float baseStabilityDecay = 0.2f; 
+    [Tooltip("Базовая интенсивность дрейфа прицела")]
+    [SerializeField] private float baseShakeIntensity = 0.007f; 
+
+    [Header("Shake Smoothing (Eye Comfort)")]
+    [Tooltip("Насколько плавно прицел стремится к точке смещения")]
+    [SerializeField] private float shakeSmoothSpeed = 8f; 
+    [Tooltip("Как часто выбирается новая точка дрейфа")]
+    [SerializeField] private float shakeUpdateFrequency = 0.15f; 
+    [Tooltip("Множитель для визуального смещения кружка в UI")]
+    [SerializeField] private float uiVisualMultiplier = 600f;
 
     private Camera _mainCamera;
     private ScannableObject _target;
@@ -15,17 +34,17 @@ public class AnimalScanner : MonoBehaviour, IMinigameController
     private bool _isCompleted = false;
     private Action<bool, ScannableObject> _onFinishedCallback;
 
-    [SerializeField] private LayerMask scanLayerMask;
+    // Внутренние переменные для плавности
+    private Vector3 _currentShakeOffset;
+    private Vector3 _targetShakeOffset;
+    private float _shakeTimer;
 
     public bool RequiresInputBlocking => false;
 
     void Awake()
     {
         _mainCamera = Camera.main;
-        if (_mainCamera == null)
-        {
-            Debug.LogError("Камера не найдена!");
-        }
+        if (_mainCamera == null) Debug.LogError("AnimalScanner: Main Camera not found!");
     }
 
     void Start()
@@ -33,7 +52,8 @@ public class AnimalScanner : MonoBehaviour, IMinigameController
         if (scanProgressCircle != null)
         {
             scanProgressCircle.fillAmount = 0f;
-            scanProgressCircle.transform.position = new Vector2(Screen.width * 0.5f, Screen.height * 0.5f);
+            // Центрируем кружок через RectTransform
+            scanProgressCircle.rectTransform.anchoredPosition = Vector2.zero;
         }
     }
 
@@ -41,39 +61,68 @@ public class AnimalScanner : MonoBehaviour, IMinigameController
     {
         if (_isCompleted || _target == null || _mainCamera == null) return;
 
-        bool isInCollider = IsCrosshairHittingTarget();
+        bool isHitting = IsCrosshairHittingTarget();
+        bool isPressing = Input.GetMouseButton(0);
+        int rarity = _target.rarity;
 
-        if (Input.GetMouseButton(0))
+        if (isPressing && isHitting)
         {
-            if (isInCollider)
-            {
-                _progress += Time.deltaTime / scanTime;
-                _progress = Mathf.Clamp01(_progress);
+            // Успешное сканирование
+            _progress += Time.deltaTime / scanTime;
 
-                if (scanProgressCircle != null)
-                    scanProgressCircle.fillAmount = _progress;
-
-                if (_progress >= 1f)
-                {
-                    OnSuccess();
-                }
-            }
-            else
+            // Обновляем целевую точку дрейфа по таймеру
+            _shakeTimer -= Time.deltaTime;
+            if (_shakeTimer <= 0)
             {
-                ResetProgress();
+                // Рассчитываем силу тряски на основе редкости
+                float currentIntensity = baseShakeIntensity * (1f + (rarity - 1) * 0.6f);
+                _targetShakeOffset = new Vector3(
+                    UnityEngine.Random.Range(-1f, 1f),
+                    UnityEngine.Random.Range(-1f, 1f),
+                    0) * currentIntensity;
+
+                _shakeTimer = shakeUpdateFrequency;
             }
         }
         else
         {
-            ResetProgress();
+            // Прогресс "тает", если цель потеряна или кнопка отпущена
+            float currentDecay = baseStabilityDecay * rarity;
+            _progress -= Time.deltaTime * currentDecay;
+
+            // Возвращаем прицел в центр (стабилизация)
+            _targetShakeOffset = Vector3.zero;
         }
+
+        // Плавное движение текущего смещения к целевому (Lerp)
+        _currentShakeOffset = Vector3.Lerp(_currentShakeOffset, _targetShakeOffset, Time.deltaTime * shakeSmoothSpeed);
+
+        _progress = Mathf.Clamp01(_progress);
+
+        UpdateUI(isHitting);
+
+        if (_progress >= 1f) OnSuccess();
+    }
+
+    private void UpdateUI(bool isHitting)
+    {
+        if (scanProgressCircle == null) return;
+
+        scanProgressCircle.fillAmount = _progress;
+        
+        // Цвет индикатора
+        scanProgressCircle.color = isHitting ? Color.green : Color.red;
+
+        // Визуальное смещение кружка (синхронизировано с физикой луча)
+        scanProgressCircle.rectTransform.anchoredPosition = _currentShakeOffset * uiVisualMultiplier;
     }
 
     private bool IsCrosshairHittingTarget()
     {
-        Ray ray = _mainCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+        // Пускаем луч со смещением, которое видит игрок на кружке
+        Vector3 screenPoint = new Vector3(0.5f, 0.5f, 0) + _currentShakeOffset;
+        Ray ray = _mainCamera.ViewportPointToRay(screenPoint);
 
-        // Ограничиваем дистанцию (например, 5 метров)
         if (Physics.Raycast(ray, out RaycastHit hit, scanDistance, scanLayerMask))
         {
             return hit.collider.gameObject == _target.gameObject;
@@ -82,23 +131,21 @@ public class AnimalScanner : MonoBehaviour, IMinigameController
         return false;
     }
 
-    private void ResetProgress()
-    {
-        _progress = 0f;
-        if (scanProgressCircle != null)
-            scanProgressCircle.fillAmount = 0f;
-    }
-
     public void StartAnalysis(ScannableObject target, Action<bool, ScannableObject> onFinishedCallback)
     {
         _target = target;
         _onFinishedCallback = onFinishedCallback;
-        _progress = 0f;
         _isCompleted = false;
+        _progress = 0f;
+        _targetShakeOffset = Vector3.zero;
+        _currentShakeOffset = Vector3.zero;
 
-        if (scanProgressCircle != null)
-            scanProgressCircle.fillAmount = 0f;
+        // --- НАСТРОЙКА СЛОЖНОСТИ ---
+        int r = _target.rarity;
+        this.scanTime = 2f + (r - 1) * 1.5f; // Больше редкость — дольше скан
+        this.scanDistance = 4f - (r - 1) * 0.5f; // Больше редкость — нужно быть ближе
 
+        if (scanProgressCircle != null) scanProgressCircle.fillAmount = 0f;
         gameObject.SetActive(true);
     }
 
@@ -107,7 +154,7 @@ public class AnimalScanner : MonoBehaviour, IMinigameController
         _isCompleted = true;
         _target = null;
         _onFinishedCallback = null;
-        Destroy(gameObject);
+        if (this != null) Destroy(gameObject);
     }
 
     private void OnSuccess()

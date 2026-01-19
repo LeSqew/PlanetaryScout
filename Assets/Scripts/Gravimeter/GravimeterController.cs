@@ -21,14 +21,12 @@ public class GravimeterController : MonoBehaviour, IMinigameController
 
         _model.Tick(Time.deltaTime);
 
-        // Провал по таймеру
         if (_model.HasFailed)
         {
             OnFailure("Время вышло!");
             return;
         }
 
-        // Обновляем UI
         if (Time.time - _lastUIUpdateTime >= UI_UPDATE_INTERVAL)
         {
             UpdateView();
@@ -38,18 +36,27 @@ public class GravimeterController : MonoBehaviour, IMinigameController
 
     public void StartAnalysis(ScannableObject target, Action<bool, ScannableObject> onFinishedCallback)
     {
-        _onFinishedCallback = onFinishedCallback; // <--- СОХРАНЯЕМ КОЛБЭК
+        _onFinishedCallback = onFinishedCallback;
         _currentTarget = target;
         _isCompleted = false;
 
-        float amplitude = 10f + _currentTarget.rarity * 2.5f;
-        float frequency = Mathf.Max(0.5f, 1f + _currentTarget.rarity * 0.3f);
-        float phaseShift = _currentTarget.rarity * 1.0f;
-        float requiredAccuracy = GetRequiredAccuracy(_currentTarget.rarity);
+        int r = _currentTarget.rarity;
 
+        float amplitude = UnityEngine.Random.Range(10f, 20f);
+        float frequency = UnityEngine.Random.Range(0.5f, 1f + r * 0.5f); 
+        float phaseShift = UnityEngine.Random.Range(0f, 2f * Mathf.PI);
+    
+        // 2. Время на сканирование (чем выше редкость, тем меньше времени)
+        // r1 = 20s, r2 = 15s, r3 = 10s, r4 = 7s
+        float timeLimit = 25f - (r * 5f); 
+
+        float requiredAccuracy = GetRequiredAccuracy(r);
+    
         _model = new GravimeterModel();
-        if (_model != null) Debug.Log("Model created");
+        _model.AnomalyTimeLimit = timeLimit; 
+        
         _model.StartMinigame(new WaveParams(amplitude, frequency, phaseShift), requiredAccuracy);
+        
         gameObject.SetActive(true);
         UpdateView();
     }
@@ -60,8 +67,8 @@ public class GravimeterController : MonoBehaviour, IMinigameController
         {
             1 => 0.85f,
             2 => 0.90f,
-            3 => 0.95f,
-            4 => 0.98f,
+            3 => 0.94f,
+            4 => 0.97f,
             _ => 0.85f
         };
     }
@@ -99,7 +106,7 @@ public class GravimeterController : MonoBehaviour, IMinigameController
         _isCompleted = true;
         view?.ShowSuccess();
 
-        _onFinishedCallback?.Invoke(true, _currentTarget); // <--- Успешный колбэк
+        _onFinishedCallback?.Invoke(true, _currentTarget);
         Cleanup();
         //StartCoroutine(ShowResultAndCleanup());
     }
@@ -111,9 +118,8 @@ public class GravimeterController : MonoBehaviour, IMinigameController
         _isCompleted = true;
         view?.ShowFailure();
 
-        _onFinishedCallback?.Invoke(false, _currentTarget); // <--- Провальный колбэк
+        _onFinishedCallback?.Invoke(false, _currentTarget); 
 
-        // Удаляем объект ScannableObject, если это механика провала Гравиметра
         Cleanup();
 
         //StartCoroutine(ShowResultAndCleanup());
@@ -144,7 +150,7 @@ public class GravimeterController : MonoBehaviour, IMinigameController
 
     public void SetPhaseShift(float value)
     {
-        if (_model == null) return; // ← добавь это
+        if (_model == null) return; 
         UpdatePlayerParam(_model.PlayerParams.Amplitude, _model.PlayerParams.Frequency, value);
     }
     private void UpdatePlayerParam(float a, float f, float p)

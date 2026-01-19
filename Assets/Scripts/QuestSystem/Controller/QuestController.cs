@@ -45,7 +45,7 @@ public class QuestController : MonoBehaviour
             .Where(t => t.faction == Faction.None)
             .Where(t => t.biome == biome)
             .Where(t => !t.requiresWeather || t.weather == weather)
-            .GroupBy(t => t.goalCategory) // ← группировка только по категории
+            .GroupBy(t => t.goalCategory) 
             .Select(g => g.First())
             .OrderBy(_ => Random.value)
             .Take(3);
