@@ -95,12 +95,17 @@ public class MissionReportUI : MonoBehaviour
 
     private void DisplayVictory(MissionReport report)
     {
+        if (MinigameReportUI.Instance != null) 
+        {
+            MinigameReportUI.Instance.HideImmediately();
+        }
+        
         HideAllPanels();
         victoryPanel.SetActive(true);
         Time.timeScale = 0f;
 
-        completedText.text = $"�������: {report.CompletedQuests} / {report.TotalQuests}";
-        failedText.text = $"���������: {report.FailedQuests} / {report.TotalQuests}";
+        completedText.text = $"Завершено: {report.CompletedQuests} / {report.TotalQuests}";
+        failedText.text = $"Провалено: {report.FailedQuests} / {report.TotalQuests}";
 
         foreach (Transform child in questListContainer)
         {
@@ -116,6 +121,10 @@ public class MissionReportUI : MonoBehaviour
 
     private void DisplayDeath()
     {
+        if (MinigameReportUI.Instance != null) 
+        {
+            MinigameReportUI.Instance.HideImmediately();
+        }
         HideAllPanels();
         deathPanel.SetActive(true);
         Time.timeScale = 0f;
