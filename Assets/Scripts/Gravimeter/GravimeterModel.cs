@@ -34,7 +34,7 @@ public class GravimeterModel
     public void StartMinigame(WaveParams target, float requiredAccuracy)
     {
         TargetParams = target;
-        PlayerParams = new WaveParams(0f, 1.5f, 0f); // видимый старт
+        PlayerParams = new WaveParams(0f, 1.5f, 0f); 
         RemainingTime = AnomalyTimeLimit;
         _requiredAccuracy = requiredAccuracy;
         _isActive = true;
@@ -64,6 +64,5 @@ public class GravimeterModel
         DataQuality = Mathf.Clamp01(1f - avgError);
     }
 
-    // Новый метод: проверка точности ВНЕ модели
     public bool IsAccuracySufficient() => DataQuality >= _requiredAccuracy;
 }
