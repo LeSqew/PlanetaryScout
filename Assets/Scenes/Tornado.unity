@@ -202,10 +202,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1249087688578902269, guid: be4fbca1c32b1476780795f41bfd933f, type: 3}
-      propertyPath: playerCollider
-      value: 
-      objectReference: {fileID: 1287652133}
     - target: {fileID: 1350383769087560882, guid: be4fbca1c32b1476780795f41bfd933f, type: 3}
       propertyPath: lookAction
       value: 
@@ -440,11 +436,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &1287652133 stripped
-CapsuleCollider:
-  m_CorrespondingSourceObject: {fileID: 8744479404956127560, guid: be4fbca1c32b1476780795f41bfd933f, type: 3}
-  m_PrefabInstance: {fileID: 750501838}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1290793437
 GameObject:
   m_ObjectHideFlags: 0

@@ -26498,6 +26498,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5619033427623029576, guid: 3fbbf22c4bb1f8643be0a49d759db03c, type: 3}
   m_PrefabInstance: {fileID: 311487332}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &312549637
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 312549638}
+  m_Layer: 0
+  m_Name: TornadoPoint (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &312549638
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 312549637}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1835073387}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &316236473
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -51711,6 +51742,75 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.01
   m_Center: {x: -0.008537472, y: 0.15853189, z: 0.011655079}
+--- !u!1001 &606824583
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 97413515009938193, guid: 70a2b84b0fdfb6b4ea7fc9cbac9b28a8, type: 3}
+      propertyPath: m_Name
+      value: TornadoManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 6448885661135417010, guid: 70a2b84b0fdfb6b4ea7fc9cbac9b28a8, type: 3}
+      propertyPath: 'spawnPoints.Array.data[0]'
+      value: 
+      objectReference: {fileID: 1354790059}
+    - target: {fileID: 6448885661135417010, guid: 70a2b84b0fdfb6b4ea7fc9cbac9b28a8, type: 3}
+      propertyPath: 'spawnPoints.Array.data[1]'
+      value: 
+      objectReference: {fileID: 802184840}
+    - target: {fileID: 6448885661135417010, guid: 70a2b84b0fdfb6b4ea7fc9cbac9b28a8, type: 3}
+      propertyPath: 'spawnPoints.Array.data[2]'
+      value: 
+      objectReference: {fileID: 312549638}
+    - target: {fileID: 7998554860773205458, guid: 70a2b84b0fdfb6b4ea7fc9cbac9b28a8, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 105.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7998554860773205458, guid: 70a2b84b0fdfb6b4ea7fc9cbac9b28a8, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7998554860773205458, guid: 70a2b84b0fdfb6b4ea7fc9cbac9b28a8, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -16.857765
+      objectReference: {fileID: 0}
+    - target: {fileID: 7998554860773205458, guid: 70a2b84b0fdfb6b4ea7fc9cbac9b28a8, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7998554860773205458, guid: 70a2b84b0fdfb6b4ea7fc9cbac9b28a8, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7998554860773205458, guid: 70a2b84b0fdfb6b4ea7fc9cbac9b28a8, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7998554860773205458, guid: 70a2b84b0fdfb6b4ea7fc9cbac9b28a8, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7998554860773205458, guid: 70a2b84b0fdfb6b4ea7fc9cbac9b28a8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7998554860773205458, guid: 70a2b84b0fdfb6b4ea7fc9cbac9b28a8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7998554860773205458, guid: 70a2b84b0fdfb6b4ea7fc9cbac9b28a8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 70a2b84b0fdfb6b4ea7fc9cbac9b28a8, type: 3}
 --- !u!1001 &608100456
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -68312,6 +68412,37 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.01
   m_Center: {x: 0.15241377, y: 1.3238012, z: -0.011330134}
+--- !u!1 &802184839
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 802184840}
+  m_Layer: 0
+  m_Name: TornadoPoint (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &802184840
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 802184839}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1835073387}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &804507854
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -111967,6 +112098,37 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.01
   m_Center: {x: -0.005695581, y: 3.9888403, z: 0.051197883}
+--- !u!1 &1354790058
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1354790059}
+  m_Layer: 0
+  m_Name: TornadoPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1354790059
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1354790058}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1835073387}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1354899473
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -147325,6 +147487,40 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.01
   m_Center: {x: -0.009918704, y: 0.16221777, z: 0.037398484}
+--- !u!1 &1835073386
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1835073387}
+  m_Layer: 0
+  m_Name: TornadoSpawnPoints
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1835073387
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1835073386}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 125.627945, y: -30.674768, z: -50.800556}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1354790059}
+  - {fileID: 802184840}
+  - {fileID: 312549638}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1835114331
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -176900,3 +177096,5 @@ SceneRoots:
   - {fileID: 109658771}
   - {fileID: 866133842}
   - {fileID: 2555687325528523883}
+  - {fileID: 606824583}
+  - {fileID: 1835073387}
