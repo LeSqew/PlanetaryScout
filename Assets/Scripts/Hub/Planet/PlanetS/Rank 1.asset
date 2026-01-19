@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abf4cd1e8e4813b48a1fcffaff668603, type: 3}
   m_Name: Rank 1
   m_EditorClassIdentifier: 
-  planetName: Demo
-  description: 
+  planetName: "\u041D\u0430\u0447\u0430\u043B\u043E"
+  description: "\u041F\u0435\u0440\u0432\u0430\u044F \u0441\u0446\u0435\u043D\u0430"
   biome: 0
   sceneName: demo
   requiredRank: 1
