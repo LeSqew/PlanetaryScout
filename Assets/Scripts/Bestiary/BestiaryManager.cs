@@ -19,7 +19,9 @@ public class BestiaryManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI descDisplay;
     [SerializeField] private TextMeshProUGUI rarDisplay;
 
+    public static bool IsBestiaryOpen { get; private set; }
     private InputActionMap _playerMap;
+    private InputActionMap _uiMap;
     private InputAction _openBestiaryAction;
     private bool _isOpened = false;
 
@@ -27,10 +29,9 @@ public class BestiaryManager : MonoBehaviour
     {
         if (inputActions != null)
         {
-            // Находим карту Player в ассете
+            _uiMap = inputActions.FindActionMap("UI", true);
             _playerMap = inputActions.FindActionMap("Player", true);
-            // Находим конкретный экшен по имени
-            _openBestiaryAction = _playerMap.FindAction("OpenBestiary", true);
+            _openBestiaryAction = _uiMap.FindAction("OpenBestiary", true);
         }
         else
         {
@@ -40,20 +41,13 @@ public class BestiaryManager : MonoBehaviour
 
     void OnEnable()
     {
-        if (_playerMap != null)
-        {
-            _playerMap.Enable(); // Включаем всю карту
-            _openBestiaryAction.performed += OnToggleBestiary; // Подписываемся на событие
-        }
+        _openBestiaryAction.Enable();
+        _openBestiaryAction.performed += OnToggleBestiary;
     }
 
     void OnDisable()
     {
-        if (_playerMap != null)
-        {
-            _openBestiaryAction.performed -= OnToggleBestiary;
-            _playerMap.Disable();
-        }
+        _openBestiaryAction.performed -= OnToggleBestiary;
     }
 
     void Start()
@@ -64,20 +58,22 @@ public class BestiaryManager : MonoBehaviour
 
     private void OnToggleBestiary(InputAction.CallbackContext context)
     {
-        // Используем вашу логику проверки экрана смерти
+        // Не открываем, если игрок мертв или уже стоит пауза
         if (MissionReportUI.IsDeathScreenActive) return; 
 
-        _isOpened = !_isOpened;
-        bestiaryPanel.SetActive(_isOpened);
+        IsBestiaryOpen = !IsBestiaryOpen;
+        bestiaryPanel.SetActive(IsBestiaryOpen);
 
-        if (_isOpened)
+        if (IsBestiaryOpen)
         {
-            PopulateList(); // Обновляем список при открытии
+            PopulateList();
+            _playerMap.Disable(); // Полностью выключаем игрока (движение/камера)
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
         }
         else
         {
+            _playerMap.Enable(); // Включаем обратно
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
         }

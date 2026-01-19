@@ -149,15 +149,6 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
-                },
-                {
-                    "name": "OpenBestiary",
-                    "type": "Button",
-                    "id": "391aa663-e6f0-40ca-9dbe-deed7ef6b7ba",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -941,17 +932,6 @@
                     "action": "Look",
                     "isComposite": false,
                     "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "6d62e148-5814-48f1-901f-283bca5a3ceb",
-                    "path": "<Keyboard>/f",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "OpenBestiary",
-                    "isComposite": false,
-                    "isPartOfComposite": false
                 }
             ]
         },
@@ -963,6 +943,15 @@
                     "name": "Submit",
                     "type": "Button",
                     "id": "7607c7b6-cd76-4816-beef-bd0341cfe950",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "OpenBestiary",
+                    "type": "Button",
+                    "id": "e34148ae-2543-4a17-9433-21999b53a429",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -1059,6 +1048,17 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse;Gamepad;Touch;Joystick;XR",
                     "action": "Submit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2b695347-329f-406d-875d-fd9cfd58827e",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "OpenBestiary",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

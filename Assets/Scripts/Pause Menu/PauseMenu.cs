@@ -66,7 +66,10 @@ public class PauseMenu : MonoBehaviour
         {
             ResumeGame();
         }
-        else if (!MinigameManager.IsInMinigame && !MissionReportUI.IsDeathScreenActive)
+        // ДОБАВЛЯЕМ ПРОВЕРКУ: !BestiaryManager.IsBestiaryOpen
+        else if (!MinigameManager.IsInMinigame && 
+                 !MissionReportUI.IsDeathScreenActive && 
+                 !BestiaryManager.IsBestiaryOpen) 
         {
             PauseGame();
         }
