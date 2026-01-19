@@ -180,7 +180,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 7a23541f78717e8468c8aa84aa7fb098, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.123
+  m_Volume: 0.266
   m_Pitch: 0.62
   Loop: 0
   Mute: 0
@@ -4185,7 +4185,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: e739d2d0c57f49c4db54c44c9f8f72fd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2085723997}
   m_SourcePrefab: {fileID: 100100000, guid: e739d2d0c57f49c4db54c44c9f8f72fd, type: 3}
 --- !u!1 &1929483038
 GameObject:
@@ -4617,6 +4620,32 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2085723993 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: e739d2d0c57f49c4db54c44c9f8f72fd, type: 3}
+  m_PrefabInstance: {fileID: 1918319698}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &2085723997
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2085723993}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.4888062, y: 2.2837932, z: 1.9999999}
+  m_Center: {x: 0.24440306, y: -0.14189677, z: 0.0000000036418895}
 --- !u!1 &2096709379 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1240475664197158, guid: 3d0d9005147d0ce46bf11edc0ceb4c99, type: 3}
