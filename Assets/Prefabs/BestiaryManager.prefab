@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5515117012635333692
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5516239456874153692}
+  - component: {fileID: 5440332995730135310}
+  m_Layer: 0
+  m_Name: BestiaryManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5516239456874153692
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5515117012635333692}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 270.07916, y: 947.42505, z: 7.3760834}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5440332995730135310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5515117012635333692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2cdeb99c606beb74aad4e8f4b11cfed1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputActions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  allEntries:
+  - {fileID: 11400000, guid: a6a2dd2a749db2340b3dced9d4145308, type: 2}
+  - {fileID: 11400000, guid: 04b67ac6cc1e3f745820e602ca332ec1, type: 2}
+  - {fileID: 11400000, guid: c0a198a5e97feee47815e27f9576a1da, type: 2}
+  - {fileID: 11400000, guid: ddfc105ccd4207544a975528293db89f, type: 2}
+  - {fileID: 11400000, guid: afcd0ce75f5f1a34fb11fcfa34028fea, type: 2}
+  - {fileID: 11400000, guid: 585c2bff5ca9c244689ebc9db8973de3, type: 2}
+  - {fileID: 11400000, guid: 113bbc7a209c3094cb4a7904b4689f7c, type: 2}
+  - {fileID: 11400000, guid: 736d79334c01f864eb74da282da8064d, type: 2}
+  - {fileID: 11400000, guid: e75177842acac7646ae2ab562c195d5e, type: 2}
+  - {fileID: 11400000, guid: a585e2229481c044f886d4d8abf83de3, type: 2}
+  bestiaryPanel: {fileID: 0}
+  listContainer: {fileID: 0}
+  buttonPrefab: {fileID: 3177487238555626992, guid: bb5577b448bb3134a87c981ee7c72da3, type: 3}
+  nameDisplay: {fileID: 0}
+  descDisplay: {fileID: 0}

@@ -10,9 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a42737ce01767ec4a89c6a0bea015fcb, type: 3}
-  m_Name: NewBestiaryEntry 1
+  m_Name: Bioluminescent
   m_EditorClassIdentifier: 
-  objectName: 
-  description: 
+  objectName: "\u0411\u0438\u043E\u043B\u044E\u043C\u0438\u043D\u0438\u0441\u0446\u0435\u043D\u0442\u043D\u044B\u0435
+    \u0448\u043B\u044F\u043F\u043A\u0438"
+  description: "\u0421\u0432\u0435\u0442\u044F\u0442\u0441\u044F \u043D\u043E\u0447\u044C\u044E."
   icon: {fileID: 0}
   model3D: {fileID: 0}
