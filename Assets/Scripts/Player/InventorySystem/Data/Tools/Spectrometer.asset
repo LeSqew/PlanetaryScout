@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Spectrometer
   m_EditorClassIdentifier: 
   toolName: Spectrometer
-  icon: {fileID: -1642618483, guid: a0c9e6a160984804891db58e407aee2c, type: 3}
+  icon: {fileID: 21300000, guid: 06ebe2661449bd14eb8e2e852b5e5b41, type: 3}
   modelPrefab: {fileID: 0}
   compatibleTypes: 0200000003000000
   minigamePrefab: {fileID: 8112001450124118888, guid: 5b53d163ccdf19f4f8c963d5b2a52380, type: 3}

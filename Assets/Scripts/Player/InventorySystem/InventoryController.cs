@@ -87,8 +87,7 @@ namespace Player.InventorySystem
         {
             var tool = GetCurrentTool();
             if (tool == null) return false;
-
-            // Проверяем, есть ли переданный тип в списке совместимых
+            
             foreach (var type in tool.compatibleTypes)
             {
                 if (type == objType) return true;
