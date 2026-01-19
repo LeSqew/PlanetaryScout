@@ -9,7 +9,7 @@ public class PauseMenu : MonoBehaviour
     [SerializeField] private Button continueButton;
     [SerializeField] private Button educationButton;
     [SerializeField] private Button mainMenuButton;
-
+    
     [Header("Panels")]
     [SerializeField] private GameObject pauseMenuPanel;
     [SerializeField] private GameObject educationPanel;
@@ -20,6 +20,7 @@ public class PauseMenu : MonoBehaviour
     [Header("Action Map")]
     [SerializeField] private InputActionAsset inputActionAsset;
 
+    public static bool IsPaused { get; private set; }
 
     private InputActionMap UIActionMap;
     private InputActionMap playerMap;
@@ -59,14 +60,15 @@ public class PauseMenu : MonoBehaviour
         mainMenuButton.onClick.AddListener(OnMainMenuButtonClicked);
         backButton.onClick.AddListener(OnBackButtonClicked);
     }
+    
 
     private void OnPausePerformed(InputAction.CallbackContext context)
     {
-        if (isPaused)
+        if (IsPaused)
         {
             ResumeGame();
         }
-        // ДОБАВЛЯЕМ ПРОВЕРКУ: !BestiaryManager.IsBestiaryOpen
+        // Условие: Не открывать паузу, если открыт бестиарий, миниигра или экран смерти
         else if (!MinigameManager.IsInMinigame && 
                  !MissionReportUI.IsDeathScreenActive && 
                  !BestiaryManager.IsBestiaryOpen) 
@@ -77,21 +79,23 @@ public class PauseMenu : MonoBehaviour
 
     public void PauseGame()
     {
-        isPaused = true;
+        IsPaused = true; // Устанавливаем флаг
         pauseMenuPanel.SetActive(true);
         playerMap.Disable();
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
+        Time.timeScale = 0f; // Обычно пауза останавливает время
     }
 
     public void ResumeGame()
     {
-        isPaused = false;
+        IsPaused = false; // Снимаем флаг
         pauseMenuPanel.SetActive(false);
         playerMap.Enable();
         educationPanel.SetActive(false);
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+        Time.timeScale = 1f;
     }
 
     public void OnEducationButtonClicked()

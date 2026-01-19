@@ -58,8 +58,8 @@ public class BestiaryManager : MonoBehaviour
 
     private void OnToggleBestiary(InputAction.CallbackContext context)
     {
-        // Не открываем, если игрок мертв или уже стоит пауза
-        if (MissionReportUI.IsDeathScreenActive) return; 
+        // Условие: Не открывать, если игрок мертв ИЛИ если игра на паузе
+        if (MissionReportUI.IsDeathScreenActive || PauseMenu.IsPaused) return; 
 
         IsBestiaryOpen = !IsBestiaryOpen;
         bestiaryPanel.SetActive(IsBestiaryOpen);
@@ -67,13 +67,13 @@ public class BestiaryManager : MonoBehaviour
         if (IsBestiaryOpen)
         {
             PopulateList();
-            _playerMap.Disable(); // Полностью выключаем игрока (движение/камера)
+            _playerMap.Disable(); // Выключаем движение/камеру
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
         }
         else
         {
-            _playerMap.Enable(); // Включаем обратно
+            _playerMap.Enable(); // Включаем движение
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
         }
