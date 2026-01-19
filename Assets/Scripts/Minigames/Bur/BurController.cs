@@ -139,7 +139,6 @@ public class BurController : MonoBehaviour, IMinigameController
 
         bool isInGreen = IsPointInGreenZone();
         model.UpdateTimers(dt, isInGreen);
-        view.SetPointColor(isInGreen);
     }
 
     private float ReadInputDirection()
