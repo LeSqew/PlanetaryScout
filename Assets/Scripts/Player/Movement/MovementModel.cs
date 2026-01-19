@@ -75,7 +75,7 @@ namespace Player.Movement
 
                 // �����-������������ ����
                 Debug.DrawRay(origin, Vector3.down * jumpRayDistance, Color.red);
-                Debug.Log(origin);
+                // Debug.Log(origin);
 
                 // ������� ��� ����
                 var isGrounded = Physics.Raycast(
