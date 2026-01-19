@@ -56,8 +56,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 736d79334c01f864eb74da282da8064d, type: 2}
   - {fileID: 11400000, guid: e75177842acac7646ae2ab562c195d5e, type: 2}
   - {fileID: 11400000, guid: a585e2229481c044f886d4d8abf83de3, type: 2}
-  bestiaryPanel: {fileID: 0}
+  bestiaryPanel: {fileID: 3137217254318435866, guid: 46b468daa8e05544c90282dd2a1a8505, type: 3}
   listContainer: {fileID: 0}
   buttonPrefab: {fileID: 3177487238555626992, guid: bb5577b448bb3134a87c981ee7c72da3, type: 3}
   nameDisplay: {fileID: 0}
   descDisplay: {fileID: 0}
+  rarDisplay: {fileID: 0}

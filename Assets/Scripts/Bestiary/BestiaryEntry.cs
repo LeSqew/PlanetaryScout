@@ -3,9 +3,10 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewBestiaryEntry", menuName = "Game/Bestiary Entry")]
 public class BestiaryEntry : ScriptableObject
 {
-    public string objectName;      // Название
+    public string objectName;      // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     [TextArea(3, 10)]
-    public string description;     // Описание
-    public Sprite icon;            // Иконка (если нужна)
-    public GameObject model3D;     // Ссылка на префаб для 3D-отображения в слоте
+    public string description;     // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+
+    public string rarity;             // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ            // пїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ)
+    public GameObject model3D;     // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ 3D-пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ
 }

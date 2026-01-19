@@ -17,6 +17,7 @@ public class BestiaryManager : MonoBehaviour
     [SerializeField] private BestiaryButton buttonPrefab;
     [SerializeField] private TextMeshProUGUI nameDisplay;
     [SerializeField] private TextMeshProUGUI descDisplay;
+    [SerializeField] private TextMeshProUGUI rarDisplay;
 
     private InputActionMap _playerMap;
     private InputAction _openBestiaryAction;
@@ -104,5 +105,6 @@ public class BestiaryManager : MonoBehaviour
     {
         nameDisplay.text = entry.objectName;
         descDisplay.text = entry.description;
+        rarDisplay.text = entry.rarity;
     }
 }
