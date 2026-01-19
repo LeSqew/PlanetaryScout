@@ -1,5 +1,3 @@
-using SoundSystem;
-using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -33,10 +31,6 @@ public class PlayerStealthController : MonoBehaviour
 
     /// <summary>Текущее состояние приседа (true = игрок присел).</summary>
     [HideInInspector] public bool isCrouching = false;
-    
-    [SerializeField] private float footstepInterval = 1.5f;
-    [SerializeField] private float noiseRadius = 10f;
-    [SerializeField] private float stealthMaxSpeed = 2f;
 
     private float targetHeight;
     private Rigidbody rb;
@@ -53,44 +47,6 @@ public class PlayerStealthController : MonoBehaviour
         SmoothUpdateColliderHeight();
     }
 
-
-    private Coroutine footstepCoroutine;
-
-    // Старт корутины
-    public void StartMakingFootstepNoise()
-    {
-        footstepCoroutine = StartCoroutine(MakeFootstepNoiseRoutine());
-    }
-
-    // Остановка корутины
-    public void StopMakingFootstepNoise()
-    {
-        if (footstepCoroutine != null)
-        {
-            StopCoroutine(footstepCoroutine);
-            footstepCoroutine = null;
-        }
-    }
-
-    // Корутина
-    private IEnumerator MakeFootstepNoiseRoutine()
-    {
-        while (true)
-        {
-            // Создаем шум
-            NoiseSystem.MakeNoise(
-                transform.position,
-                noiseRadius,
-                gameObject,
-                NoiseType.Footstep
-            );
-
-            // Ждем перед следующим шагом
-            yield return new WaitForSeconds(footstepInterval);
-        }
-    }
-
-
     /// <summary>
     /// Обрабатывает ввод для приседа — переключает между состояниями стоя/присел.
     /// </summary>
@@ -100,14 +56,6 @@ public class PlayerStealthController : MonoBehaviour
         {
             isCrouching = !isCrouching;
             targetHeight = isCrouching ? crouchHeight : standHeight;
-        }
-        if (!isCrouching && rb.linearVelocity.magnitude>stealthMaxSpeed && footstepCoroutine == null)
-        {
-            StartMakingFootstepNoise();
-        }
-        else if (isCrouching && footstepCoroutine != null)
-        {
-            StopMakingFootstepNoise();
         }
     }
 

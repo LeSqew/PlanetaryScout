@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5761100602802983109}
-  - component: {fileID: 2367551297252326325}
+  - component: {fileID: 2905480989461424801}
   m_Layer: 0
   m_Name: Win Death Screen
   m_TagString: Untagged
@@ -33,7 +33,7 @@ Transform:
   - {fileID: 2333941085834474940}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2367551297252326325
+--- !u!114 &2905480989461424801
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -148,7 +148,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &5003199880603073514
 RectTransform:
   m_ObjectHideFlags: 0
@@ -379,8 +379,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u0412\u044B\u0439\u0442\u0438 \u0432 \u0433\u043B\u0430\u0432\u043D\u043E\u0435
-    \u043C\u0435\u043D\u044E"
+  m_text: "\u0417\u0430\u0432\u0435\u0440\u0448\u0438\u0442\u044C \u0432\u044B\u0441\u0430\u0434\u043A\u0443"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -572,10 +571,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Utils.SceneLoader, Assembly-CSharp
-        m_MethodName: LoadSceneById
-        m_Mode: 3
+      - m_Target: {fileID: 2905480989461424801}
+        m_TargetAssemblyTypeName: MissionReportUI, Assembly-CSharp
+        m_MethodName: ReturnToHub
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -649,8 +648,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u0412\u044B\u0439\u0442\u0438 \u0432 \u0433\u043B\u0430\u0432\u043D\u043E\u0435
-    \u043C\u0435\u043D\u044E"
+  m_text: "\u0417\u0430\u0432\u0435\u0440\u0448\u0438\u0442\u044C \u0432\u044B\u0441\u0430\u0434\u043A\u0443\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -874,7 +872,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &78943755291760495
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1270,10 +1268,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Utils.SceneLoader, Assembly-CSharp
-        m_MethodName: LoadSceneById
-        m_Mode: 3
+      - m_Target: {fileID: 2905480989461424801}
+        m_TargetAssemblyTypeName: MissionReportUI, Assembly-CSharp
+        m_MethodName: ReturnToHub
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1292,7 +1290,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4252150517521807125, guid: 3e6afead08b8a4be59f435cf62f0c9ef, type: 3}
       propertyPath: m_SizeDelta.y
-      value: -482.62207
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5724689067069696712, guid: 3e6afead08b8a4be59f435cf62f0c9ef, type: 3}
       propertyPath: m_Pivot.x
@@ -1384,10 +1382,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5724689067069696712, guid: 3e6afead08b8a4be59f435cf62f0c9ef, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5818890866959449235, guid: 3e6afead08b8a4be59f435cf62f0c9ef, type: 3}
-      propertyPath: m_PresetInfoIsWorld
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7448331506517248179, guid: 3e6afead08b8a4be59f435cf62f0c9ef, type: 3}

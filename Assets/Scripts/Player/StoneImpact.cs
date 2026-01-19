@@ -1,4 +1,3 @@
-using SoundSystem;
 using UnityEngine;
 
 public class StoneImpact : MonoBehaviour
@@ -21,9 +20,8 @@ public class StoneImpact : MonoBehaviour
 
         hasFallen = true;
 
-        NoiseSystem.MakeNoise(transform.position, soundRadius, this.gameObject, NoiseType.Rock);
         // ����������� ����
-        /*if (fallSound != null)
+        if (fallSound != null)
             AudioSource.PlayClipAtPoint(fallSound, transform.position);
 
         // ������� ���� ����� � �������
@@ -35,7 +33,7 @@ public class StoneImpact : MonoBehaviour
             {
                 ai.OnHearingSound(transform.position);
             }
-        }*/
+        }
 
         // �������� ������� ���������� �����
         if (rb != null)
