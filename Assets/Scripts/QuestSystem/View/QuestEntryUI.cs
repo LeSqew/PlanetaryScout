@@ -25,7 +25,6 @@ public class QuestEntryUI : MonoBehaviour
             rarityText.color = Color.white;
         }
 
-        // 🔥 Теперь читаем редкость из ActiveQuest, а не из template
         string rarity;
         if (quest.minRarity == quest.maxRarity)
         {

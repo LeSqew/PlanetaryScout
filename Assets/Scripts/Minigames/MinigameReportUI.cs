@@ -52,6 +52,13 @@ public class MinigameReportUI : MonoBehaviour
         StartCoroutine(ShowAndHide(2.5f));
     }
 
+    public void HideImmediately()
+    {
+        StopAllCoroutines();
+        canvasGroup.alpha = 0f;
+        gameObject.SetActive(false);
+    }
+    
     public void ShowFailureReport(ScannableObject target, string reason)
     {
         SetupReport();
