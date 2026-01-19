@@ -69,6 +69,12 @@ namespace Utils
         {
             LoadSceneById(SceneManager.GetActiveScene().buildIndex);
         }
+        
+        public void ReturnToHub()
+        {
+            Time.timeScale = 1f; // Важно! В отчете время обычно остановлено
+            UnityEngine.SceneManagement.SceneManager.LoadScene("Hub");
+        }
 
     }
 }

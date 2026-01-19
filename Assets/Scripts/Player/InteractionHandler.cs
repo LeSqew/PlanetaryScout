@@ -154,6 +154,7 @@ public class InteractionHandler : MonoBehaviour
         }
         else
         {
+            MissionStatus.RegisterError();
             string failureReason = "Сканирование не удалось";
             MinigameReportUI.Instance?.ShowFailureReport(target, failureReason);
             if (currentTool?.destroyObjectOnFailure == true)

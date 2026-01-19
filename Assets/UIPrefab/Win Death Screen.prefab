@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5761100602802983109}
+  - component: {fileID: 2905480989461424801}
   m_Layer: 0
   m_Name: Win Death Screen
   m_TagString: Untagged
@@ -32,6 +33,25 @@ Transform:
   - {fileID: 2333941085834474940}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2905480989461424801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 123515877675056702}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 748423907b18a4d4f8a9da5cf62513ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  victoryPanel: {fileID: 2364845992584517116}
+  deathPanel: {fileID: 8347249775236292773}
+  completedText: {fileID: 5097294237956411183}
+  failedText: {fileID: 8692675050515866909}
+  questListContainer: {fileID: 7855394878371919090}
+  questEntryPrefab: {fileID: 7678177766570957389, guid: f025ad4e89efba34d85cdfea57b86080, type: 3}
+  inputActionAsset: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
 --- !u!1 &709889100837114252
 GameObject:
   m_ObjectHideFlags: 0
@@ -359,8 +379,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u0412\u044B\u0439\u0442\u0438 \u0432 \u0433\u043B\u0430\u0432\u043D\u043E\u0435
-    \u043C\u0435\u043D\u044E"
+  m_text: "\u0417\u0430\u0432\u0435\u0440\u0448\u0438\u0442\u044C \u0432\u044B\u0441\u0430\u0434\u043A\u0443"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -552,13 +571,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 2905480989461424801}
+        m_TargetAssemblyTypeName: MissionReportUI, Assembly-CSharp
+        m_MethodName: ReturnToHub
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -629,8 +648,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u0412\u044B\u0439\u0442\u0438 \u0432 \u0433\u043B\u0430\u0432\u043D\u043E\u0435
-    \u043C\u0435\u043D\u044E"
+  m_text: "\u0417\u0430\u0432\u0435\u0440\u0448\u0438\u0442\u044C \u0432\u044B\u0441\u0430\u0434\u043A\u0443\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1249,7 +1267,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1014742706179166376}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2905480989461424801}
+        m_TargetAssemblyTypeName: MissionReportUI, Assembly-CSharp
+        m_MethodName: ReturnToHub
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1001 &6197327300374463463
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1398,5 +1428,10 @@ PrefabInstance:
 --- !u!224 &1833943856151193903 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5724689067069696712, guid: 3e6afead08b8a4be59f435cf62f0c9ef, type: 3}
+  m_PrefabInstance: {fileID: 6197327300374463463}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &7855394878371919090 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 4252150517521807125, guid: 3e6afead08b8a4be59f435cf62f0c9ef, type: 3}
   m_PrefabInstance: {fileID: 6197327300374463463}
   m_PrefabAsset: {fileID: 0}

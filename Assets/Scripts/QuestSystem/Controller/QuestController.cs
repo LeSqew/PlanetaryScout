@@ -38,6 +38,7 @@ public class QuestController : MonoBehaviour
 
     public void GenerateBaseQuests(Biome biome, WeatherCondition weather)
     {
+        MissionStatus.Reset();
         model.Clear();
 
         var candidates = templateRegistry.allTemplates

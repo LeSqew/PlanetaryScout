@@ -115,4 +115,11 @@ public class PauseMenu : MonoBehaviour
         if (mainMenuButton != null) mainMenuButton.onClick.RemoveListener(OnMainMenuButtonClicked);
         if (backButton != null) backButton.onClick.RemoveListener(OnBackButtonClicked);
     }
+    public void ReturnToHub()
+    {
+        Time.timeScale = 1f; // Важно! В отчете время обычно остановлено
+        isPaused = false;
+        playerMap.Enable();
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Hub");
+    }
 }
